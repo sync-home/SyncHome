@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "next dev -p 5173",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -13,11 +13,16 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.4",
     "@mui/material": "^5.15.4",
+    "next": "^14.0.5-canary.65",
     "firebase": "^10.7.1",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
+<<<<<<< HEAD
+    "swiper": "^11.0.5"
+=======
     "react-hook-form": "^7.49.3"
+>>>>>>> 52882c6ad562372fc4aadd0e9ec915b13c93ccf3
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

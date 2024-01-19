@@ -1,5 +1,5 @@
 
-# SyncHome: Smart Residential Building Management System
+# [SyncHome: Smart Residential Building Management System](https://synchome.vercel.app)
 
 **Contributors, Please Be Advised**
 
@@ -58,8 +58,13 @@
 
 ## App Environment Variables
 
-- The environment variable files should be named as `.env` only.
-- Examples:
-  - `DATABASE_UAT="xxxx"`
-  - `DATABASE_PROD="xxxx"`
+- The environment variable files should be named for back-end as `.env` and for front-end `.env.local` only.
 
+Here the front-end env variables are as below: 
+### Firebase credentials
+- `VITE_APIKEY`
+- `VITE_AUTHDOMAIN`
+- `VITE_PROJECTID`
+- `VITE_STORAGEBUCKET`
+- `VITE_MESSAGINGSENDERID`
+- `VITE_APPID`

@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# [SyncHome: Smart Residential Building Management System](https://synchome.vercel.app)
 
-First, run the development server:
+**Contributors, Please Be Advised**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Development Workflow
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. **Directory for Development:**
+   - Developers will work with only the `app` directory.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+2. **Branching Strategy:**
+   - Feature/Bugfix branches will be created from the `main` branch.
+   - Branch names should be simple and short. Avoid including sprint data (date, project name, etc.).
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. **Pull Requests:**
+   - After being satisfied with the changes, developers will create a PR to the `development` branch (after deployment, tester will start testing).
+   - The lead will review code changes and merge/close the PR.
+   - Every single feature/bugfix branch will be deleted after a PR.
 
-## Learn More
+4. **ReadMe Edits:**
+   - Only lead/Maintainer/operations-team will edit the primary README. The `app` directory can contain README(s) if needed.
 
-To learn more about Next.js, take a look at the following resources:
+5. **Dockerfile:**
+   - Always run the Dockerfile locally before creating a PR to the development branch.
+   - Before starting to code, make sure to pull the development branch.
+   - Before pushing code to GitHub, make sure to pull the development branch.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Branch and Commit Rules
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Primary Branches:
+- `main`
+- `development`
 
-## Deploy on Vercel
+### Secondary/Feature/Bugfix Branches:
+- Feature: `feature/feature_name`
+- Bugfix: `bugfix/name`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Commit Messages:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+#### Commit Message Format:
+- `[feat](notification): add Eid notification`
+- `[fix](animation): fix rocket animation`
+- `[docs](animation): rocket animation working docs`
+
+#### Pull Request Message Format:
+- `[feat](notification): add Eid notification`
+- `[fix](payment): refactor Bkash payment page`
+
+## Environment Specific URLs
+
+### Backend:
+- **Production:** —-----
+- **Stage:** —--------
+
+### Frontend:
+- **Production:** —-----
+- **Stage:** —-------
+
+## App Environment Variables
+
+- The environment variable files should be named for back-end as `.env` and for front-end `.env.local` only.
+
+Here the front-end env variables are as below: 
+### Firebase credentials
+- `VITE_APIKEY`
+- `VITE_AUTHDOMAIN`
+- `VITE_PROJECTID`
+- `VITE_STORAGEBUCKET`
+- `VITE_MESSAGINGSENDERID`
+- `VITE_APPID`

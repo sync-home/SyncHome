@@ -29,7 +29,6 @@ const HeroSlider = () => {
                         </div>
                     </div>
                 </SwiperSlide>
-
                 <SwiperSlide>
                     <div className='md:h-[43rem] h-[35rem] relative text-center'>
                         <img src='https://i.ibb.co/VmjzMnJ/augmented-reality-composition-with-computer-generated-perceptual-information.jpg' alt="hero-image"
@@ -42,8 +41,6 @@ const HeroSlider = () => {
                         </div>
                     </div>
                 </SwiperSlide>
-
-
                 <SwiperSlide>
                     <div className='md:h-[43rem] h-[35rem] relative text-center'>
                         <img src='https://i.ibb.co/NCPCT5F/2130.jpg' alt="hero-image"
@@ -56,8 +53,6 @@ const HeroSlider = () => {
                         </div>
                     </div>
                 </SwiperSlide>
-
-
                 <SwiperSlide>
                     <div className='md:h-[43rem] h-[35rem] relative text-center'>
                         <img src='https://i.ibb.co/HVBhv33/Building-and-Facility-management-0-0-0-0-1686046404.jpg' alt="hero-image"

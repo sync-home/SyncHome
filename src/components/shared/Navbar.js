@@ -18,15 +18,19 @@ import Link from 'next/link';
 const pages = [
     {
         route: 'About Us',
-        pathname: '/about-us'
+        pathname: '/about'
     },
     {
         route: 'Features',
         pathname: '/features'
     },
     {
+        route: 'Login',
+        pathname: '/signin'
+    },
+    {
         route: 'Register',
-        pathname: '/register'
+        pathname: '/signup'
     },
 ];
 const settings = [ 'Profile', 'Account', 'Dashboard', 'Logout' ];
@@ -63,7 +67,7 @@ function Navbar() {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="#"
+                        href="/"
                         className='text-black'
                         sx={{
                             mr: 2,
@@ -108,12 +112,11 @@ function Navbar() {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                            {pages?.length && pages.map((page) => (
+                                <MenuItem key={page?.pathname} onClick={handleCloseNavMenu}>
                                     <Link
-                                        className='text-black uppercase font-mono font-semibold'
-                                        href={page?.pathname}
-                                        textAlign="center">
+                                        className='text-black uppercase font-mono font-semibold text-center'
+                                        href={page?.pathname}>
                                         {page?.route}
                                     </Link>
                                 </MenuItem>
@@ -149,18 +152,18 @@ function Navbar() {
 
                     {/* menu For large devices */}
                     <Box sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
+                        {pages?.length && pages.map((page) => (
                             <Link
                                 className='text-black my-2 mx-1 block uppercase font-mono font-semibold'
                                 href={page?.pathname}
-                                key={page}
+                                key={page?.pathname}
                             >
                                 {page?.route}
                             </Link>
                         ))}
                     </Box>
 
-                    {/* user logo side */}
+                    {/* user image side */}
                     {user ? <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -183,7 +186,7 @@ function Navbar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
+                            {settings?.length && settings.map((setting) => (
                                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                                     <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>

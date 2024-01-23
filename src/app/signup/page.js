@@ -1,8 +1,56 @@
-'use client'
+"use client"
+import { AuthContext } from "@/provider/AuthProvider";
 import { Google } from "@mui/icons-material";
 import { Button, Grid, IconButton, Link, Paper, TextField, Typography, } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const SignUpPage = () => {
+
+    const { createUser, googleLogin } = useContext(AuthContext)
+    const router = useRouter()
+
+    // create user with email and password
+    const {
+        register,
+        handleSubmit,
+        reset,
+    } = useForm()
+    const onSubmit = (data) => {
+        createUser(data.email, data.password)
+            .then(result => {
+                reset()
+                console.log(result.user);
+                Swal.fire(
+                    'Sign Up Successfully',
+                    'You clicked the button!',
+                    'success'
+                )
+                router.push('/signin')
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    // create user for using google
+    const handleGoogle = () => {
+        googleLogin()
+            .then(result => {
+                console.log(result.user);
+                Swal.fire(
+                    'Sign Up Successfully',
+                    'You clicked the button!',
+                    'success'
+                )
+                router.push('/signin')
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
 
     return (
         <Grid className='flex justify-center items-center min-h-screen'>
@@ -12,9 +60,10 @@ const SignUpPage = () => {
                     <Typography variant="caption" className='text-sm text-gray-400'>Sign up to access your account.</Typography>
                 </Grid>
                 {/* input field start */}
-                <form >
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <Grid className="space-y-4">
                         <TextField
+                            {...register("name", { required: true })}
                             color="warning"
                             fullWidth
                             label="Name"
@@ -23,6 +72,7 @@ const SignUpPage = () => {
                             placeholder="Enter Your Name Here"
                         />
                         <TextField
+                            {...register("email", { required: true })}
                             color="warning"
                             fullWidth
                             label="Email"
@@ -31,6 +81,7 @@ const SignUpPage = () => {
                             placeholder="Enter Your Email Here"
                         />
                         <TextField
+                            {...register("password", { required: true })}
                             color="warning"
                             fullWidth
                             label="Password"
@@ -45,15 +96,14 @@ const SignUpPage = () => {
                                 Login with social accounts
                             </Typography>
                         </Grid>
-                        <Grid className='flex justify-center items-center space-x-2 border m-3 p-1 border-gray-300 border-rounded cursor-pointer'>
+                        <Grid onClick={handleGoogle} className='flex justify-center items-center space-x-2 border m-3 p-1 border-gray-300 border-rounded cursor-pointer'>
                             <IconButton className="text-[#FF3811]">
                                 <Google></Google>
                             </IconButton>
                             <Typography>Continue with Google</Typography>
-
                         </Grid>
                         <Typography className='px-6 text-gray-400 text-sm text-center'>
-                            Don&apos;t have an account yet?{' '}
+                            Have an account? Please{' '}
                             <Link
                                 href='/signin'
                                 className='hover:underline hover:text-rose-500 text-gray-600 hover:pointer'

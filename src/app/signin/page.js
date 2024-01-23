@@ -85,7 +85,6 @@ const SignIn = () => {
                         >
                             Sign up
                         </Link>
-                        .
                     </p>
                 </div>
             </div>

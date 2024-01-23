@@ -1,110 +1,120 @@
 "use client"
+import { AuthContext } from "@/provider/AuthProvider";
 import { Google } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
-import Link from "next/link";
+import { Button, Grid, IconButton, Link, Paper, TextField, Typography, } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const SignUpPage = () => {
 
-    return (
-        <div>
-            <div className='flex justify-center items-center min-h-screen py-10'>
-                <div className='flex flex-col w-full max-w-md p-6 rounded-md sm:p-10 bg-white border text-gray-900'>
-                    <div className='mb-8 text-center'>
-                        <h1 className='my-3 text-4xl font-bold'>Sign Up</h1>
-                        <p className='text-sm text-gray-400'>
-                            Sign up to access your account
-                        </p>
-                    </div>
-                    <form
-                        noValidate=''
-                        className='space-y-6 ng-untouched ng-pristine ng-valid'
-                    >
-                        <div className='space-y-4'>
-                            <div>
-                                <label htmlFor='email' className='block mb-2 text-sm'>
-                                    Your Name
-                                </label>
-                                <input
-                                    type='text'
-                                    name='name'
-                                    required
-                                    placeholder='Enter Your Name Here'
-                                    className='w-full px-3 py-2 border-2 border-[#FF3811] rounded-md focus:outline-[#FF3811]'
-                                    data-temp-mail-org='0'
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor='email' className='block mb-2 text-sm'>
-                                    Email address
-                                </label>
-                                <input
-                                    type='email'
-                                    name='email'
-                                    id='email'
-                                    required
-                                    placeholder='Enter Your Email Here'
-                                    className='w-full px-3 py-2 border-2 border-[#FF3811] rounded-md focus:outline-[#FF3811]'
-                                    data-temp-mail-org='0'
-                                />
-                            </div>
-                            <div>
-                                <div className='flex justify-between'>
-                                    <label htmlFor='password' className='text-sm mb-2'>
-                                        Password
-                                    </label>
-                                </div>
-                                <input
-                                    type='password'
-                                    name='password'
-                                    autoComplete='current-password'
-                                    id='password'
-                                    required
-                                    placeholder='*******'
-                                    className='w-full px-3 py-2 border-2 border-[#FF3811] rounded-md focus:outline-[#FF3811]'
-                                />
-                            </div>
-                        </div>
+    const { createUser, googleLogin } = useContext(AuthContext)
+    const router = useRouter()
 
-                        <div>
-                            <button
-                                type='submit'
-                                className='btn w-full bg-gradient-to-r from-[#FF8938] to-[#F00] border-[#FF3811] rounded-md py-3 text-white'
+    // create user with email and password
+    const {
+        register,
+        handleSubmit,
+        reset,
+    } = useForm()
+    const onSubmit = (data) => {
+        createUser(data.email, data.password)
+            .then(result => {
+                reset()
+                console.log(result.user);
+                Swal.fire(
+                    'Sign Up Successfully',
+                    'You clicked the button!',
+                    'success'
+                )
+                router.push('/signin')
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    // create user for using google
+    const handleGoogle = () => {
+        googleLogin()
+            .then(result => {
+                console.log(result.user);
+                Swal.fire(
+                    'Sign Up Successfully',
+                    'You clicked the button!',
+                    'success'
+                )
+                router.push('/signin')
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    return (
+        <Grid className='flex justify-center items-center min-h-screen'>
+            <Paper className="py-7 px-5 w-full max-w-md my-5 mx-auto">
+                <Grid align="center">
+                    <h2 className='my-3 text-4xl font-bold'>Sign Up</h2>
+                    <Typography variant="caption" className='text-sm text-gray-400'>Sign up to access your account.</Typography>
+                </Grid>
+                {/* input field start */}
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <Grid className="space-y-4">
+                        <TextField
+                            {...register("name", { required: true })}
+                            color="warning"
+                            fullWidth
+                            label="Name"
+                            type="Text"
+                            variant="standard"
+                            placeholder="Enter Your Name Here"
+                        />
+                        <TextField
+                            {...register("email", { required: true })}
+                            color="warning"
+                            fullWidth
+                            label="Email"
+                            type="Email"
+                            variant="standard"
+                            placeholder="Enter Your Email Here"
+                        />
+                        <TextField
+                            {...register("password", { required: true })}
+                            color="warning"
+                            fullWidth
+                            label="Password"
+                            type="password"
+                            variant="standard"
+                            placeholder="Enter Your Password Here"
+                        />
+                        <Button type="submit" className='btn w-full bg-gradient-to-r from-[#FF8938] to-[#F00] border-[#FF3811] rounded-md py-3 text-white mt-4'>Continue</Button>
+                        {/* social login */}
+                        <Grid>
+                            <Typography className='px-3 text-center text-sm dark:text-gray-400'>
+                                Login with social accounts
+                            </Typography>
+                        </Grid>
+                        <Grid onClick={handleGoogle} className='flex justify-center items-center space-x-2 border m-3 p-1 border-gray-300 border-rounded cursor-pointer'>
+                            <IconButton className="text-[#FF3811]">
+                                <Google></Google>
+                            </IconButton>
+                            <Typography>Continue with Google</Typography>
+                        </Grid>
+                        <Typography className='px-6 text-gray-400 text-sm text-center'>
+                            Have an account? Please{' '}
+                            <Link
+                                href='/signin'
+                                className='hover:underline hover:text-rose-500 text-gray-600 hover:pointer'
                             >
-                                Continue
-                            </button>
-                        </div>
-                    </form>
-                    <div className='space-y-1'>
-                        <button className='text-xs hover:underline hover:text-rose-500'>
-                            Forgot password?
-                        </button>
-                    </div>
-                    <div className='flex items-center pt-4 space-x-1'>
-                        <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
-                        <p className='px-3 text-sm dark:text-gray-400'>
-                            Login with social accounts
-                        </p>
-                        <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
-                    </div>
-                    <div className='flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer'>
-                        <IconButton>
-                            <Google></Google>
-                        </IconButton>
-                        <p>Continue with Google</p>
-                    </div>
-                    <p className='px-6 text-sm text-center'>
-                        Don&apos;t have an account yet?{' '}
-                        <Link
-                            href='/signin'
-                            className='hover:underline hover:text-rose-500 text-gray-600 hover:pointer'
-                        >
-                            Login
-                        </Link>
-                        .
-                    </p>
-                </div>
-            </div>
-        </div>
+                                Sign In
+                            </Link>
+                        </Typography>
+                    </Grid>
+                </form>
+            </Paper>
+        </Grid>
     );
 };
 

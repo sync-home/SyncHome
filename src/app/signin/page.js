@@ -58,18 +58,30 @@ const SignIn = () => {
                             Continue
                         </button>
                     </div>
-                </form>
-                <div className='space-y-1'>
-                    <button className='text-xs hover:underline hover:text-rose-500 text-gray-400'>
-                        Forgot password?
-                    </button>
-                </div>
-                <div className='flex items-center pt-4 space-x-1'>
-                    <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
-                    <p className='px-3 text-sm dark:text-gray-400'>
-                        Login with social accounts
+                    <div className='flex items-center pt-4 space-x-1'>
+                        <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
+                        <p className='px-3 text-sm dark:text-gray-400'>
+                            Login with social accounts
+                        </p>
+                        <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
+                    </div>
+                    <div className='flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer btn'>
+                        <IconButton>
+                            <Google></Google>
+                        </IconButton>
+                        <p>Continue with Google</p>
+                    </div>
+                    <p className='px-6 text-sm text-center text-gray-400'>
+                        Don&apos;t have an account yet?{' '}
+                        <Link
+                            href='/signup'
+                            className='hover:underline hover:text-rose-500 text-gray-600'
+                        >
+                            Sign up
+                        </Link>
                     </p>
                     <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
+</form>
                 </div>
                 <div className='flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer btn'>
                     <IconButton>

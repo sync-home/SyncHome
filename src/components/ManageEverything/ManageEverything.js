@@ -1,12 +1,14 @@
 "use client";
-
 import { Box } from "@mui/material";
-import React, { useRef, useState } from 'react';
+// import React, { useRef, useState } from 'react';
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
+
 // import required modules
 import { Pagination } from 'swiper/modules';
 import img1 from '@/assets/ManageEverythig/outdoor-cctv.jpg'
@@ -14,7 +16,7 @@ import img2 from '@/assets/ManageEverythig/temperature-controller.jpg'
 import img3 from '@/assets/ManageEverythig/tracking.jpg'
 import img4 from '@/assets/ManageEverythig/auto-control.jpg'
 import img5 from '@/assets/ManageEverythig/motion-sensor.jpg'
-import img6 from '@/assets/ManageEverythig/heating-plan.jpg'
+import img6 from '@/assets/ManageEverythig/smart-control.jpg'
 import Image from "next/image";
 
 const ManageEverything = () => {
@@ -92,7 +94,7 @@ const ManageEverything = () => {
                             <div className="bg-[#0A1D56] text-white rounded-lg">
                                 <Image sx={{ height: 'auto', width: '100%' }} src={img6} alt="smart-home" />
                                 <div className="text-center p-5">
-                                    <h3 className="text-2xl font-bold mb-5">Heating Plan</h3>
+                                    <h3 className="text-2xl font-bold mb-5">Smart Control</h3>
                                     <p className="text-justify">Optimized Comfort: Tailor your environment with our heating plan solutions, ensuring warmth exactly when and where you need it, effortlessly customizable for efficiency</p>
                                 </div>
                             </div>

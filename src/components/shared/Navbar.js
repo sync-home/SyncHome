@@ -56,7 +56,7 @@ function Navbar() {
     };
 
     return (
-        <AppBar position="static" className='bg-white'>
+        <AppBar position="static" className='bg-white text-black'>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}

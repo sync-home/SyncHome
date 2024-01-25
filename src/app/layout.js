@@ -2,8 +2,9 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import Navbar from '@/components/shared/Navbar'
 import Footer from '@/components/shared/Footer'
+import AuthProvider from '@/provider/AuthProvider'
 
-const inter = Inter({ subsets: [ 'latin' ] })
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'SyncHome',
@@ -13,10 +14,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter?.className}>
-        <Navbar />
-        {children}
-        <Footer />
+      <body className={inter?.className} suppressHydrationWarning={true}>
+        <AuthProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   )

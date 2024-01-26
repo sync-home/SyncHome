@@ -48,7 +48,6 @@ export default function About() {
                     </div>
                 </div>
             </div>
-
             {/* OUR MISSION */}
 
             <div className="max-w-7xl mx-auto py-28">

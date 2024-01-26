@@ -55,8 +55,9 @@ function Navbar() {
         setAnchorElUser(null);
     };
 
+    /* className does not work in all pages | sx works */
     return (
-        <AppBar position="static" className='bg-white text-black'>
+        <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
@@ -66,8 +67,7 @@ function Navbar() {
                     <Typography
                         variant="h6"
                         noWrap
-                        component="a"
-                        href="/"
+                        component="span"
                         className='text-black'
                         sx={{
                             mr: 2,
@@ -124,18 +124,17 @@ function Navbar() {
                         </Menu>
                     </Box>
 
-                    <Box sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}>
-                        <Image src={logo} height={30} width={30} sx={{ display: { xs: 'none', md: 'flex' } }} alt='logo' />
+                    {/* For small device */}
+                    <Box sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, flexGrow: { xs: '1', sm: '0' } }}>
+                        <Image src={logo} height={30} width={30} alt='logo' />
                     </Box>
                     <Typography
                         variant="h5"
                         noWrap
-                        component="a"
-                        href="#"
-                        className='text-black'
+                        component="span"
                         sx={{
                             mr: 2,
-                            display: { xs: 'flex', md: 'none' },
+                            display: { xs: 'none', sm: 'flex', md: 'none' },
                             flexGrow: 1,
                             fontFamily: 'monospace',
                             fontWeight: 700,

@@ -1,15 +1,15 @@
 'use client'
-import { AuthContext } from "@/provider/AuthProvider";
+import useAuthContext from "@/Hooks/useAuthContext";
 import { Google } from "@mui/icons-material";
 import { Button, Grid, IconButton, Link, Paper, TextField, Typography, } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const SignInPage = () => {
 
-    const { signIn, googleLogin } = useContext(AuthContext)
+    const { signIn, googleLogin } = useAuthContext()
     const router = useRouter()
 
     // create user with email and password

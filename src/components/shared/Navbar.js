@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import logo from '/src/assets/logo.png';
 import Image from 'next/image';
 import Link from 'next/link';
+import useAuthContext from '@/Hooks/useAuthContext';
 
 const pages = [
     {
@@ -25,20 +26,19 @@ const pages = [
         pathname: '/features'
     },
     {
-        route: 'Login',
-        pathname: '/signin'
-    },
-    {
         route: 'Register',
         pathname: '/signup'
     },
 ];
-const settings = [ 'Profile', 'Account', 'Dashboard', 'Logout' ];
+// const settings = [ 'Profile', 'Account', 'Dashboard', 'Logout' ];
+
 
 function Navbar() {
     const [ anchorElNav, setAnchorElNav ] = React.useState(null);
     const [ anchorElUser, setAnchorElUser ] = React.useState(null);
-    const [ user, setUser ] = React.useState(null);
+    const { user, loading } = useAuthContext()
+
+    // console.log(user?.photoURL);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -55,12 +55,16 @@ function Navbar() {
         setAnchorElUser(null);
     };
 
+    const handleSignOut = () => {
+        setAnchorElUser(null);
+        console.log('User signed out successfully.');
+    };
+
     /* className does not work in all pages | sx works */
     return (
         <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
                         <Image src={logo} height={30} width={30} sx={{ display: { xs: 'none', md: 'flex' } }} alt='logo' />
                     </Box>
@@ -163,10 +167,10 @@ function Navbar() {
                     </Box>
 
                     {/* user image side */}
-                    {user ? <Box sx={{ flexGrow: 0 }}>
+                    {!loading && user?.email ? <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                <Avatar alt={user?.displayName || 'user photo'} src={user?.photoURL} />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -185,11 +189,13 @@ function Navbar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings?.length && settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem onClick={handleCloseUserMenu}>
+                                <Link href={'/'}>Dashboard</Link>
+                                {/* <Typography textAlign="center">{setting}</Typography> */}
+                            </MenuItem>
+                            <MenuItem onClick={handleSignOut}>
+                                Logout
+                            </MenuItem>
                         </Menu>
                     </Box> :
                         <Link href={'#'} variant="contained" className='uppercase font-mono font-semibold text-black' color="primary">

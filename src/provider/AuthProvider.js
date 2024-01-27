@@ -1,6 +1,6 @@
 'use client'
 import auth from "@/config/firebase.config";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateEmail, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 
 
@@ -37,6 +37,38 @@ const AuthProvider = ({ children }) => {
         return signOut(auth);
     }
 
+    /* Update profile */
+    const updateUserInfo = (displayName, photoURL) => {
+        setLoading(true)
+        return updateProfile(auth.currentUser, {
+            displayName, photoURL
+        });
+    }
+
+    /* Update Email */
+    const userEmailUpdate = async (email) => {
+        setLoading(true)
+        await sendEmailVerification(auth.currentUser)
+            .then(() => {
+                console.log('check your email to verify.');
+            });
+
+        if (user?.emailVerified) return updateEmail(auth.currentUser, email)
+        console.log('Something wrong. Try again later.');
+    }
+
+    /* Update password */
+    const userPassChange = async (newPassword) => {
+        setLoading(true)
+        await sendEmailVerification(auth.currentUser)
+            .then(() => {
+                console.log('check your email to verify.');
+            });
+
+        if (user?.emailVerified) return updatePassword(user, newPassword);
+        console.log('Something wrong. Try again later.');
+    }
+
     // on state change
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
@@ -55,7 +87,10 @@ const AuthProvider = ({ children }) => {
         createUser,
         googleLogin,
         logIn,
-        logOut
+        logOut,
+        updateUserInfo,
+        userEmailUpdate,
+        userPassChange
     }
     return (
         <AuthContext.Provider value={authInfo}>

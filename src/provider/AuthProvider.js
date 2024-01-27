@@ -1,6 +1,6 @@
 'use client'
 import auth from "@/config/firebase.config";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateEmail, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 
 
@@ -8,10 +8,10 @@ export const AuthContext = createContext([])
 
 const googleProvider = new GoogleAuthProvider();
 
-const AuthProvider = ({children}) => {
+const AuthProvider = ({ children }) => {
 
-    const [user, setUser] = useState(null)
-    const [loading, setLoading] = useState(true)
+    const [ user, setUser ] = useState(null)
+    const [ loading, setLoading ] = useState(true)
 
     // google sign up
     const googleLogin = () => {
@@ -26,29 +26,71 @@ const AuthProvider = ({children}) => {
     }
 
     // sign in user
-    const signIn = (email, password) => {
+    const logIn = (email, password) => {
         setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
     }
 
-     // on state change
-   useEffect(() =>{
-    const unSubscribe = onAuthStateChanged(auth, currentUser =>{
-        console.log('on state change',currentUser)
-        setUser(currentUser)
-        setLoading(false)
-    })
-    return ()=>{
-        return unSubscribe;
+    /* Sign Out */
+    const logOut = () => {
+        setLoading(true)
+        return signOut(auth);
     }
-   },[])
+
+    /* Update profile */
+    const updateUserInfo = (displayName, photoURL) => {
+        setLoading(true)
+        return updateProfile(auth.currentUser, {
+            displayName, photoURL
+        });
+    }
+
+    /* Update Email */
+    const userEmailUpdate = async (email) => {
+        setLoading(true)
+        await sendEmailVerification(auth.currentUser)
+            .then(() => {
+                console.log('check your email to verify.');
+            });
+
+        if (user?.emailVerified) return updateEmail(auth.currentUser, email)
+        console.log('Something wrong. Try again later.');
+    }
+
+    /* Update password */
+    const userPassChange = async (newPassword) => {
+        setLoading(true)
+        await sendEmailVerification(auth.currentUser)
+            .then(() => {
+                console.log('check your email to verify.');
+            });
+
+        if (user?.emailVerified) return updatePassword(user, newPassword);
+        console.log('Something wrong. Try again later.');
+    }
+
+    // on state change
+    useEffect(() => {
+        const unSubscribe = onAuthStateChanged(auth, currentUser => {
+            console.log('on state change', currentUser)
+            setUser(currentUser)
+            setLoading(false)
+        })
+        return () => {
+            return unSubscribe();
+        }
+    }, [])
 
     const authInfo = {
         user,
         loading,
         createUser,
         googleLogin,
-        signIn,
+        logIn,
+        logOut,
+        updateUserInfo,
+        userEmailUpdate,
+        userPassChange
     }
     return (
         <AuthContext.Provider value={authInfo}>

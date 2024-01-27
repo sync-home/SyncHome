@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 
 const SignUpPage = () => {
 
-    const { createUser, googleLogin } = useAuthContext()
+    const { createUser, googleLogin, updateUserInfo } = useAuthContext()
     const router = useRouter()
 
     // create user with email and password
@@ -20,14 +20,22 @@ const SignUpPage = () => {
     const onSubmit = (data) => {
         createUser(data.email, data.password)
             .then(result => {
-                reset()
-                console.log(result.user);
-                Swal.fire(
-                    'Sign Up Successfully',
-                    'You clicked the button!',
-                    'success'
-                )
-                router.push('/signin')
+                updateUserInfo(data?.name, data?.photo).then(() => {
+                    console.log('Profile updated successfully.');
+
+                    reset()
+                    console.log(result.user);
+
+                    Swal.fire(
+                        'Sign Up Successfully',
+                        'You clicked the button!',
+                        'success'
+                    )
+
+                    router.push('/signin')
+                }).catch((error) => {
+                    console.log(error);
+                })
             })
             .catch(error => {
                 console.log(error);
@@ -78,6 +86,15 @@ const SignUpPage = () => {
                             type="Email"
                             variant="standard"
                             placeholder="Enter Your Email Here"
+                        />
+                        <TextField
+                            {...register("photo")}
+                            color="warning"
+                            fullWidth
+                            label="Photo URL"
+                            type="url"
+                            variant="standard"
+                            placeholder="Enter Your Photo URL Here"
                         />
                         <TextField
                             {...register("password", { required: true })}

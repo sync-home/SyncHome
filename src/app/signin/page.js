@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 
 const SignInPage = () => {
 
-    const { signIn, googleLogin } = useAuthContext()
+    const { logIn, googleLogin } = useAuthContext()
     const router = useRouter()
 
     // create user with email and password
@@ -19,7 +19,7 @@ const SignInPage = () => {
         reset,
     } = useForm()
     const onSubmit = (data) => {
-        signIn(data.email, data.password)
+        logIn(data.email, data.password)
             .then(result => {
                 reset()
                 console.log(result.user);

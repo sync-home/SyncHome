@@ -3,6 +3,8 @@ import Link from 'next/link';
 import React from 'react';
 import BusinessIcon from '@mui/icons-material/Business';
 import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
+import ContactForm from '@/components/ContactForm/ContactForm';
+import contactBg from '@/assets/contact-us.jpg';
 
 const Contact = () => {
     return (
@@ -11,6 +13,9 @@ const Contact = () => {
                 <h2 className="text-5xl uppercase font-extrabold mb-5">Contact us</h2>
                 <p className="font-semibold"><Link href="/">Home</Link> / Contact us</p>
             </div>
+
+            {/* HOW TO REACH US */}
+
             <div className='grid lg:grid-cols-2 grid-cols-1 gap-0'>
                 <div className='min-h-96'>
                     <GoogleMaps></GoogleMaps>
@@ -41,6 +46,22 @@ const Contact = () => {
                     </div>
                 </div>
             </div>
+
+            {/* GET IN TOUCH */}
+            <div style={{background: `url(${contactBg.src}) no-repeat center/cover`}}>
+                <div className='bg-[rgba(77,172,106,0.8)] py-28 lg:px-0 px-5'>
+                    <div className='max-w-7xl mx-auto grid lg:grid-cols-2 grid-cols-1 items-center gap-20'>
+                        <div className='text-white'>
+                            <h2 className="text-5xl uppercase font-extrabold mb-5">Get in Touch</h2>
+                            <p>Reach Out for Inquiries, Support, Collaborations, or Just to Say Hello! We're Here to Hear from You.</p>
+                        </div>
+                        <div>
+                            <ContactForm></ContactForm>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     );
 };

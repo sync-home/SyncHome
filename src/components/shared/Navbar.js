@@ -29,6 +29,10 @@ const pages = [
         route: 'Register',
         pathname: '/signup'
     },
+    {
+        route: 'Contact',
+        pathname: '/contact'
+    },
 ];
 // const settings = [ 'Profile', 'Account', 'Dashboard', 'Logout' ];
 

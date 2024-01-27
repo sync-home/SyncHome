@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.4",
     "@mui/material": "^5.15.4",
+    "@react-google-maps/api": "^2.19.2",
     "firebase": "^10.7.2",
     "react-hook-form": "^7.49.3",
     "sweetalert2": "^11.10.3",

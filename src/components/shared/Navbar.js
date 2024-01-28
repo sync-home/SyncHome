@@ -33,6 +33,10 @@ const pages = [
         route: 'Contact',
         pathname: '/contact'
     },
+    {
+        route: 'Admin Dashboard',
+        pathname: '/admin-dashboard'
+    },
 ];
 // const settings = [ 'Profile', 'Account', 'Dashboard', 'Logout' ];
 

@@ -213,7 +213,7 @@ function Navbar() {
                             </MenuItem>
                         </Menu>
                     </Box> :
-                        <Link href={'#'} variant="contained" className='uppercase font-mono font-semibold text-black' color="primary">
+                        <Link href={'/signup'} variant="contained" className='uppercase font-mono font-semibold text-black' color="primary">
                             Sign Up
                         </Link> : ''}
                 </Toolbar>

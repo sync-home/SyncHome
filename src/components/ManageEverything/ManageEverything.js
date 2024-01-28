@@ -11,13 +11,13 @@ import 'swiper/css/pagination';
 
 // import required modules
 import { Pagination } from 'swiper/modules';
+import Image from "next/image";
 import img1 from '@/assets/ManageEverythig/outdoor-cctv.jpg'
 import img2 from '@/assets/ManageEverythig/temperature-controller.jpg'
 import img3 from '@/assets/ManageEverythig/tracking.jpg'
 import img4 from '@/assets/ManageEverythig/auto-control.jpg'
 import img5 from '@/assets/ManageEverythig/motion-sensor.jpg'
 import img6 from '@/assets/ManageEverythig/smart-control.jpg'
-import Image from "next/image";
 
 const ManageEverything = () => {
     return (

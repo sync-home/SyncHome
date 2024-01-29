@@ -7,7 +7,7 @@ import Container from '@mui/material/Container';
 
 const Footer = () => {
     return (
-        <Box className="border-t-2 min-h-0 bg-gray-400 py-10">
+        <Box className="min-h-0 bg-gray-400 py-10">
             <Container maxWidth="xl">
                 <Grid container spacing={2} className='flex max-md:flex-col'>
                     <Grid item xs={12} md={4} className='flex flex-col items-center justify-center min-h-full gap-2'>

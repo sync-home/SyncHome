@@ -40,8 +40,13 @@ const AuthProvider = ({ children }) => {
     /* Update profile */
     const updateUserInfo = (displayName, photoURL) => {
         setLoading(true)
+        if (photoURL)
+            return updateProfile(auth.currentUser, {
+                displayName, photoURL
+            });
+
         return updateProfile(auth.currentUser, {
-            displayName, photoURL
+            displayName, photoURL: auth?.currentUser?.photoURL
         });
     }
 

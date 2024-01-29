@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 5173",
+    "json-server": "json-server --watch fakeDB.json --port 5000",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -14,6 +15,7 @@
     "@mui/icons-material": "^5.15.4",
     "@mui/material": "^5.15.4",
     "firebase": "^10.7.2",
+    "json-server": "^1.0.0-alpha.23",
     "react-hook-form": "^7.49.3",
     "sharp": "^0.33.2",
     "sweetalert2": "^11.6.13",

@@ -15,6 +15,70 @@ import shahidulImg from '@/assets/team/shahidul.jpg';
 import teamBg from '@/assets/team/team-bg.jpg';
 
 export default function About() {
+
+    const teamMembers = [
+        {
+            name: 'Md Shahidul Islam',
+            image: shahidulImg,
+            role: 'Front-end developer',
+            socialLinks: [
+                { link: 'https://www.facebook.com/shahidulislam.20', icon: <FacebookIcon className="hover:text-blue-700" /> },
+                { link: 'https://www.twitter.com/shahidul_satu', icon: <TwitterIcon className="hover:text-blue-700" /> },
+                { link: 'https://www.linkedin.com/in/shahidulislam20', icon: <LinkedInIcon className="hover:text-blue-700" /> },
+            ]
+        },
+        {
+            name: 'Md Shahidul Islam',
+            image: shahidulImg,
+            role: 'Front-end developer',
+            socialLinks: [
+                { link: 'https://www.facebook.com/shahidulislam.20', icon: <FacebookIcon className="hover:text-blue-700" /> },
+                { link: 'https://www.twitter.com/shahidul_satu', icon: <TwitterIcon className="hover:text-blue-700" /> },
+                { link: 'https://www.linkedin.com/in/shahidulislam20', icon: <LinkedInIcon className="hover:text-blue-700" /> },
+            ]
+        },
+        {
+            name: 'Md Shahidul Islam',
+            image: shahidulImg,
+            role: 'Front-end developer',
+            socialLinks: [
+                { link: 'https://www.facebook.com/shahidulislam.20', icon: <FacebookIcon className="hover:text-blue-700" /> },
+                { link: 'https://www.twitter.com/shahidul_satu', icon: <TwitterIcon className="hover:text-blue-700" /> },
+                { link: 'https://www.linkedin.com/in/shahidulislam20', icon: <LinkedInIcon className="hover:text-blue-700" /> },
+            ]
+        },
+        {
+            name: 'Md Shahidul Islam',
+            image: shahidulImg,
+            role: 'Front-end developer',
+            socialLinks: [
+                { link: 'https://www.facebook.com/shahidulislam.20', icon: <FacebookIcon className="hover:text-blue-700" /> },
+                { link: 'https://www.twitter.com/shahidul_satu', icon: <TwitterIcon className="hover:text-blue-700" /> },
+                { link: 'https://www.linkedin.com/in/shahidulislam20', icon: <LinkedInIcon className="hover:text-blue-700" /> },
+            ]
+        },
+        {
+            name: 'Md Shahidul Islam',
+            image: shahidulImg,
+            role: 'Front-end developer',
+            socialLinks: [
+                { link: 'https://www.facebook.com/shahidulislam.20', icon: <FacebookIcon className="hover:text-blue-700" /> },
+                { link: 'https://www.twitter.com/shahidul_satu', icon: <TwitterIcon className="hover:text-blue-700" /> },
+                { link: 'https://www.linkedin.com/in/shahidulislam20', icon: <LinkedInIcon className="hover:text-blue-700" /> },
+            ]
+        },
+        {
+            name: 'Md Shahidul Islam',
+            image: shahidulImg,
+            role: 'Front-end developer',
+            socialLinks: [
+                { link: 'https://www.facebook.com/shahidulislam.20', icon: <FacebookIcon className="hover:text-blue-700" /> },
+                { link: 'https://www.twitter.com/shahidul_satu', icon: <TwitterIcon className="hover:text-blue-700" /> },
+                { link: 'https://www.linkedin.com/in/shahidulislam20', icon: <LinkedInIcon className="hover:text-blue-700" /> },
+            ]
+        },
+    ]
+
     return (
         <div>
             <div className="text-center bg-[#0A1D56] text-white py-16">
@@ -89,136 +153,34 @@ export default function About() {
             </div>
 
             {/* MEET OUT TEAM */}
-            <div style={{background: `url(${teamBg.src})`}}>
+            <div style={{ background: `url(${teamBg.src})` }}>
                 <div className="bg-[rgba(77,172,106,0.8)] py-28">
-                <div className="max-w-7xl mx-auto text-center">
-                    <h2 className="text-5xl text-white uppercase font-extrabold mb-5">Meet our team</h2>
-                    <p className="text-white mb-10">Discover the Faces Behind Our Vision: The Passionate, Diverse Team Driving Innovation Forward with Purpose and Creativity.</p>
-                    <div className="grid lg:grid-cols-6 md:grid-cols-2 grid-cols-1 gap-10">
-                        <div className="max-w-72 mx-auto">
-                            <div className="w-full border-2 bg-white border-[#0a1d56] rounded-t-lg">
-                                <Image sx={{height:'100%', width:'100%'}} src={shahidulImg} alt="md shahidul islam" className="rounded-t-lg"/>
-                            </div>
-                            <div className="text-center bg-[#0A1D56] text-white shadow-lg rounded-b-lg">
-                                <h3 className="font-bold pt-5">Md Shahidul Islam</h3>
-                                <p>Front-end developer</p>
-                                <div className="flex gap-5 justify-center py-5 text-white">
-                                    <Link target="_blank" href="https://www.facebook.com/shahidulislam.20">
-                                        <FacebookIcon className="hover:text-blue-700" />
-                                    </Link>
-                                    <Link target="_blank" href="https://www.twitter.com/shahidul_satu">
-                                        <TwitterIcon className="hover:text-blue-700" />
-                                    </Link>
-                                    <Link target="_blank" href="https://www.linkedin.com/in/shahidulislam20">
-                                        <LinkedInIcon className="hover:text-blue-700" />
-                                    </Link>
+                    <div className="max-w-7xl mx-auto text-center">
+                        <h2 className="text-5xl text-white uppercase font-extrabold mb-5">Meet our team</h2>
+                        <p className="text-white mb-10">Discover the Faces Behind Our Vision: The Passionate, Diverse Team Driving Innovation Forward with Purpose and Creativity.</p>
+                        <div className="grid lg:grid-cols-6 md:grid-cols-2 grid-cols-1 gap-10">
+                            {teamMembers?.length && teamMembers?.map((member, idx) => <div key={idx} className="max-w-72 mx-auto">
+                                <div className="w-full border-2 bg-white border-[#0a1d56] rounded-t-lg">
+                                    <Image sx={{ height: '100%', width: '100%' }} src={member?.image} alt={member?.name} className="rounded-t-lg" />
                                 </div>
-                            </div>
-                        </div>
-                        <div className="max-w-72 mx-auto">
-                            <div className="w-full border-2 bg-white border-[#0a1d56] rounded-t-lg">
-                                <Image sx={{height:'100%', width:'100%'}} src={shahidulImg} alt="md shahidul islam" className="rounded-t-lg"/>
-                            </div>
-                            <div className="text-center bg-[#0A1D56] text-white shadow-lg rounded-b-lg">
-                                <h3 className="font-bold pt-5">Md Shahidul Islam</h3>
-                                <p>Front-end developer</p>
-                                <div className="flex gap-5 justify-center py-5 text-white">
-                                    <Link target="_blank" href="https://www.facebook.com/shahidulislam.20">
-                                        <FacebookIcon className="hover:text-blue-700" />
-                                    </Link>
-                                    <Link target="_blank" href="https://www.twitter.com/shahidul_satu">
-                                        <TwitterIcon className="hover:text-blue-700" />
-                                    </Link>
-                                    <Link target="_blank" href="https://www.linkedin.com/in/shahidulislam20">
-                                        <LinkedInIcon className="hover:text-blue-700" />
-                                    </Link>
+                                <div className="text-center bg-[#0A1D56] text-white shadow-lg rounded-b-lg">
+                                    <h3 className="font-bold pt-5">{member?.name}</h3>
+                                    <p>{member?.role}</p>
+                                    <div className="flex gap-5 justify-center py-5 text-white">
+                                        {member?.socialLinks?.length && member?.socialLinks?.map((socialMedia, index) => <Link key={index} target="_blank" href={socialMedia?.link}>
+                                            {socialMedia?.icon}
+                                        </Link>)}
+                                        {/* <Link target="_blank" href="https://www.twitter.com/shahidul_satu">
+                                            <TwitterIcon className="hover:text-blue-700" />
+                                        </Link>
+                                        <Link target="_blank" href="https://www.linkedin.com/in/shahidulislam20">
+                                            <LinkedInIcon className="hover:text-blue-700" />
+                                        </Link> */}
+                                    </div>
                                 </div>
-                            </div>
+                            </div>)}
                         </div>
-                        <div className="max-w-72 mx-auto">
-                            <div className="w-full border-2 bg-white border-[#0a1d56] rounded-t-lg">
-                                <Image sx={{height:'100%', width:'100%'}} src={shahidulImg} alt="md shahidul islam" className="rounded-t-lg"/>
-                            </div>
-                            <div className="text-center bg-[#0A1D56] text-white shadow-lg rounded-b-lg">
-                                <h3 className="font-bold pt-5">Md Shahidul Islam</h3>
-                                <p>Front-end developer</p>
-                                <div className="flex gap-5 justify-center py-5 text-white">
-                                    <Link target="_blank" href="https://www.facebook.com/shahidulislam.20">
-                                        <FacebookIcon className="hover:text-blue-700" />
-                                    </Link>
-                                    <Link target="_blank" href="https://www.twitter.com/shahidul_satu">
-                                        <TwitterIcon className="hover:text-blue-700" />
-                                    </Link>
-                                    <Link target="_blank" href="https://www.linkedin.com/in/shahidulislam20">
-                                        <LinkedInIcon className="hover:text-blue-700" />
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="max-w-72 mx-auto">
-                            <div className="w-full border-2 bg-white border-[#0a1d56] rounded-t-lg">
-                                <Image sx={{height:'100%', width:'100%'}} src={shahidulImg} alt="md shahidul islam" className="rounded-t-lg"/>
-                            </div>
-                            <div className="text-center bg-[#0A1D56] text-white shadow-lg rounded-b-lg">
-                                <h3 className="font-bold pt-5">Md Shahidul Islam</h3>
-                                <p>Front-end developer</p>
-                                <div className="flex gap-5 justify-center py-5 text-white">
-                                    <Link target="_blank" href="https://www.facebook.com/shahidulislam.20">
-                                        <FacebookIcon className="hover:text-blue-700" />
-                                    </Link>
-                                    <Link target="_blank" href="https://www.twitter.com/shahidul_satu">
-                                        <TwitterIcon className="hover:text-blue-700" />
-                                    </Link>
-                                    <Link target="_blank" href="https://www.linkedin.com/in/shahidulislam20">
-                                        <LinkedInIcon className="hover:text-blue-700" />
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="max-w-72 mx-auto">
-                            <div className="w-full border-2 bg-white border-[#0a1d56] rounded-t-lg">
-                                <Image sx={{height:'100%', width:'100%'}} src={shahidulImg} alt="md shahidul islam" className="rounded-t-lg"/>
-                            </div>
-                            <div className="text-center bg-[#0A1D56] text-white shadow-lg rounded-b-lg">
-                                <h3 className="font-bold pt-5">Md Shahidul Islam</h3>
-                                <p>Front-end developer</p>
-                                <div className="flex gap-5 justify-center py-5 text-white">
-                                    <Link target="_blank" href="https://www.facebook.com/shahidulislam.20">
-                                        <FacebookIcon className="hover:text-blue-700" />
-                                    </Link>
-                                    <Link target="_blank" href="https://www.twitter.com/shahidul_satu">
-                                        <TwitterIcon className="hover:text-blue-700" />
-                                    </Link>
-                                    <Link target="_blank" href="https://www.linkedin.com/in/shahidulislam20">
-                                        <LinkedInIcon className="hover:text-blue-700" />
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="max-w-72 mx-auto">
-                            <div className="w-full border-2 bg-white border-[#0a1d56] rounded-t-lg">
-                                <Image sx={{height:'100%', width:'100%'}} src={shahidulImg} alt="md shahidul islam" className="rounded-t-lg"/>
-                            </div>
-                            <div className="text-center bg-[#0A1D56] text-white shadow-lg rounded-b-lg">
-                                <h3 className="font-bold pt-5">Md Shahidul Islam</h3>
-                                <p>Front-end developer</p>
-                                <div className="flex gap-5 justify-center py-5 text-white">
-                                    <Link target="_blank" href="https://www.facebook.com/shahidulislam.20">
-                                        <FacebookIcon className="hover:text-blue-700" />
-                                    </Link>
-                                    <Link target="_blank" href="https://www.twitter.com/shahidul_satu">
-                                        <TwitterIcon className="hover:text-blue-700" />
-                                    </Link>
-                                    <Link target="_blank" href="https://www.linkedin.com/in/shahidulislam20">
-                                        <LinkedInIcon className="hover:text-blue-700" />
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        
                     </div>
-                </div>
                 </div>
             </div>
 

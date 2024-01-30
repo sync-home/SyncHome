@@ -14,6 +14,10 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import shahidulImg from '@/assets/team/shahidul.jpg';
 import teamBg from '@/assets/team/team-bg.jpg';
 
+export const metadata = {
+    title: 'About Us',
+}
+
 export default function About() {
 
     const teamMembers = [

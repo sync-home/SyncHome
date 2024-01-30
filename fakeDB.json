@@ -1,35 +1,30 @@
 {
     "posts": [
         {
-            "id": 1,
             "img": "https://i.ibb.co/mSVqNpB/close-up-finger-setting-alarm.jpg",
             "title": "EcoHeat Smart Thermostat",
             "des": "Take control of your home's temperature with the EcoHeat Smart Thermostat. With intuitive app controls and energy-saving features, it learns your preferences and adjusts accordingly for optimal comfort and efficiency.",
             "date": "2024-01-28"
         },
         {
-            "id": 2,
             "img": "https://i.ibb.co/ZYvkrQK/camera-photographic-with-smartphone-devices-generative-ai.jpg",
             "title": "VigiCam Pro",
             "des": "Keep an eye on your home from anywhere with the VigiCam Pro. This advanced security camera offers HD video streaming, motion detection, and two-way audio communication, providing peace of mind and enhanced security.",
             "date": "2024-01-28"
         },
         {
-            "id": 3,
             "img": "https://i.ibb.co/tP979r9/side-view-hand-with-smartphone-smart-light.jpg",
             "title": "Illuminate Smart Lighting Kit",
             "des": "Transform your living space with the Illuminate Smart Lighting Kit. Schedule lights, adjust brightness, and set the mood with customizable color options, all from your smartphone or voice commands.",
             "date": "2024-01-28"
         },
         {
-            "id": 4,
             "img": "https://i.ibb.co/gtLJ6c3/password-lock-phone-screen.jpg",
             "title": "SecurePro Smart Lock",
             "des": "Upgrade your home security with the SecurePro Smart Lock. Grant access remotely, receive notifications of entry, and track activity logs with this robust and easy-to-install smart lock solution.",
             "date": "2024-01-28"
         },
         {
-            "id": 5,
             "img": "https://i.ibb.co/nPc5hLS/speakers-with-extremely-high-volume-table.jpg",
             "title": "SoundWave AI Speaker",
             "des": "Experience immersive sound and intelligent assistance with the SoundWave AI Speaker. Play music, control smart devices, and get answers to your questions, all powered by advanced artificial intelligence.",

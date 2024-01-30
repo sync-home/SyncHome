@@ -3,7 +3,7 @@ import { Avatar, Grid, Paper, Table, TableBody, TableCell, TableContainer, Table
 
 const Notification = async () => {
 
-    const res = await fetch('http://localhost:5000/posts', {
+    const res = await fetch('https://synchome-server.vercel.app/api/v1/notifications', {
         cache: 'no-store'
     })
     const posts = await res.json()

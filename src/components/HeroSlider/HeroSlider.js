@@ -47,14 +47,14 @@ const HeroSlider = () => {
                 }}
                 modules={[ Autoplay, Navigation ]}
                 className="mySwiper">
-                {sliderContents?.length && sliderContents?.map((slide) => <SwiperSlide>
+                {sliderContents?.length && sliderContents?.map((slide, idx) => <SwiperSlide key={idx}>
                     <div className='md:h-[43rem] h-[35rem] relative text-center'>
                         <Image sizes="(max-width: 768px) 100vw, 33vw" height={500} width={500} src={slide?.image} alt={slide?.heading}
                             className='h-full w-full object-cover'></Image>
                         <div className='absolute top-0 left-0 h-full w-full bg-[rgba(0,0,0,0.7)] flex flex-col justify-center items-center px-10'>
                             <h2 className='md:text-5xl text-3xl uppercase font-bold text-white'>{slide?.heading}</h2>
                             <p className='text-white font-semibold mt-5'>{slide?.content}</p>
-                            <LinkRedirect url={'/features'} text={'Explore'}/>
+                            <LinkRedirect url={'/features'} text={'Explore'} />
                         </div>
                     </div>
                 </SwiperSlide>)}

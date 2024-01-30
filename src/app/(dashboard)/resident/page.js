@@ -1,6 +1,6 @@
 export const metadata = {
-    title: 'Admin',
-    description: 'This is admin panel',
+    title: 'Employee',
+    description: 'This is Employee panel',
 }
 
 import PropTypes from 'prop-types';
@@ -11,7 +11,8 @@ import Typography from '@mui/material/Typography';
 import AdminSidebar from "@/components/ui/AdminSidebar"
 
 const drawerWidth = 240;
-function AdminDashboard(props) {
+
+function ResidentDashboard(props) {
     const { window } = props;
     console.log(props);
 
@@ -27,14 +28,14 @@ function AdminDashboard(props) {
             >
                 <Toolbar />
                 <Typography paragraph>
-                    Admin Dashboard Goes Here.
+                    Resident Dashboard Goes Here.
                 </Typography>
             </Box>
         </Box>
     );
 }
 
-AdminDashboard.propTypes = {
+ResidentDashboard.propTypes = {
     /**
      * Injected by the documentation to work in an iframe.
      * Remove this when copying and pasting into your project.
@@ -42,4 +43,4 @@ AdminDashboard.propTypes = {
     window: PropTypes.func,
 };
 
-export default AdminDashboard;
+export default ResidentDashboard;

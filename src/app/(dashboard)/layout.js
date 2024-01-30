@@ -1,5 +1,4 @@
-import Sidebar from "@/ui/Sidebar"
-import { Container } from "@mui/material"
+import AdminSidebar from "@/components/ui/AdminSidebar"
 
 export const metadata = {
   applicationName: 'SyncHome',
@@ -12,15 +11,15 @@ export const metadata = {
   description: 'Smart Residential Building Management System',
 }
 
-export default function RootLayout({ children, list }) {
+export default function DashboardLayout({ children, list }) {
   return (
-    <Container className="flex min-h-screen">
-      <aside className="flex-[1] h-full border">
-        <Sidebar list={list} />
+    <main className="flex min-h-screen min-w-full m-0">
+      <aside className="lg:flex-[1] xl:flex-[1] min-h-screen border">
+        <AdminSidebar list={list} />
       </aside>
-      <aside className="flex-[2] h-full border">
+      <aside className="lg:flex-[2] xl:flex-[3] min-h-screen border">
         {children}
       </aside>
-    </Container>
+    </main>
   )
 }

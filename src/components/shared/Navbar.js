@@ -44,9 +44,44 @@ const pages = [
 function Navbar() {
     const [ anchorElNav, setAnchorElNav ] = React.useState(null);
     const [ anchorElUser, setAnchorElUser ] = React.useState(null);
-    const { user, loading } = useAuthContext()
+    const { user, loading, logOut } = useAuthContext()
 
-    // console.log(user?.photoURL);
+    /* Feature pages */
+    const pages = [
+        {
+            route: 'Home',
+            pathname: '/'
+        },
+        {
+            route: 'About Us',
+            pathname: '/about'
+        },
+        {
+            route: 'Features',
+            pathname: '/features'
+        },
+        {
+            route: 'Notifications',
+            pathname: '/notifications'
+        },
+        {
+            route: 'Emergencies',
+            pathname: '/emergencies'
+        },
+        {
+            route: 'Contact',
+            pathname: '/contact'
+        },
+        {
+            route: 'Admin',
+            pathname: '/admin-dashboard'
+        },
+        {
+            route: !loading && user?.email ? 'Register' : '',
+            pathname: !loading && user?.email ? '/signup' : ''
+        }
+    ];
+
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -65,10 +100,13 @@ function Navbar() {
 
     const handleSignOut = () => {
         setAnchorElUser(null);
-        console.log('User signed out successfully.');
+        logOut().then(() => {
+            console.log('logout successfully.');
+        }).catch((error) => {
+            console.log(error);
+        });
     };
 
-    /* className does not work in all pages | sx works */
     return (
         <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black' }}>
             <Container maxWidth="xl">
@@ -175,7 +213,7 @@ function Navbar() {
                     </Box>
 
                     {/* user image side */}
-                    {!loading && user?.email ? <Box sx={{ flexGrow: 0 }}>
+                    {!loading ? user?.email ? <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt={user?.displayName || 'user photo'} src={user?.photoURL} />
@@ -198,17 +236,19 @@ function Navbar() {
                             onClose={handleCloseUserMenu}
                         >
                             <MenuItem onClick={handleCloseUserMenu}>
-                                <Link href={'/'}>Dashboard</Link>
-                                {/* <Typography textAlign="center">{setting}</Typography> */}
+                                <Link href={'/dashboard'}>Dashboard</Link>
+                            </MenuItem>
+                            <MenuItem onClick={handleSignOut}>
+                                <Link href={'/notifications'}>Notifications</Link>
                             </MenuItem>
                             <MenuItem onClick={handleSignOut}>
                                 Logout
                             </MenuItem>
                         </Menu>
                     </Box> :
-                        <Link href={'#'} variant="contained" className='uppercase font-mono font-semibold text-black' color="primary">
-                            Login
-                        </Link>}
+                        <Link href={'/signup'} variant="contained" className='uppercase font-mono font-semibold text-black' color="primary">
+                            Sign Up
+                        </Link> : ''}
                 </Toolbar>
             </Container>
         </AppBar>

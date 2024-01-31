@@ -61,8 +61,8 @@ function Navbar() {
             pathname: '/features'
         },
         {
-            route: 'Notifications',
-            pathname: '/notifications'
+            route: 'Notification',
+            pathname: '/notification'
         },
         {
             route: 'Emergencies',
@@ -238,8 +238,8 @@ function Navbar() {
                             <MenuItem onClick={handleCloseUserMenu}>
                                 <Link href={'/dashboard'}>Dashboard</Link>
                             </MenuItem>
-                            <MenuItem onClick={handleSignOut}>
-                                <Link href={'/notifications'}>Notifications</Link>
+                            <MenuItem>
+                                <Link href={'/notification'}>Notifications</Link>
                             </MenuItem>
                             <MenuItem onClick={handleSignOut}>
                                 Logout

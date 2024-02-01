@@ -3,9 +3,9 @@ import useAuthContext from "@/Hooks/useAuthContext";
 import { Google } from "@mui/icons-material";
 import { Button, Grid, IconButton, Link, Paper, TextField, Typography, } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { toast } from 'react-toastify';
 
 import { useForm } from "react-hook-form";
-import Swal from "sweetalert2";
 
 const SignInPage = () => {
 
@@ -23,11 +23,13 @@ const SignInPage = () => {
             .then(result => {
                 reset()
                 console.log(result.user);
-                Swal.fire(
-                    'Sign In Successfully',
-                    'You clicked the button!',
-                    'success'
-                )
+
+                 // toast
+                 toast.success('Sign Up Successfully', {
+                    position: 'top-center',
+                    autoClose: 1300,
+                })
+
                 router.push('/')
             })
             .catch(error => {
@@ -40,11 +42,13 @@ const SignInPage = () => {
         googleLogin()
             .then(result => {
                 console.log(result.user);
-                Swal.fire(
-                    'Sign In Successfully',
-                    'You clicked the button!',
-                    'success'
-                )
+
+                 // toast
+                    toast.success('Sign Up Successfully', {
+                        position: 'top-center',
+                        autoClose: 1300,
+                    })
+                    
                 router.push('/')
             })
             .catch(error => {

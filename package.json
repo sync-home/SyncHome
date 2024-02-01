@@ -17,6 +17,7 @@
     "firebase": "^10.7.2",
     "json-server": "^1.0.0-alpha.23",
     "react-hook-form": "^7.49.3",
+    "react-toastify": "^10.0.4",
     "sharp": "^0.33.2",
     "sweetalert2": "^11.6.13",
     "swiper": "^11.0.5"

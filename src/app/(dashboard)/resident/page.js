@@ -19,7 +19,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import dummyData from "../../../../lib/userProfileData";
+import dummyData from "@/lib/userProfileData";
 
 const drawerWidth = 240;
 
@@ -45,55 +45,59 @@ function ResidentDashboard(props) {
         <Toolbar />
         <div>
           {residentData ? (
-            <div className="w-full flex flex-col lg:flex-row justify-around gap-10 lg:gap-16">
-              <Card className="w-1/2">
-                <Image
-                  src={residentData.image}
-                  alt="User Resident Profile Image"
-                  width={500}
-                  height={300}
-                />
+            <div className="w-full flex flex-col lg:flex-row justify-between gap-10 lg:gap-16">
+              <div className="w-full lg:w-1/4">
+                <Card className="w-full mb-2">
+                  <Image
+                    src={residentData.image}
+                    alt="User Resident Profile Image"
+                    width={400}
+                    height={300}
+                  />
 
-                <CardContent>
-                  <Typography variant="h5">
-                    Name: {residentData.name}
-                  </Typography>
-                  <Typography variant="body2">
-                    Occupation: {residentData.occupation}
-                  </Typography>
-                  <Typography variant="body2">
-                    Email: {residentData.email}
-                  </Typography>
-                  <Typography variant="body2">
-                    Monthly Expenditure: ${residentData.cart}
-                  </Typography>
-                  <Typography variant="body2">
-                    Room Number: {residentData.roomNo}
-                  </Typography>
-                  <Typography variant="body2">
-                    NID: {residentData.nid}
-                  </Typography>
+                  <CardContent>
+                    <Typography variant="h6">
+                      Name: {residentData.name}
+                    </Typography>
+                    <Typography variant="body2">
+                      Occupation: {residentData.occupation}
+                    </Typography>
+                    <Typography variant="body2">
+                      Email: {residentData.email}
+                    </Typography>
+                    <Typography variant="body2">
+                      Monthly Expenditure: ${residentData.cart}
+                    </Typography>
+                    <Typography variant="body2">
+                      Room Number: {residentData.roomNo}
+                    </Typography>
+                    <Typography variant="body2">
+                      NID: {residentData.nid}
+                    </Typography>
 
-                  <Typography variant="h5" className="my-1">
-                    Family Members:
-                  </Typography>
-                  <ul className="flex flex-wrap lg:justify-between items-center">
-                    {residentData.familyMembers.map((member, index) => (
-                      <li key={index} className="m-1">
-                        <Typography>{index + 1}</Typography>
-                        <Typography>Name: {member.name}</Typography>
-                        <Typography>Age: {member.age}</Typography>
-                        <Typography>Gender: {member.gender}</Typography>
-                        <Typography>Relations: {member.relations}</Typography>
-                        <Typography>Occupation: {member.occupation}</Typography>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
+                    <Typography variant="h6" className="my-1">
+                      Family Members:
+                    </Typography>
+                    <ul className="flex flex-wrap lg:flex-row lg:justify-between items-center">
+                      {residentData.familyMembers.map((member, index) => (
+                        <li key={index} className="m-1">
+                          <Typography>{index + 1}</Typography>
+                          <Typography>Name: {member.name}</Typography>
+                          <Typography>Age: {member.age}</Typography>
+                          <Typography>Gender: {member.gender}</Typography>
+                          <Typography>Relations: {member.relations}</Typography>
+                          <Typography>
+                            Occupation: {member.occupation}
+                          </Typography>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </div>
 
-              <div className="w-full lg:w-2/3">
-                <TableContainer component={Paper}>
+              <div className="lg:w-3/4 flex-shrink-0">
+                <TableContainer component={Paper} className=" overflow-x-auto">
                   <Table sx={{ minWidth: 850 }} aria-label="customized table">
                     <TableHead>
                       <TableRow>

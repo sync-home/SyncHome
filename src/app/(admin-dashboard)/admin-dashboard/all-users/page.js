@@ -1,11 +1,14 @@
 import AllUsers from '@/components/AdminDashboard/AllUsers/AllUsers';
 import React from 'react';
 
-const Allusers = () => {
+const Allusers = async() => {
+
+    const res = await fetch("http://localhost:5000/users");
+    const usersData = await res.json();
+
     return (
         <div>
-            this is all users page
-            <AllUsers></AllUsers>
+            <AllUsers usersData={usersData}></AllUsers>
         </div>
     );
 };

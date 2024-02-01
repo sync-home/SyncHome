@@ -64,7 +64,7 @@ const AdminSidebar = () => {
                         <Link href="/"> Home</Link>
                     </MenuItem>
                     <MenuItem icon={<CgProfile />} className='hover:text-black'>
-                        <Link href="/">Profile</Link>
+                        <Link href="/admin-dashboard/profile">Profile</Link>
                     </MenuItem>
                     <MenuItem icon={<IoPeopleOutline />} className='hover:text-black'>
                         <Link href="/admin-dashboard/all-users">All Users</Link>

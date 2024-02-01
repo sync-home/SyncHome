@@ -10,6 +10,7 @@ import { LuChevronsLeft, LuChevronsRight, LuLayoutGrid } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
 import { useState } from 'react';
 import { Button } from '@mui/material';
+import { FaChartLine } from 'react-icons/fa6';
 
 
 const AdminSidebar = () => {
@@ -68,6 +69,9 @@ const AdminSidebar = () => {
                     </MenuItem>
                     <MenuItem icon={<IoPeopleOutline />} className='hover:text-black'>
                         <Link href="/admin-dashboard/all-users">All Users</Link>
+                    </MenuItem>
+                    <MenuItem icon={<FaChartLine />} className='hover:text-black'>
+                        <Link href="/admin-dashboard/energy">Energy</Link>
                     </MenuItem>
                     <MenuItem> Documentation </MenuItem>
                     <MenuItem> Calendar </MenuItem>

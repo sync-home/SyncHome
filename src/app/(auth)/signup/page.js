@@ -17,6 +17,7 @@ const SignUpPage = () => {
         handleSubmit,
         reset,
     } = useForm()
+
     const onSubmit = (data) => {
         createUser(data.email, data.password)
             .then(result => {

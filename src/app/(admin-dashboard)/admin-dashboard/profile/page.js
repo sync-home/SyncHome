@@ -8,7 +8,7 @@ const Profile = () => {
         "name": "Alice Smith",
         "address": "789 Oak St, Village, Country",
         "age": 35,
-        "gender": "Female",
+        "gender": "Male",
         "status": "Active",
         "role": "Admin",
         "email": "alice.smith@example.com",

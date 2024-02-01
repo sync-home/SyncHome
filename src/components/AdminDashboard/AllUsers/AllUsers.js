@@ -75,13 +75,22 @@ const AllUsers = ({ usersData }) => {
     setOpen(false);
   };
 
- 
+
   const onSubmit = (data) => {
     console.log(data)
   }
 
+  const [searchVal, setSearchVal] = React.useState('');
+  const handleOnChange = e => {
+    setSearchVal(e.target.value)
+  }
+
   return (
     <>
+      <div className='bg-[#96E9C6] rounded-t-md flex justify-center pt-5 flex-wrap items-center gap-5'>
+        <h3>Search here :</h3>
+        <input className='py-1 px-5 rounded-full outline-0' type="text" placeholder='Search by name' onChange={handleOnChange} />
+      </div>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
@@ -96,7 +105,7 @@ const AllUsers = ({ usersData }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {usersData.map((user, idx) => (
+            {usersData.filter(data => data.name.toLowerCase().includes(searchVal.toLowerCase())).map((user, idx) => (
               <StyledTableRow key={idx}>
                 <StyledTableCell component="th" scope="row">{idx + 1}</StyledTableCell>
                 <StyledTableCell align="right">
@@ -118,7 +127,6 @@ const AllUsers = ({ usersData }) => {
                             ?
                             <div className='flex flex-col items-center text-lime-900'><GrUser className='text-2xl'></GrUser><p className='font-semibold'>{user.role}</p></div> : ''
                     }
-
                   </div>
                 </StyledTableCell>
                 <StyledTableCell align="right">
@@ -156,7 +164,8 @@ const AllUsers = ({ usersData }) => {
                   <input type="text" {...register("phone")} placeholder='Phone' defaultValue={updateData?.phone} className='outline-0 rounded-md text-black px-2 py-1 bg-white' />
                 </div>
                 <div>
-                  <select {...register("role")} defaultValue={updateData?.role} className='w-full p-1 rounded-md mt-2'>
+                  <label className='text-white'>Role</label>
+                  <select {...register("role")} defaultValue={updateData?.role} className='w-full p-1 text-black rounded-md'>
                     <option value="admin">admin</option>
                     <option value="employee">employee</option>
                     <option value="resident">resident</option>
@@ -167,7 +176,7 @@ const AllUsers = ({ usersData }) => {
             </DialogContentText>
           </DialogContent>
           <DialogActions className='bg-[#8338ec]'>
-            <Button className='text-[#96E9C6]' onClick={handleClose} autoFocus>
+            <Button className='text-white' onClick={handleClose} autoFocus>
               Close
             </Button>
           </DialogActions>

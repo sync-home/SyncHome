@@ -1,62 +1,50 @@
-import DeleteButton from '@/components/Buttons/DeleteButton';
-import { Avatar, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { Suspense } from 'react';
-import Loading from './loading';
+"use client"
+import ClearIcon from '@mui/icons-material/Clear';
+import { Avatar, Grid, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 
 const Notification = async () => {
-    const posts = await getNotifications();
 
-    console.log(posts);
+    const res = await fetch('http://localhost:5000/posts', {
+        cache: 'no-store'
+    })
+    const posts = await res.json()
+
     return (
-        <Grid className='max-w-[1200px] mx-auto min-h-screen lg:mt-16 mt-12'>
-            <Suspense fallback={Loading}>
-                <TableContainer>
-                    <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                        <TableHead>
-                            <TableRow className='bg-[#4DAC6A]'>
-                                <TableCell className='text-white'>Profile</TableCell>
-                                <TableCell className='text-white'>Title</TableCell>
-                                <TableCell className='text-white'>Description</TableCell>
-                                <TableCell className='text-white'>Date</TableCell>
-                                <TableCell className='text-white'>Action</TableCell>
+        <Grid className='bg-[#EEF1F6] w-full py-16'>
+            <div>
+            <h2 className='text-4xl font-bold text-center mb-8 border-b-4 border-b-[#81EF61] max-w-md mx-auto'>See Your Notifications</h2>
+            </div>
+            <TableContainer className='max-w-[1200px] mx-auto min-h-screen pt-8  bg-[#fff] rounded-lg'>
+                <Table>
+                    <TableBody>
+                        {posts.map((row) => (
+                            <TableRow
+                                key={row.id}
+                            >
+                                <TableCell component="th" scope="row">
+                                    <Avatar alt="Remy Sharp" src={row.img} />
+                                </TableCell>
+                                <TableCell className='max-w-3xl'>
+                                    <p className='mb-3 rounded-md text-white  w-[90px] px-2 text-center' style={{background: row.bgColor}}>Notification</p>
+                                    <span className='text-gray-600 font-bold'>{row.title}</span>
+
+                                    <div className='p-0 mt-2'>
+                                        {row.des}
+                                    </div>
+                                </TableCell>
+                                <TableCell>{row.date}</TableCell>
+                                <TableCell>
+                                    <button className='btn'>
+                                        <ClearIcon className='text-md'></ClearIcon>
+                                    </button>
+                                </TableCell>
                             </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {posts.map((row) => (
-                                <TableRow
-                                    key={row?._id}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell component="th" scope="row">
-                                        <Avatar alt="Remy Sharp" src={row?.img} />
-                                    </TableCell>
-                                    <TableCell>{row?.title}</TableCell>
-                                    <TableCell>{row?.des}</TableCell>
-                                    <TableCell>{row?.date}</TableCell>
-                                    <TableCell>
-                                        <DeleteButton id={row?._id} />
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Suspense>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Grid>
     );
 };
 
-
-const getNotifications = async () => {
-    const res = await fetch('https://synchome-server.vercel.app/api/v1/notifications', {
-        cache: 'no-store'
-    })
-
-    if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
-        throw new Error('Failed to fetch data')
-    }
-
-    return res.json()
-}
 export default Notification;

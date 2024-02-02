@@ -24,10 +24,14 @@ const pages = [
     {
         route: 'Features',
         pathname: '/features'
-    },
+    }, 
     {
         route: 'Register',
         pathname: '/signup'
+    },
+    {
+        route: 'RTM',
+        pathname: '/rtm'
     },
 ];
 // const settings = [ 'Profile', 'Account', 'Dashboard', 'Logout' ];

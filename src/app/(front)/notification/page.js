@@ -25,7 +25,7 @@ const Notification = async () => {
                                     <Avatar alt="Remy Sharp" src={row.img} />
                                 </TableCell>
                                 <TableCell className='max-w-3xl'>
-                                    <p className='mb-3 rounded-md text-white  w-[90px] px-2 text-center' style={{ background: row?.bgColor }}>Notification</p>
+                                    <p className='mb-3 rounded-md text-white  w-[90px] px-2 text-center' style={{ background: row.bgColor }}>Notification</p>
                                     <span className='text-gray-600 font-bold'>{row.title}</span>
 
                                     <div className='p-0 mt-2'>

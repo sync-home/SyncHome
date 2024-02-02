@@ -16,6 +16,27 @@ import Image from 'next/image';
 import Link from 'next/link';
 import useAuthContext from '@/Hooks/useAuthContext';
 
+const pages = [
+    {
+        route: 'About Us',
+        pathname: '/about'
+    },
+    {
+        route: 'Features',
+        pathname: '/features'
+    }, 
+    {
+        route: 'Register',
+        pathname: '/signup'
+    },
+    {
+        route: 'RTM',
+        pathname: '/rtm'
+    },
+];
+// const settings = [ 'Profile', 'Account', 'Dashboard', 'Logout' ];
+
+
 function Navbar() {
     const [ anchorElNav, setAnchorElNav ] = React.useState(null);
     const [ anchorElUser, setAnchorElUser ] = React.useState(null);

@@ -112,7 +112,7 @@ const Energy = () => {
             </div>
             <div className="grid lg:grid-cols-5 grid-cols-1 gap-5">
                 <div className="lg:col-span-3" style={{ border: '1px solid #ccc', borderRadius: '10px' }}>
-                    <div style={{ borderBottom: '1px solid #ccc' }} className="flex justify-between px-5 py-3">
+                    <div style={{ borderBottom: '1px solid #ccc' }} className="flex lg:flex-row flex-col gap-5 justify-between px-5 py-3">
                         <h4 className="text-xl font-semibold text-[#363636]">Energy Consumption by Flat</h4>
                         <span style={{ border: '1px solid #ccc', padding: '5px', borderRadius: '5px' }}>
                             <select className="outline-0">

@@ -5,7 +5,7 @@ import logo from '@/assets/logo.png';
 import './AdminSidebar.css';
 import Image from 'next/image';
 import { GrHomeRounded } from 'react-icons/gr';
-import { IoPeopleOutline } from "react-icons/io5";
+import { IoPeopleOutline, IoVideocamOutline } from "react-icons/io5";
 import { LuChevronsLeft, LuChevronsRight, LuLayoutGrid } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
 import { useState } from 'react';
@@ -73,8 +73,9 @@ const AdminSidebar = () => {
                     <MenuItem icon={<FaChartLine />} component={<Link href="/admin-dashboard/energy" />} className='hover:text-black'>
                         Energy
                     </MenuItem>
-                    <MenuItem> Documentation </MenuItem>
-                    <MenuItem> Calendar </MenuItem>
+                    <MenuItem icon={<IoVideocamOutline />} component={<Link href="/admin-dashboard/camera" />} className='hover:text-black'>
+                        Camera
+                    </MenuItem>
                 </Menu>
             </Sidebar>;
         </>

@@ -1,3 +1,4 @@
+"use client"
 import ClearIcon from '@mui/icons-material/Clear';
 import { Avatar, Grid, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 

@@ -16,24 +16,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 import useAuthContext from '@/Hooks/useAuthContext';
 
-const pages = [
-    {
-        route: 'About Us',
-        pathname: '/about'
-    },
-    {
-        route: 'Features',
-        pathname: '/features'
-    }, 
-    {
-        route: 'Register',
-        pathname: '/signup'
-    },
-    {
-        route: 'RTM',
-        pathname: '/rtm'
-    },
-];
+// const pages = [
+//     {
+//         route: 'About Us',
+//         pathname: '/about'
+//     },
+//     {
+//         route: 'Features',
+//         pathname: '/features'
+//     }, 
+//     {
+//         route: 'Register',
+//         pathname: '/signup'
+//     },
+   
+// ];
 // const settings = [ 'Profile', 'Account', 'Dashboard', 'Logout' ];
 
 
@@ -55,6 +52,10 @@ function Navbar() {
         {
             route: 'Features',
             pathname: '/features'
+        },
+        {
+            route: 'RTM',
+            pathname: '/rtm'
         },
         {
             route: 'Notification',

@@ -61,17 +61,17 @@ const AdminSidebar = () => {
                         )}
                     </div>
                     <hr />
-                    <MenuItem icon={<GrHomeRounded />} className='hover:text-black'>
-                        <Link href="/"> Home</Link>
+                    <MenuItem icon={<GrHomeRounded />} component={<Link href="/" />} className='hover:text-black'>
+                        Home
                     </MenuItem>
-                    <MenuItem icon={<CgProfile />} className='hover:text-black'>
-                        <Link href="/admin-dashboard/profile">Profile</Link>
+                    <MenuItem icon={<CgProfile />} component={<Link href="/admin-dashboard/profile" />} className='hover:text-black'>
+                       Profile
                     </MenuItem>
-                    <MenuItem icon={<IoPeopleOutline />} className='hover:text-black'>
-                        <Link href="/admin-dashboard/all-users">All Users</Link>
+                    <MenuItem icon={<IoPeopleOutline />} component={<Link href="/admin-dashboard/all-users" />} className='hover:text-black'>
+                        All Users
                     </MenuItem>
-                    <MenuItem icon={<FaChartLine />} className='hover:text-black'>
-                        <Link href="/admin-dashboard/energy">Energy</Link>
+                    <MenuItem icon={<FaChartLine />} component={<Link href="/admin-dashboard/energy" />} className='hover:text-black'>
+                        Energy
                     </MenuItem>
                     <MenuItem> Documentation </MenuItem>
                     <MenuItem> Calendar </MenuItem>

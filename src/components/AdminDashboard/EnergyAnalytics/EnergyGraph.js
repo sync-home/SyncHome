@@ -47,10 +47,10 @@ const TriangleBar = (props) => {
 
 const EnergyGraph = () => {
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer className="text-xs" width="100%" height={400}>
     <BarChart
       width={800}
-      height={400}
+      height={300}
       data={data}
       margin={{
         top: 20,

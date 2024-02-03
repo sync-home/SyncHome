@@ -24,18 +24,14 @@ const pages = [
     {
         route: 'Features',
         pathname: '/features'
-    },
+    }, 
     {
         route: 'Register',
         pathname: '/signup'
     },
     {
-        route: 'Contact',
-        pathname: '/contact'
-    },
-    {
-        route: 'Admin Dashboard',
-        pathname: '/admin-dashboard'
+        route: 'RTM',
+        pathname: '/rtm'
     },
 ];
 // const settings = [ 'Profile', 'Account', 'Dashboard', 'Logout' ];
@@ -117,7 +113,8 @@ function Navbar() {
                     <Typography
                         variant="h6"
                         noWrap
-                        component="span"
+                        component="a"
+                        href='/'
                         className='text-black'
                         sx={{
                             mr: 2,
@@ -181,7 +178,8 @@ function Navbar() {
                     <Typography
                         variant="h5"
                         noWrap
-                        component="span"
+                        component="a"
+                        href='/'
                         sx={{
                             mr: 2,
                             display: { xs: 'none', sm: 'flex', md: 'none' },

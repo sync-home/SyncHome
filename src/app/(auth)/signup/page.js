@@ -4,7 +4,7 @@ import { Google } from "@mui/icons-material";
 import { Button, Grid, IconButton, Link, Paper, TextField, Typography, } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import Swal from "sweetalert2";
+import { toast } from 'react-toastify';
 
 const SignUpPage = () => {
 
@@ -17,7 +17,6 @@ const SignUpPage = () => {
         handleSubmit,
         reset,
     } = useForm()
-
     const onSubmit = (data) => {
         createUser(data.email, data.password)
             .then(result => {
@@ -26,12 +25,11 @@ const SignUpPage = () => {
 
                     reset()
                     console.log(result.user);
-
-                    Swal.fire(
-                        'Sign Up Successfully',
-                        'You clicked the button!',
-                        'success'
-                    )
+                    // toast
+                    toast.success('Sign Up Successfully', {
+                        position: 'top-center',
+                        autoClose: 1300,
+                    })
 
                     router.push('/signin')
                 }).catch((error) => {
@@ -48,11 +46,11 @@ const SignUpPage = () => {
         googleLogin()
             .then(result => {
                 console.log(result.user);
-                Swal.fire(
-                    'Sign Up Successfully',
-                    'You clicked the button!',
-                    'success'
-                )
+                 // toast
+                 toast.success('Sign Up Successfully', {
+                    position: 'top-center',
+                    autoClose: 1300,
+                })
                 router.push('/signin')
             })
             .catch(error => {

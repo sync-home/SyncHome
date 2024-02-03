@@ -1,10 +1,7 @@
 import CameraLayout from "@/components/AdminDashboard/CameraSetup/CameraLayout";
 import { FaRegCircleDot } from "react-icons/fa6";
 
-
 const Camera = () => {
-
-
 
 
     return (
@@ -53,7 +50,7 @@ const Camera = () => {
                         <CameraLayout path={'yWFv9eA72LA?si=ziT6o70HKOcouXBP'} name={'Floor 03 CCTV'}></CameraLayout>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     );

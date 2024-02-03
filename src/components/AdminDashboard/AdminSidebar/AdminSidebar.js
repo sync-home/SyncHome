@@ -4,20 +4,15 @@ import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import logo from '@/assets/logo.png';
 import './AdminSidebar.css';
 import Image from 'next/image';
-import { GrHomeRounded } from 'react-icons/gr';
-import { IoPeopleOutline, IoVideocamOutline } from "react-icons/io5";
 import { LuChevronsLeft, LuChevronsRight, LuLayoutGrid } from "react-icons/lu";
-import { CgProfile } from "react-icons/cg";
 import { useState } from 'react';
 import { Button } from '@mui/material';
-import { FaChartLine } from 'react-icons/fa6';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-const AdminSidebar = () => {
+const AdminSidebar = ({ adminSidebarData }) => {
 
-    //const { collapseSidebar } = useProSidebar();
     const [collapsed, setCollapsed] = useState(false);
-
     const [toggled, setToggled] = useState(false);
 
     const handleCollapsedChange = () => {
@@ -26,6 +21,8 @@ const AdminSidebar = () => {
     const handleToggleSidebar = (value) => {
         setToggled(!toggled);
     };
+
+
 
     return (
         <>
@@ -50,7 +47,7 @@ const AdminSidebar = () => {
                         }
                         {collapsed ? (
                             <Button
-                            className='py-4'
+                                className='py-4'
                                 onClick={handleCollapsedChange}
                             ><LuChevronsRight className='text-white text-2xl' /></Button>
                         ) : (
@@ -61,25 +58,20 @@ const AdminSidebar = () => {
                         )}
                     </div>
                     <hr />
-                    <MenuItem icon={<GrHomeRounded />} component={<Link href="/" />} className='hover:text-black'>
-                        Home
-                    </MenuItem>
-                    <MenuItem icon={<CgProfile />} component={<Link href="/admin-dashboard/profile" />} className='hover:text-black'>
-                       Profile
-                    </MenuItem>
-                    <MenuItem icon={<IoPeopleOutline />} component={<Link href="/admin-dashboard/all-users" />} className='hover:text-black'>
-                        All Users
-                    </MenuItem>
-                    <MenuItem icon={<FaChartLine />} component={<Link href="/admin-dashboard/energy" />} className='hover:text-black'>
-                        Energy
-                    </MenuItem>
-                    <MenuItem icon={<IoVideocamOutline />} component={<Link href="/admin-dashboard/camera" />} className='hover:text-black'>
-                        Camera
-                    </MenuItem>
+                    {
+                        adminSidebarData.map((item, idx) => (
+                            <MenuItem
+                                key={idx}
+                                icon={<FontAwesomeIcon icon={item.icon} />}
+                                component={<Link href={`${item.path}`} />}
+                                className='hover:text-black'>
+                                {item.name}
+                            </MenuItem>
+                        ))
+                    }
                 </Menu>
             </Sidebar>;
         </>
-        // #8338ec
     );
 };
 

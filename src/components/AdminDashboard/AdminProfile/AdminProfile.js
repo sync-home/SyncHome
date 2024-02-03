@@ -77,15 +77,15 @@ const AdminProfile = ({ adminData }) => {
                         <hr />
                         {
                             adminData.login_activity.map((data, idx) => (
-                                <>
-                                    <div key={idx} className='py-2 flex flex-wrap gap-5'>
+                                <div key={idx}>
+                                    <div className='py-2 flex flex-wrap gap-5'>
                                         <span>{idx + 1}.</span>
                                         <span>Logged in at </span>
                                         <span>Date : {data.date}</span>
                                         <span>Time : {data.time}</span>
                                     </div>
                                     <hr />
-                                </>
+                                </div>
                             ))
                         }
                     </div>

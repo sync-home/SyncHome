@@ -65,6 +65,14 @@ function Navbar() {
             pathname: '/emergencies'
         },
         {
+            route: 'Contact',
+            pathname: '/contact'
+        },
+        {
+            route: 'Admin',
+            pathname: '/admin-dashboard'
+        },
+        {
             route: !loading && user?.email ? 'Register' : '',
             pathname: !loading && user?.email ? '/signup' : ''
         }

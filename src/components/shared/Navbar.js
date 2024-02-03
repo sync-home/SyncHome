@@ -70,7 +70,7 @@ function Navbar() {
         },
         {
             route: 'Admin',
-            pathname: '/admin-dashboard'
+            pathname: '/admin-dashboard/profile'
         },
         {
             route: !loading && user?.email ? 'Register' : '',

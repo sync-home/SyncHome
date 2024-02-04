@@ -17,6 +17,8 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@mui/icons-material": "^5.15.4",
     "@mui/material": "^5.15.4",
+    "axios": "^1.6.7",
+    "chart.js": "2.9.4",
     "@react-google-maps/api": "^2.19.2",
     "firebase": "^10.7.2",
     "json-server": "^1.0.0-alpha.23",
@@ -26,9 +28,6 @@
     "react-youtube": "^10.1.0",
     "recharts": "^2.11.0",
     "sharp": "^0.33.2",
-    "sweetalert2": "^11.10.4",
-    "axios": "^1.6.7",
-    "chart.js": "2.9.3",
     "react-toastify": "^10.0.4",
     "swiper": "^11.0.5"
   },

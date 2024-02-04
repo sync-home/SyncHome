@@ -15,7 +15,12 @@ const CameraLayout = ({path, name}) => {
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 1,
+            mute: 1
         },
+    };
+
+    const handleVideoReady = (event) => {
+        event.target.playVideo();
     };
 
     // https://i.ibb.co/DMRFGbG/noVideo.jpg
@@ -35,7 +40,7 @@ const CameraLayout = ({path, name}) => {
         <div>
             <div>
                 {
-                    videoMan == 'ON' ? <YouTube videoId={path} opts={opts} /> : <Image src="https://i.ibb.co/DMRFGbG/noVideo.jpg" alt="no video" height={390} width={640} />
+                    videoMan == 'ON' ? <YouTube videoId={path} opts={opts} onReady={handleVideoReady} /> : <Image src="https://i.ibb.co/DMRFGbG/noVideo.jpg" alt="no video" height={390} width={640} />
                 }
             </div>
             <div className='bg-gray-300 p-5'>

@@ -8,7 +8,8 @@ const AdminLayout = ({ children }) => {
         {'name': 'Profile', 'path': '/admin-dashboard/profile', 'icon': faUser},
         {'name': 'All Users', 'path': '/admin-dashboard/all-users', 'icon': faUsers},
         {'name': 'Energy', 'path': '/admin-dashboard/energy', 'icon': faChartLine},
-        {'name': 'Camera', 'path': '/admin-dashboard/camera', 'icon': faVideo}
+        {'name': 'Camera', 'path': '/admin-dashboard/camera', 'icon': faVideo},
+        {'name': 'Apartments', 'path': '/admin-dashboard/apartments', 'icon': faHouse},
     ]
 
     return (

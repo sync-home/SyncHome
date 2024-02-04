@@ -34,6 +34,10 @@ const SignInPage = () => {
             })
             .catch(error => {
                 console.log(error);
+                toast.error('Please Provide an Current email/password', {
+                    position: 'top-center',
+                    autoClose: 1300,
+                })
             })
     }
 

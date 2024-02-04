@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -15,32 +15,18 @@ import logo from '/src/assets/logo.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import useAuthContext from '@/Hooks/useAuthContext';
-
-const pages = [
-    {
-        route: 'About Us',
-        pathname: '/about'
-    },
-    {
-        route: 'Features',
-        pathname: '/features'
-    }, 
-    {
-        route: 'Register',
-        pathname: '/signup'
-    },
-    {
-        route: 'RTM',
-        pathname: '/rtm'
-    },
-];
-// const settings = [ 'Profile', 'Account', 'Dashboard', 'Logout' ];
-
+import { Button } from '@mui/material';
+import { getRole } from '@/utils/getRole';
 
 function Navbar() {
     const [ anchorElNav, setAnchorElNav ] = React.useState(null);
     const [ anchorElUser, setAnchorElUser ] = React.useState(null);
     const { user, loading, logOut } = useAuthContext()
+    const [ role, setRole ] = React.useState(null)
+
+    getRole(user?.email).then(data => {
+        if (data?.role) setRole(data.role)
+    });
 
     /* Feature pages */
     const pages = [
@@ -53,28 +39,16 @@ function Navbar() {
             pathname: '/about'
         },
         {
+            route: 'Contact Us',
+            pathname: '/contact'
+        },
+        {
             route: 'Features',
             pathname: '/features'
         },
         {
-            route: 'Notification',
-            pathname: '/notification'
-        },
-        {
-            route: 'Emergencies',
-            pathname: '/emergencies'
-        },
-        {
-            route: 'Contact',
-            pathname: '/contact'
-        },
-        {
-            route: 'Admin',
-            pathname: '/admin-dashboard/profile'
-        },
-        {
-            route: !loading && user?.email ? 'Register' : '',
-            pathname: !loading && user?.email ? '/signup' : ''
+            route: !loading && user?.email ? 'Monitor' : '',
+            pathname: !loading && user?.email ? '/rtm' : ''
         }
     ];
 
@@ -132,9 +106,9 @@ function Navbar() {
                     {/* menu for small device */}
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
-                            size="large"
+                            size="small"
                             aria-label="account of current user"
-                            aria-controls="menu-syncHome"
+                            aria-controls="small-menu-syncHome"
                             aria-haspopup="true"
                             onClick={handleOpenNavMenu}
                             color="inherit"
@@ -142,7 +116,7 @@ function Navbar() {
                             <MenuIcon />
                         </IconButton>
                         <Menu
-                            id="menu-syncHome"
+                            id="small-menu-syncHome"
                             anchorEl={anchorElNav}
                             anchorOrigin={{
                                 vertical: 'bottom',
@@ -198,12 +172,12 @@ function Navbar() {
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} />
 
                     {/* menu For large devices */}
-                    <Box sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{ fontSize: '0.875rem', mr: 2, display: { xs: 'none', md: 'flex' }, wordSpacing: '-0.3em' }}>
                         {pages?.length && pages.map((page) => (
                             <Link
-                                className='text-black my-2 mx-1 block uppercase font-mono font-semibold'
+                                className='text-black my-2 mx-1.5 block uppercase font-mono font-semibold whitespace-nowrap hover:underline hover:underline-offset-4 hover:text-orange-700'
                                 href={page?.pathname}
-                                key={page?.pathname}
+                                key={page?.route}
                             >
                                 {page?.route}
                             </Link>
@@ -211,42 +185,50 @@ function Navbar() {
                     </Box>
 
                     {/* user image side */}
-                    {!loading ? user?.email ? <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt={user?.displayName || 'user photo'} src={user?.photoURL} />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            id="menu-syncHome"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            <MenuItem onClick={handleCloseUserMenu}>
-                                <Link href={'/dashboard'}>Dashboard</Link>
-                            </MenuItem>
-                            <MenuItem>
-                                <Link href={'/notification'}>Notifications</Link>
-                            </MenuItem>
-                            <MenuItem onClick={handleSignOut}>
-                                Logout
-                            </MenuItem>
-                        </Menu>
-                    </Box> :
-                        <Link href={'/signup'} variant="contained" className='uppercase font-mono font-semibold text-black' color="primary">
-                            Sign Up
-                        </Link> : ''}
+                    {!loading ? user?.email
+                        ? <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title={user?.displayName || 'user photo'}>
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar alt={user?.displayName || 'user photo'} src={user?.photoURL} />
+                                </IconButton>
+                            </Tooltip>
+
+                            {/* dropdown menu */}
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-syncHome"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem onClick={handleCloseUserMenu}>
+                                    <Link href={`/dashboard/${role === 'admin' ? 'admin' : role === 'employee' ? role == 'resident' : 'guest'}`}>Dashboard</Link>
+                                </MenuItem>
+                                <MenuItem>
+                                    <Link href={'/notification'}>Notifications</Link>
+                                </MenuItem>
+                                <MenuItem onClick={handleSignOut}>
+                                    Logout
+                                </MenuItem>
+                            </Menu>
+                        </Box> :
+                        <Box sx={{ display: 'flex', gap: 1 }}>
+                            <Button variant="outlined" href={'/signin'} className='uppercase font-mono font-semibold text-black whitespace-nowrap' >
+                                Sign In
+                            </Button>
+                            <Button variant="outlined" href={'/signup'} className='uppercase font-mono font-semibold text-black whitespace-nowrap' >
+                                Sign Up
+                            </Button>
+                        </Box> : ''}
                 </Toolbar>
             </Container>
         </AppBar>

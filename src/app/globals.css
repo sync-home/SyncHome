@@ -5,10 +5,6 @@
 @tailwind utilities;
 
 
-
-
-
-
 .btn {
   @apply px-5 py-2 rounded-md;
 }

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "json-server": "json-server --watch fakeDB.json --port 5000",
+    "json-server": "json-server --watch fakeDB.json --port 6000",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

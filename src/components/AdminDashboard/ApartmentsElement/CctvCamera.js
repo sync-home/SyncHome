@@ -13,10 +13,10 @@ const CctvCamera = () => {
     const videoId = 'JUfIpZCYquY?si=TgMBRi-lZuwTQAED&amp;controls=0&amp;start=2';
 
     const opts = {
-        height: '390',
-        width: '640',
+        height: '360px',
+        width: '100%',
         playerVars: {
-            autoplay: 1,
+            autoplay: 0,
             mute: 1,  // Auto-play the video
         }
     }
@@ -38,25 +38,25 @@ const CctvCamera = () => {
                 <SwiperSlide>
                     <div className='relative'>
                         <YouTube videoId={videoId} opts={opts} onReady={handleVideoReady} />
-                        <h4 className='flex absolute top-5 left-5 items-center gap-2 bg-white text-black rounded-full px-3'><FaDotCircle/> Live</h4>
-                        <p className='px-3 bg-gray-300 absolute top-5 right-5 text-black'>{dateTime.toLocaleString()}</p>
-                        <p className='absolute bottom-5 left-1/3 bg-gray-300 px-5 py-1 rounded-full'>Master Bedroom CCTV3</p>
+                        <h4 className='flex absolute top-5 text-sm left-5 items-center gap-2 bg-white text-black rounded-full px-3'><FaDotCircle/> Live</h4>
+                        <p className='px-3 bg-gray-300 text-sm rounded-full absolute top-5 right-5 text-black'>{dateTime.toLocaleString()}</p>
+                        <p className='absolute bottom-5 left-1/4 text-sm bg-gray-300 px-5 py-1 rounded-full'>Master Bedroom CCTV3</p>
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
                     <div className='relative'>
-                        <YouTube videoId={videoId} opts={opts} onReady={handleVideoReady} />
-                        <h4 className='flex absolute top-5 left-5 items-center gap-2 bg-white text-black rounded-full px-3'><FaDotCircle/> Live</h4>
-                        <p className='px-3 bg-gray-300 absolute top-5 right-5 text-black'>{dateTime.toLocaleString()}</p>
-                        <p className='absolute bottom-5 left-1/3 bg-gray-300 px-5 py-1 rounded-full'>Master Bedroom CCTV3</p>
+                        {/* <YouTube videoId={videoId} opts={opts} onReady={handleVideoReady} /> */}
+                        <h4 className='flex absolute top-5 text-sm left-5 items-center gap-2 bg-white text-black rounded-full px-3'><FaDotCircle/> Live</h4>
+                        <p className='px-3 bg-gray-300 text-sm rounded-full absolute top-5 right-5 text-black'>{dateTime.toLocaleString()}</p>
+                        <p className='absolute bottom-5 left-1/4 text-sm bg-gray-300 px-5 py-1 rounded-full'>Master Bedroom CCTV3</p>
                     </div>
                 </SwiperSlide>
                 <SwiperSlide>
                     <div className='relative'>
-                        <YouTube videoId={videoId} opts={opts} onReady={handleVideoReady} />
-                        <h4 className='flex absolute top-5 left-5 items-center gap-2 bg-white text-black rounded-full px-3'><FaDotCircle/> Live</h4>
-                        <p className='px-3 bg-gray-300 absolute top-5 right-5 text-black'>{dateTime.toLocaleString()}</p>
-                        <p className='absolute bottom-5 left-1/3 bg-gray-300 px-5 py-1 rounded-full'>Master Bedroom CCTV3</p>
+                        {/* <YouTube videoId={videoId} opts={opts} onReady={handleVideoReady} /> */}
+                        <h4 className='flex absolute top-5 text-sm left-5 items-center gap-2 bg-white text-black rounded-full px-3'><FaDotCircle/> Live</h4>
+                        <p className='px-3 bg-gray-300 text-sm rounded-full absolute top-5 right-5 text-black'>{dateTime.toLocaleString()}</p>
+                        <p className='absolute bottom-5 left-1/4 text-sm bg-gray-300 px-5 py-1 rounded-full'>Master Bedroom CCTV3</p>
                     </div>
                 </SwiperSlide>
             </Swiper>

@@ -1,7 +1,7 @@
-import '@/app/globals.css'
 import Navbar from '@/components/shared/Navbar'
 import Footer from '@/components/shared/Footer'
 import AuthProvider from '@/provider/AuthProvider'
+
 
 export const metadata = {
   applicationName: 'SyncHome',

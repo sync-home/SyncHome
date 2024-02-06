@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Admin = () => {
+const Overview = () => {
     return (
         <div>
-            this is admin Dashboard
+            
         </div>
     );
 };
 
-export default Admin;
+export default Overview;

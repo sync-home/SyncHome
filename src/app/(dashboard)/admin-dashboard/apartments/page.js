@@ -1,8 +1,8 @@
-import AcMode from '@/components/AdminDashboard/ApartmentsElement/AcMode';
-import ApartEnergyGraph from '@/components/AdminDashboard/ApartmentsElement/ApartEnergyGraph';
-import ApartSwitch from '@/components/AdminDashboard/ApartmentsElement/ApartSwitch';
-import CctvCamera from '@/components/AdminDashboard/ApartmentsElement/CctvCamera';
-import TempControl from '@/components/AdminDashboard/ApartmentsElement/TempControl';
+import AcMode from '@/components/Dashboard/ApartmentsElement/AcMode';
+import ApartEnergyGraph from '@/components/Dashboard/ApartmentsElement/ApartEnergyGraph';
+import ApartSwitch from '@/components/Dashboard/ApartmentsElement/ApartSwitch';
+import CctvCamera from '@/components/Dashboard/ApartmentsElement/CctvCamera';
+import TempControl from '@/components/Dashboard/ApartmentsElement/TempControl';
 import Image from 'next/image';
 import React from 'react';
 import { FaChild, FaFemale, FaMale } from 'react-icons/fa';
@@ -78,7 +78,7 @@ const Apartments = () => {
                         <div className='lg:col-span-2'>
                             <h4 className='font-bold text-[#363636] mb-5'>CCTV Camera</h4>
                             <div>
-                                <CctvCamera></CctvCamera>
+                                <CctvCamera />
                             </div>
                         </div>
                         <div>

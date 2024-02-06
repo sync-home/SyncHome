@@ -1,5 +1,4 @@
-import AdminProfile from "@/components/AdminDashboard/AdminProfile/AdminProfile";
-
+import DashboardProfile from "@/components/Dashboard/DashboardProfile/DashboardProfile";
 
 const Profile = () => {
 
@@ -23,7 +22,7 @@ const Profile = () => {
 
     return (
         <div>
-            <AdminProfile adminData={users}></AdminProfile>
+            <DashboardProfile adminData={users} />
         </div>
     );
 };

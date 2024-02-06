@@ -13,7 +13,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { useForm } from "react-hook-form"
 
-const AdminProfile = ({ adminData }) => {
+const DashboardProfile = ({ adminData }) => {
 
     const { register, handleSubmit, reset } = useForm();
     const [open, setOpen] = React.useState(false);
@@ -45,17 +45,17 @@ const AdminProfile = ({ adminData }) => {
                     <div className='flex-1 w-full'>
                         <div className='flex justify-between flex-wrap gap-5 mb-2 md:mb-0'>
                             <div>
-                                <h4 className='font-semibold'>{adminData.name}</h4>
-                                <p className='font-semibold my-3'>{adminData.address}</p>
+                                <h4 className='font-semibold'>{adminData?.name ? adminData?.name : 'N/A'}</h4>
+                                <p className='font-semibold my-3'>{adminData?.address ? adminData?.address : 'N/A'}</p>
                             </div>
                             <div>
                                 <Button onClick={handleClickOpen} size="small" variant="outlined"><FaRegPenToSquare className='mr-2' />Edit Profile</Button>
                             </div>
                         </div>
                         <div className='flex flex-wrap gap-3 font-semibold'>
-                            <p>Age : {adminData.age}</p>|
-                            <p>Gender : {adminData.gender}</p>|
-                            <p>Status : <span className='text-green-500'>{adminData.status}</span></p>
+                            <p>Age : {adminData?.age ? adminData?.age : 'N/A'}</p>|
+                            <p>Gender : {adminData?.gender ? adminData?.gender : 'N/A'}</p>|
+                            <p>Status : <span className='text-green-500'>{adminData?.status}</span></p>
                         </div>
                         <div className='flex mt-10 lg:gap-20 gap-0'>
                             <div className='space-y-5'>
@@ -65,10 +65,10 @@ const AdminProfile = ({ adminData }) => {
                                 <h3 className='flex gap-2 items-center font-bold text-[#363636]'><FaLocationDot /> Region</h3>
                             </div>
                             <div className='space-y-5'>
-                                <p>: {adminData.role}</p>
-                                <p>: {adminData.email}</p>
-                                <p>: {adminData.phone}</p>
-                                <p>: {adminData.region}</p>
+                                <p>: {adminData?.role ? adminData?.role : 'N/A'}</p>
+                                <p>: {adminData?.email ? adminData?.email : 'N/A'}</p>
+                                <p>: {adminData?.phone ? adminData?.phone : 'N/A'}</p>
+                                <p>: {adminData?.region ? adminData?.region : 'N/A'}</p>
                             </div>
                         </div>
                     </div>
@@ -125,6 +125,7 @@ const AdminProfile = ({ adminData }) => {
                                             <option value="admin">admin</option>
                                             <option value="employee">employee</option>
                                             <option value="resident">resident</option>
+                                            <option value="guest">guest</option>
                                         </select>
                                     </div>
                                 </div>
@@ -165,4 +166,4 @@ const AdminProfile = ({ adminData }) => {
     );
 };
 
-export default AdminProfile;
+export default DashboardProfile;

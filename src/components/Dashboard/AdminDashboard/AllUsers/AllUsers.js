@@ -20,7 +20,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Image from 'next/image';
 import { Button, ButtonBase } from '@mui/material';
-import { GrUserAdmin, GrUserWorker, GrUser } from "react-icons/gr";
+import { GrUserAdmin, GrUserWorker, GrUser, GrUserManager } from "react-icons/gr";
 import { useForm } from "react-hook-form"
 
 
@@ -119,13 +119,16 @@ const AllUsers = ({ usersData }) => {
                     {
                       user?.role == "admin"
                         ?
-                        <div className='flex flex-col items-center text-green-500'><GrUserAdmin className='text-2xl'></GrUserAdmin><p className='font-semibold'>{user.role}</p></div>
+                        <div className='flex flex-col items-center text-green-500'><GrUserAdmin className='text-2xl' /><p className='font-semibold'>{user.role}</p></div>
                         : user?.role == "employee"
                           ?
-                          <div className='flex flex-col items-center text-blue-500'><GrUserWorker className='text-2xl'></GrUserWorker><p className='font-semibold'>{user.role}</p></div>
+                          <div className='flex flex-col items-center text-blue-500'><GrUserWorker className='text-2xl' /><p className='font-semibold'>{user.role}</p></div>
                           : user?.role == "resident"
                             ?
-                            <div className='flex flex-col items-center text-lime-900'><GrUser className='text-2xl'></GrUser><p className='font-semibold'>{user.role}</p></div> : ''
+                            <div className='flex flex-col items-center text-lime-900'><GrUser className='text-2xl' /><p className='font-semibold'>{user.role}</p></div> 
+                            : user?.role == "guest" 
+                            ?
+                            <div className='flex flex-col items-center text-orange-500'><GrUserManager  className='text-2xl' /><p className='font-semibold'>{user.role}</p></div> : ''
                     }
                   </div>
                 </StyledTableCell>
@@ -169,6 +172,7 @@ const AllUsers = ({ usersData }) => {
                     <option value="admin">admin</option>
                     <option value="employee">employee</option>
                     <option value="resident">resident</option>
+                    <option value="guest">guest</option>
                   </select>
                 </div>
                 <input className='w-full cursor-pointer bg-[#96E9C6] py-1 hover:bg-[#8338ec] border-2 border-[#96E9C6] hover:text-[#96E9C6] transition-all ease-in-out rounded-md mt-5 text-black text-center' type="submit" value="Update" />

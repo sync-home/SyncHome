@@ -16,6 +16,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@mui/icons-material": "^5.15.4",
+    "@mui/joy": "^5.0.0-beta.25",
     "@mui/material": "^5.15.4",
     "@react-google-maps/api": "^2.19.2",
     "axios": "^1.6.7",

@@ -1,4 +1,4 @@
-import AllUsers from '@/components/AdminDashboard/AllUsers/AllUsers';
+import AllUsers from '@/components/Dashboard/AdminDashboard/AllUsers/AllUsers';
 import React from 'react';
 
 const Allusers = async() => {
@@ -56,7 +56,7 @@ const Allusers = async() => {
             "id": 7,
             "photo": "https://i.ibb.co/GMyxHDY/demo.jpg",
             "name": "Sarah Wilson",
-            "role": "admin",
+            "role": "guest",
             "email": "sarah@example.com",
             "phone": "+1777888999"
         },
@@ -88,7 +88,7 @@ const Allusers = async() => {
 
     return (
         <div>
-            <AllUsers usersData={usersData}></AllUsers>
+            <AllUsers usersData={usersData} />
         </div>
     );
 };

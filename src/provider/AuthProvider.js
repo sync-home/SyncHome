@@ -1,5 +1,6 @@
 'use client'
 import auth from "@/config/firebase.config";
+import { getRole } from "@/utils/getRole";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateEmail, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 
@@ -78,6 +79,7 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
             console.log('on state change', currentUser)
+
             setUser(currentUser)
             setLoading(false)
         })
@@ -85,6 +87,7 @@ const AuthProvider = ({ children }) => {
             return unSubscribe();
         }
     }, [])
+
 
     const authInfo = {
         user,

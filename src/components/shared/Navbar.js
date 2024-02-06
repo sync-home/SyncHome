@@ -43,6 +43,10 @@ function Navbar() {
             pathname: '/contact'
         },
         {
+            route: 'Parking',
+            pathname: '/parking'
+        },
+        {
             route: 'Features',
             pathname: '/features'
         },

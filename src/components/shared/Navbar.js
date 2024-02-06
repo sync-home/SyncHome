@@ -17,12 +17,18 @@ import Link from 'next/link';
 import useAuthContext from '@/Hooks/useAuthContext';
 import { Button } from '@mui/material';
 import { getRole } from '@/utils/getRole';
+import { usePathname } from 'next/navigation';
+
+
 
 function Navbar() {
+
+    const location = usePathname();
     const [ anchorElNav, setAnchorElNav ] = React.useState(null);
     const [ anchorElUser, setAnchorElUser ] = React.useState(null);
     const { user, loading, logOut } = useAuthContext()
     const [ role, setRole ] = React.useState(null)
+    const [ activeLink, setActiveLink ] = React.useState(location ? location : '/');
 
     getRole(user?.email).then(data => {
         if (data?.role) setRole(data.role)
@@ -64,7 +70,8 @@ function Navbar() {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
+    const handleCloseNavMenu = (event) => {
+        console.log(event.currentTarget);
         setAnchorElNav(null);
     };
 
@@ -80,6 +87,12 @@ function Navbar() {
             console.log(error);
         });
     };
+
+    const handleActiveLink = (route) => {
+        route && setActiveLink(route)
+
+        anchorElNav && setAnchorElNav(null);
+    }
 
     return (
         <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black' }}>
@@ -138,9 +151,9 @@ function Navbar() {
                             }}
                         >
                             {pages?.length && pages.map((page) => (
-                                <MenuItem key={page?.pathname} onClick={handleCloseNavMenu}>
+                                <MenuItem key={page?.pathname} onClick={() => handleActiveLink(page?.pathname)}>
                                     <Link
-                                        className='text-black uppercase font-mono font-semibold text-center'
+                                        className={`btn ${page?.pathname === activeLink ? 'active' : ''}`}
                                         href={page?.pathname}>
                                         {page?.route}
                                     </Link>
@@ -178,13 +191,15 @@ function Navbar() {
                     {/* menu For large devices */}
                     <Box sx={{ fontSize: '0.875rem', mr: 2, display: { xs: 'none', md: 'flex' }, wordSpacing: '-0.3em' }}>
                         {pages?.length && pages.map((page) => (
-                            <Link
-                                className='text-black my-2 mx-1.5 block uppercase font-mono font-semibold whitespace-nowrap hover:underline hover:underline-offset-4 hover:text-orange-700'
-                                href={page?.pathname}
-                                key={page?.route}
-                            >
-                                {page?.route}
-                            </Link>
+                            <Box key={page?.route} onClick={() => handleActiveLink(page?.pathname)}>
+                                <Link
+                                    className={`btn ${page?.pathname === activeLink ? 'active' : ''}`}
+                                    href={page?.pathname}
+
+                                >
+                                    {page?.route}
+                                </Link>
+                            </Box>
                         ))}
                     </Box>
 

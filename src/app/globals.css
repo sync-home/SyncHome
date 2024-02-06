@@ -4,12 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .btn {
-  @apply px-5 py-2 rounded-md;
+  @apply text-black my-2 mx-1.5 block uppercase font-mono font-semibold whitespace-nowrap;
 }
-.btn:hover {
-  @apply opacity-70;
+
+.btn:hover, .active {
+  @apply underline underline-offset-4 text-orange-700;
 }
 
 * {

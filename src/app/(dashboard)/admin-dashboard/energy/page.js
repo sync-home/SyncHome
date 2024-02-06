@@ -1,6 +1,7 @@
-import EnergyGraph from "@/components/AdminDashboard/EnergyAnalytics/EnergyGraph";
+
 import { IoAlertCircleOutline } from "react-icons/io5";
 import { FaExclamationTriangle, FaDollarSign, FaWrench } from "react-icons/fa";
+import EnergyGraph from "@/components/Dashboard/AdminDashboard/EnergyAnalytics/EnergyGraph";
 
 const Energy = () => {
     const energy_alerts = [
@@ -123,7 +124,7 @@ const Energy = () => {
                         </span>
                     </div>
                     <div className="py-5">
-                        <EnergyGraph></EnergyGraph>
+                        <EnergyGraph />
                     </div>
                 </div>
                 <div className="lg:col-span-2" style={{ border: '1px solid #ccc', borderRadius: '10px' }}>

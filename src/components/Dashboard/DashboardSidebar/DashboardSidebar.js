@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import logo from '@/assets/logo.png';
-import './AdminSidebar.css';
 import Image from 'next/image';
 import { LuChevronsLeft, LuChevronsRight, LuLayoutGrid } from "react-icons/lu";
 import { useState } from 'react';
@@ -10,7 +9,7 @@ import { Button } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-const AdminSidebar = ({ adminSidebarData }) => {
+const DashboardSidebar = ({ adminSidebarData }) => {
 
     const [collapsed, setCollapsed] = useState(false);
     const [toggled, setToggled] = useState(false);
@@ -75,4 +74,4 @@ const AdminSidebar = ({ adminSidebarData }) => {
     );
 };
 
-export default AdminSidebar;
+export default DashboardSidebar;

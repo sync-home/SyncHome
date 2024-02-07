@@ -14,7 +14,7 @@ const headings = [
 const Banner = () => {
     return (
         <Box className="relative md:overflow-hidden md:h-[300px] max-sm:h-[70vh]">
-            <Image src={bannerBg} width="100%" height="100%" className="w-full h-full" alt='parking security' />
+            <Image quality={75} placeholder="blur" priority={true} src={bannerBg} width="100%" height="100%" className="w-full h-full" alt='parking security' />
 
             <div className="w-full h-full bg-black absolute top-0 left-0 opacity-70"></div>
 

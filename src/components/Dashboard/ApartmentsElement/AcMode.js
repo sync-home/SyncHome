@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { FaFan, FaSun, FaWind } from 'react-icons/fa';
 
-const AcMode = () => {
-    const [mode, setMode] = useState('mode1');
+const AcMode = ({val}) => {
+    const [mode, setMode] = useState(val);
 
     const handleModeChange = (event, newMode) => {
         if (newMode !== null) {
@@ -21,15 +21,15 @@ const AcMode = () => {
             aria-label="text alignment"
         >
             <ToggleButton
-                value="mode1"
-                aria-label="mode1"
+                value="auto"
+                aria-label="auto"
                 sx={{
                     borderRadius: '20px',
                     marginRight: '8px',
                     color: '#363636',
-                    backgroundColor: mode === 'mode1' ? '#3f51b5' : '#cccccc',
+                    backgroundColor: mode === 'auto' ? '#3f51b5' : '#cccccc',
                     '&:hover': {
-                        backgroundColor: mode === 'mode1' ? '#303f9f' : '#aaaaaa',
+                        backgroundColor: mode === 'auto' ? '#303f9f' : '#aaaaaa',
                     },
                     '&.Mui-selected': {
                         backgroundColor: '#8338ec',
@@ -41,15 +41,15 @@ const AcMode = () => {
                 Auto
             </ToggleButton>
             <ToggleButton
-                value="mode2"
-                aria-label="mode2"
+                value="wind"
+                aria-label="wind"
                 sx={{
                     borderRadius: '20px',
                     marginRight: '8px',
                     color: '#363636',
-                    backgroundColor: mode === 'mode2' ? '#3f51b5' : '#cccccc',
+                    backgroundColor: mode === 'wind' ? '#3f51b5' : '#cccccc',
                     '&:hover': {
-                        backgroundColor: mode === 'mode2' ? '#303f9f' : '#aaaaaa',
+                        backgroundColor: mode === 'wind' ? '#303f9f' : '#aaaaaa',
                     },
                     '&.Mui-selected': {
                         backgroundColor: '#8338ec',
@@ -61,14 +61,14 @@ const AcMode = () => {
                 Wind
             </ToggleButton>
             <ToggleButton
-                value="mode3"
-                aria-label="mode3"
+                value="swing"
+                aria-label="swing"
                 sx={{
                     borderRadius: '20px',
                     color: '#363636',
-                    backgroundColor: mode === 'mode3' ? '#3f51b5' : '#cccccc',
+                    backgroundColor: mode === 'swing' ? '#3f51b5' : '#cccccc',
                     '&:hover': {
-                        backgroundColor: mode === 'mode3' ? '#303f9f' : '#aaaaaa',
+                        backgroundColor: mode === 'swing' ? '#303f9f' : '#aaaaaa',
                     },
                     '&.Mui-selected': {
                         backgroundColor: '#8338ec',

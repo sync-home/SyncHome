@@ -1,16 +1,32 @@
+"use client";
+
+import useAuthContext from '@/Hooks/useAuthContext';
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar/DashboardSidebar';
+import TanstackProvider from '@/provider/TanstackProvider';
 import { faHouse, faUser, faUsers, faChartLine, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
+import { getRole } from '@/utils/getRole';
+
 
 const DashboardLayout = ({ children }) => {
 
+    const [ role, setRole ] = useState(null)
+    const {user} = useAuthContext();
+
     const adminSidebarData = [
-        {'name': 'Profile', 'path': '/admin-dashboard/profile', 'icon': faUser},
-        {'name': 'All Users', 'path': '/admin-dashboard/all-users', 'icon': faUsers},
-        {'name': 'Energy', 'path': '/admin-dashboard/energy', 'icon': faChartLine},
-        {'name': 'Camera', 'path': '/admin-dashboard/camera', 'icon': faVideo},
-        {'name': 'Apartments', 'path': '/admin-dashboard/apartments', 'icon': faHouse},
-        {'name': 'Back to Home', 'path': '/', 'icon': faHouse},
+        { 'name': 'Profile', 'path': '/admin-dashboard/profile', 'icon': faUser },
+        { 'name': 'All Users', 'path': '/admin-dashboard/all-users', 'icon': faUsers },
+        { 'name': 'Energy', 'path': '/admin-dashboard/energy', 'icon': faChartLine },
+        { 'name': 'Camera', 'path': '/admin-dashboard/camera', 'icon': faVideo },
+        { 'name': 'Apartments', 'path': '/admin-dashboard/apartments', 'icon': faHouse },
+        { 'name': 'Back to Home', 'path': '/', 'icon': faHouse },
     ];
+
+    getRole(user?.email).then(data => {
+        if (data?.role) setRole(data.role)
+    });
+
+    
 
     return (
         <>
@@ -23,7 +39,9 @@ const DashboardLayout = ({ children }) => {
                         <h3 className="text-white font-bold text-center text-2xl">Admin Dashboard</h3>
                     </div>
                     <div className="lg:m-10 m-5">
-                        {children}
+                        <TanstackProvider>
+                            {children}
+                        </TanstackProvider>
                     </div>
                 </div>
             </div>

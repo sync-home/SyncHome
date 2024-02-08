@@ -14,6 +14,7 @@ const DashboardLayout = ({ children }) => {
         {'name': 'Maintenance Requests', 'path': '/resident-dashboard/maintenance-requests', 'icon': faTools},
         {'name': 'Community Events', 'path': '/resident-dashboard/community-events', 'icon': faCalendarAlt},
         {'name': 'Back to Home', 'path': '/', 'icon': faHouse},
+        {'name': 'Control Room', 'path': '/employee-dashboard/services', 'icon': faHouse},
     ];
 
     return (

@@ -1,7 +1,7 @@
 "use client"
 import useAuthContext from "@/Hooks/useAuthContext";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
-import { Google } from "@mui/icons-material";
+import { FcGoogle } from "react-icons/fc";
 import { Button, Grid, IconButton, Link, Paper, TextField, Typography, } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -119,8 +119,8 @@ const SignUpPage = () => {
                             </Typography>
                         </Grid>
                         <Grid onClick={handleGoogle} className='flex justify-center items-center space-x-2 border m-3 p-1 border-gray-300 border-rounded cursor-pointer'>
-                            <IconButton className="text-[#FF3811]">
-                                <Google></Google>
+                            <IconButton>
+                                <FcGoogle></FcGoogle>
                             </IconButton>
                             <Typography>Continue with Google</Typography>
                         </Grid>

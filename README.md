@@ -1,12 +1,26 @@
-# [SyncHome: Smart Residential Building Management System](https://synchome.vercel.app)
+# [SyncHome](https://synchome.vercel.app)
 
-### [SyncHome Server](https://github.com/sync-home/SyncHome-server)
+#### [SyncHome Server](https://github.com/sync-home/SyncHome-server)
+
+## Smart Residential Building Management System
 
 SyncHome is a Smart Residential Building Management System designed for efficient building management and enhanced living experiences.
 
 ## Key Features
 
-## Packages Used
+- Device control dashboard - Centralized dashboard to control and monitor all connected smart devices.
+
+- Real-time Monitoring - Live status updates for devices, showing whether they are on/off, their current settings, and any alerts.
+- Smart Washing Machine - Secure access to the smart home system from anywhere in the world using a web browser.
+- Camera Integration - Connect and manage smart cameras for surveillance and remote monitoring.
+- Customizable User Profiles - Allow users to create personalized profiles with specific device access and preferences.
+- Notification Center - System-generated alerts and notifications for events.
+- Device Compatibility - Support for a wide range of smart devices and protocols, ensuring compatibility with various brands.
+- Emergency Protocols - Pre-set emergency protocols for scenarios like fire or security breaches, triggering specific actions and alerts.
+- Monthly Expenditure [Cart] - Create a [downloadable] voucher/invoice of a user for the month [washing, wifi, water, electricity, rent car/bike/cycle etc]
+- Parking - Car / Bike / Cycle parking place booking facility.
+
+## Used Technologies
 
 - `Next-JS`: here we used next-js@14.1.0. Which is the famous full-stack framework for react-js.
 - `react-hook-form`: to handle forms efficiently, we used react-hook-form@7.49.3.
@@ -32,12 +46,12 @@ cd SyncHome
 npm i
 ```
 
-## Environment Variables
+### Set environment variables
 
 The environment variable files should be named as `.env.local` only.
 Here the env variables are as below (put them with your own corresponding values in .env.local file):
 
-### Firebase env variables
+#### Firebase env variables
 
 - `NEXT_PUBLIC_FIREBASE_APIKEY`
 - `NEXT_PUBLIC_FIREBASE_AUTHDOMAIN`
@@ -46,7 +60,7 @@ Here the env variables are as below (put them with your own corresponding values
 - `NEXT_PUBLIC_FIREBASE_MESSAGINGSENDERID`
 - `NEXT_PUBLIC_FIREBASE_APPID`
 
-## Usage
+### Use locally in development mode
 
 After setting all, to start the development server:
 
@@ -70,6 +84,21 @@ This will generate optimized production-ready files.
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
 
+- After updating in the project run the commands
+```bash
+git add .; git commit -m "[Your scope of working](specific doc or feature name): Your contribution in this scope"
+```
+After committing get latest changed from the repository
+```bash
+git pull origin development
+```
+If you found any conflict in your codes then correct the codes. After solving all confections run the command
+
+```bash
+git push
+```
+
+> `Be sure to work on the latest codes from repositories.`
 ## Project Structure
 
 - `src/`: Contains the whole project.
@@ -131,4 +160,3 @@ Contributions are welcome! Feel free to open issues or submit pull requests.
 
 - `[feat](notification): add Eid notification`
 - `[fix](payment): refactor Bkash payment page`
-

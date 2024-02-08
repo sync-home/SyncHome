@@ -19,8 +19,6 @@ import { Button } from '@mui/material';
 import { getRole } from '@/utils/getRole';
 import { usePathname } from 'next/navigation';
 
-
-
 function Navbar() {
 
     const location = usePathname();

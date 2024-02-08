@@ -2,6 +2,7 @@
 import { Box, Button } from '@mui/material';
 import Image from 'next/image';
 import { FaLocationDot, FaPhone, FaRegCircleUser, FaRegEnvelope, FaRegPenToSquare } from "react-icons/fa6";
+
 // Modal import
 import * as React from 'react';
 import Dialog from '@mui/material/Dialog';

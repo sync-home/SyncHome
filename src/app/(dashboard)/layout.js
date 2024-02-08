@@ -1,5 +1,5 @@
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar/DashboardSidebar';
-import { faHouse, faUser, faUsers, faChartLine, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faUser, faUsers, faChartLine, faVideo, faTools, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
 const DashboardLayout = ({ children }) => {
 
@@ -9,6 +9,10 @@ const DashboardLayout = ({ children }) => {
         {'name': 'Energy', 'path': '/admin-dashboard/energy', 'icon': faChartLine},
         {'name': 'Camera', 'path': '/admin-dashboard/camera', 'icon': faVideo},
         {'name': 'Apartments', 'path': '/admin-dashboard/apartments', 'icon': faHouse},
+        {'name': 'Resident Profile', 'path': '/resident-dashboard/profile', 'icon': faUser},
+        {'name': 'Energy Usage', 'path': '/resident-dashboard/energy-usage', 'icon': faChartLine},
+        {'name': 'Maintenance Requests', 'path': '/resident-dashboard/maintenance-requests', 'icon': faTools},
+        {'name': 'Community Events', 'path': '/resident-dashboard/community-events', 'icon': faCalendarAlt},
         {'name': 'Back to Home', 'path': '/', 'icon': faHouse},
         {'name': 'Control Room', 'path': '/employee-dashboard/services', 'icon': faHouse},
     ];

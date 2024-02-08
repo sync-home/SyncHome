@@ -10,6 +10,7 @@ const DashboardLayout = ({ children }) => {
         {'name': 'Camera', 'path': '/admin-dashboard/camera', 'icon': faVideo},
         {'name': 'Apartments', 'path': '/admin-dashboard/apartments', 'icon': faHouse},
         {'name': 'Back to Home', 'path': '/', 'icon': faHouse},
+        {'name': 'Control Room', 'path': '/employee-dashboard/services', 'icon': faHouse},
     ];
 
     return (

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
 
 import { useForm } from "react-hook-form";
+import { FcGoogle } from "react-icons/fc";
 
 const SignInPage = () => {
 
@@ -34,6 +35,10 @@ const SignInPage = () => {
             })
             .catch(error => {
                 console.log(error);
+                toast.error('Please Provide an Current email/password', {
+                    position: 'top-center',
+                    autoClose: 1300,
+                })
             })
     }
 
@@ -53,6 +58,10 @@ const SignInPage = () => {
             })
             .catch(error => {
                 console.log(error);
+                toast.error('Please Provide an Current email/password', {
+                    position: 'top-center',
+                    autoClose: 1300,
+                })
             })
     }
 
@@ -92,8 +101,8 @@ const SignInPage = () => {
                             </Typography>
                         </Grid>
                         <Grid onClick={handleGoogle} className='flex justify-center items-center space-x-2 border m-3 p-1 border-gray-300 border-rounded cursor-pointer'>
-                            <IconButton className="text-[#FF3811]">
-                                <Google></Google>
+                            <IconButton>
+                                <FcGoogle></FcGoogle>
                             </IconButton>
                             <Typography>Continue with Google</Typography>
 

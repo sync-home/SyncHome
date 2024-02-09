@@ -230,7 +230,7 @@ function Navbar() {
                                 onClose={handleCloseUserMenu}
                             >
                                 <MenuItem onClick={handleCloseUserMenu}>
-                                    <Link href={`${role === 'admin' ? '/admin-dashboard/profile' : role === 'employee' ? '/employee-dashboard/profile' : role == 'resident' ? '/resident-dashboard/profile' : '/guest-dashboard/profile'}`}>Dashboard</Link>
+                                    <Link href={`${role === 'admin' ? role : role === 'employee' ? role : role == 'resident' ? role : '/guest'}-dashboard/profile`}>Dashboard</Link>
                                 </MenuItem>
                                 <MenuItem>
                                     <Link href={'/notification'}>Notifications</Link>

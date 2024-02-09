@@ -1,15 +1,15 @@
 // "use client"
 
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
+// import PropTypes from 'prop-types';
+// import Tabs from '@mui/material/Tabs';
+// import Tab from '@mui/material/Tab';
+// import Typography from '@mui/material/Typography';
+// import EnergyUsesAnalytic from '@/components/RTM/EnergyUsesAnalytic';
+// import SecurityMobitoring from '@/components/RTM/SecurityMobitoring';
+// import VisitorManagement from '@/components/RTM/VisitorManagement';
 import Box from '@mui/material/Box';
-import EnergyUsesAnalytic from '@/components/RTM/EnergyUsesAnalytic';
-import SecurityMobitoring from '@/components/RTM/SecurityMobitoring';
 import ParkingSpaceAvailability from '@/components/RTM/ParkingSpaceAvailability';
-import VisitorManagement from '@/components/RTM/VisitorManagement';
 
 
 
@@ -18,11 +18,11 @@ import VisitorManagement from '@/components/RTM/VisitorManagement';
 const RTM = () => {
     // const data= await fetch("http://localhost:5000/parking")
     // return data.json()
-   
+
     // function TabPanel(props) {
 
     //     const { children, value, index, ...other } = props;
-    
+
     //     return (
     //         <div
     //             role="tabpanel"
@@ -39,13 +39,13 @@ const RTM = () => {
     //         </div>
     //     );
     // }
-    
+
     // TabPanel.propTypes = {
     //     children: PropTypes.node,
     //     index: PropTypes.number.isRequired,
     //     value: PropTypes.number.isRequired,
     // };
-    
+
     // function a11yProps(index) {
     //     return {
     //         id: `vertical-tab-${index}`,
@@ -63,10 +63,10 @@ const RTM = () => {
 
             {/* <Container> */}
             {/* bgcolor: 'background.paper', */}
-                <Box 
-                    sx={{ flexGrow: 1,  display: 'flex', ml: 5, }}
-                >
-                    {/* <Tabs className="w-2/12 bg-rose-500"
+            <Box
+                sx={{ flexGrow: 1, display: 'flex', ml: 5, }}
+            >
+                {/* <Tabs className="w-2/12 bg-rose-500"
                         orientation="vertical"
                         // variant="scrollable"
                         value={value}
@@ -91,8 +91,8 @@ const RTM = () => {
                     <TabPanel className="w-10/12" value={value} index={3}>
                         <ParkingSpaceAvailability></ParkingSpaceAvailability>
                     </TabPanel> */}
-                    <ParkingSpaceAvailability></ParkingSpaceAvailability>
-                </Box>
+                <ParkingSpaceAvailability></ParkingSpaceAvailability>
+            </Box>
             {/* </Container> */}
         </div>
 

@@ -1,17 +1,17 @@
 // "use client";
-import parkingcar from "@/assets/rtm/carparking.png";
-import parking1 from "@/assets/rtm/park1.png";
-import fuel from "@/assets/rtm/fuel.png";
-import safety from "@/assets/rtm/safety.png";
-import parkingviolation from "@/assets/rtm/parkingviolation.png";
-import car from "@/assets/rtm/car2.png";
-import bike from "@/assets/rtm/bike3.png";
+// import parkingcar from "@/assets/rtm/carparking.png";
+// import parking1 from "@/assets/rtm/park1.png";
+// import fuel from "@/assets/rtm/fuel.png";
+// import safety from "@/assets/rtm/safety.png";
+// import parkingviolation from "@/assets/rtm/parkingviolation.png";
+// import car from "@/assets/rtm/car2.png";
+// import bike from "@/assets/rtm/bike3.png";
 
 
-import Image from "next/image";
-import { Box, Grid, Popover, Typography } from "@mui/material";
+// import Image from "next/image";
+import { Box, Grid, Typography } from "@mui/material";
 // import {  useState } from "react";
-import { getParkingData } from "../utils/getParkingData";
+// import { getParkingData } from "../utils/getParkingData";
 import VisitorManagement from "./VisitorManagement";
 import SecurityMobitoring from "./SecurityMobitoring";
 import EnergyUsesAnalytic from "./EnergyUsesAnalytic";
@@ -19,7 +19,7 @@ import EnergyUsesAnalytic from "./EnergyUsesAnalytic";
 
 const ParkingSpaceAvailability = async () => {
     // const data = await getParkingData()
-    const data = [
+    const slotStatus = [
         {
             "slot_name": "A1",
             "status": "available",
@@ -102,13 +102,13 @@ const ParkingSpaceAvailability = async () => {
             {/* <Box> */}
             <Grid container rowSpacing={1} columnSpacing={{ xs: 2, sm: 3, md: 4 }} className="my-5">
                 {
-                    data.map((parking) => (
-                        <Grid key={parking.slot_name} item xs={2}>
-                            <div className=" h-60 w-full      rounded-xl border border-dashed  border-slate-950  p-2 font-medium">
+                    slotStatus?.length && slotStatus?.map((parking) => (
+                        <Grid key={parking?.slot_name} item xs={2}>
+                            <div className=" h-60 w-full rounded-xl border border-dashed border-slate-950 p-2 font-medium">
                                 <div className="space-y-2">
-                                    <h1 className="text-center" >{parking.slot_name}</h1>
+                                    <h1 className="text-center" >{parking?.slot_name}</h1>
                                     {
-                                        parking.status === "available" ?
+                                        parking?.status === "available" ?
                                             <>
                                                 <h4 className="bg-green-700 text-white p-2 rounded font-bold text-[14px] text-center">Avaiable</h4>
                                                 <p className="text-lg flex py-5 text-justify">Book your slot now!</p>
@@ -117,9 +117,9 @@ const ParkingSpaceAvailability = async () => {
                                             <>
                                                 {/* <div> */}
                                                 <h4 className="bg-rose-500 text-white p-2 rounded font-bold text-[14px] text-center">Booked </h4>
-                                                <h4 className=" font-bold text-[14px] text-justify">BookedBy: {parking.bookedby} </h4>
-                                                <p className="text-xs text-justify">StartTime: {parking.starttime.toLocaleString()}</p>
-                                                <p className="text-xs text-justify">EndTime: {parking.endtime}</p>
+                                                <h4 className=" font-bold text-[14px] text-justify">BookedBy: {parking?.bookedby} </h4>
+                                                <p className="text-xs text-justify">StartTime: {parking?.starttime?.toLocaleString()}</p>
+                                                <p className="text-xs text-justify">EndTime: {parking?.endtime}</p>
                                                 {/* <div /> */}
 
                                             </>

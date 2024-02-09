@@ -1,8 +1,8 @@
-import visitorManagementimg from '@/assets/rtm/VisitorManagementimg.png'
+// import visitorManagementimg from '@/assets/rtm/VisitorManagementimg.png'
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 
 // import Image from "next/image";
-import { getVisitors } from '../utils/getVisitors';
+// import { getVisitors } from '../utils/getVisitors';
 
 const VisitorManagement = async () => {
   const data = [
@@ -67,43 +67,43 @@ const VisitorManagement = async () => {
       "time": "2024-02-16T09:00:00"
     }
   ]
-  
+
   return (
     <div>
-       <Typography className="text-rode-400 text-2xl pb-5 font-bold pt-5 w-full text-center">VISITOR MANAGEMENT</Typography>
-       <p className='my-5 text-justify text-[#3b3a3a]'>Visitor Management in Tourism Destinations provides insight into critical concepts such as the visitor experience, service quality, the uses of indicators and frameworks, and interpretation.
-       Requiring all visitors to enter through a single point not only helps visitors know immediately that they are in the right place, but it also ensures that visitors aren't entering restricted areas, or wandering around lost without any assistance.</p>
-        <Box className="py-5">
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} className='text-center' aria-label="simple table">
-              <TableHead>
-                <TableRow >
-                  <TableCell className='font-semibold text-lg text-center text-[#3b3a3a]'>Name</TableCell>
-                  <TableCell className='font-semibold text-lg text-center text-[#3b3a3a]' >Email</TableCell>
-                  <TableCell className='font-semibold text-lg text-center text-[#3b3a3a]'>Appointment No</TableCell>
-                  <TableCell className='font-semibold text-lg text-center text-[#3b3a3a]'>Time</TableCell>
-                </TableRow>
-              </TableHead>
-              {
-                data.map((visitor)=>
+      <Typography className="text-rode-400 text-2xl pb-5 font-bold pt-5 w-full text-center">VISITOR MANAGEMENT</Typography>
+      <p className='my-5 text-justify text-[#3b3a3a]'>Visitor Management in Tourism Destinations provides insight into critical concepts such as the visitor experience, service quality, the uses of indicators and frameworks, and interpretation.
+        Requiring all visitors to enter through a single point not only helps visitors know immediately that they are in the right place, but it also ensures that visitors aren't entering restricted areas, or wandering around lost without any assistance.</p>
+      <Box className="py-5">
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} className='text-center' aria-label="simple table">
+            <TableHead>
+              <TableRow >
+                <TableCell className='font-semibold text-lg text-center text-[#3b3a3a]'>Name</TableCell>
+                <TableCell className='font-semibold text-lg text-center text-[#3b3a3a]' >Email</TableCell>
+                <TableCell className='font-semibold text-lg text-center text-[#3b3a3a]'>Appointment No</TableCell>
+                <TableCell className='font-semibold text-lg text-center text-[#3b3a3a]'>Time</TableCell>
+              </TableRow>
+            </TableHead>
+            {
+              data.map((visitor) =>
               (
                 <TableBody>
-                <TableRow 
-                  key={visitor._id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell key={visitor._id} className='font-medium text-center' >{visitor.name}</TableCell>
-                  <TableCell className='font-medium text-center' >{visitor.email}</TableCell>
-                  <TableCell className='font-medium text-center' >{visitor.appointmentNo}</TableCell>
-                  <TableCell className='font-medium text-center'>{visitor.time}</TableCell>
-                </TableRow>
-              </TableBody>
+                  <TableRow
+                    key={visitor._id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell key={visitor._id} className='font-medium text-center' >{visitor.name}</TableCell>
+                    <TableCell className='font-medium text-center' >{visitor.email}</TableCell>
+                    <TableCell className='font-medium text-center' >{visitor.appointmentNo}</TableCell>
+                    <TableCell className='font-medium text-center'>{visitor.time}</TableCell>
+                  </TableRow>
+                </TableBody>
               )
-                )
-              }
-            </Table>
-          </TableContainer>
-        </Box>
+              )
+            }
+          </Table>
+        </TableContainer>
+      </Box>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 
 import * as React from 'react';
 import PropTypes from 'prop-types';
@@ -16,43 +16,47 @@ import VisitorManagement from '@/components/RTM/VisitorManagement';
 
 
 const RTM = () => {
-    function TabPanel(props) {
-        const { children, value, index, ...other } = props;
-    
-        return (
-            <div
-                role="tabpanel"
-                hidden={value !== index}
-                id={`vertical-tabpanel-${index}`}
-                aria-labelledby={`vertical-tab-${index}`}
-                {...other}
-            >
-                {value === index && (
-                    <Box sx={{ p: 2 }}>
-                        <Typography>{children}</Typography>
-                    </Box>
-                )}
-            </div>
-        );
-    }
-    
-    TabPanel.propTypes = {
-        children: PropTypes.node,
-        index: PropTypes.number.isRequired,
-        value: PropTypes.number.isRequired,
-    };
-    
-    function a11yProps(index) {
-        return {
-            id: `vertical-tab-${index}`,
-            'aria-controls': `vertical-tabpanel-${index}`,
-        };
-    }
-    const [value, setValue] = React.useState(0);
+    // const data= await fetch("http://localhost:5000/parking")
+    // return data.json()
+   
+    // function TabPanel(props) {
 
-    const handleChange = (_event, newValue) => {
-        setValue(newValue);
-    };
+    //     const { children, value, index, ...other } = props;
+    
+    //     return (
+    //         <div
+    //             role="tabpanel"
+    //             hidden={value !== index}
+    //             id={`vertical-tabpanel-${index}`}
+    //             aria-labelledby={`vertical-tab-${index}`}
+    //             {...other}
+    //         >
+    //             {value === index && (
+    //                 <Box sx={{ p: 2 }}>
+    //                     <Typography>{children}</Typography>
+    //                 </Box>
+    //             )}
+    //         </div>
+    //     );
+    // }
+    
+    // TabPanel.propTypes = {
+    //     children: PropTypes.node,
+    //     index: PropTypes.number.isRequired,
+    //     value: PropTypes.number.isRequired,
+    // };
+    
+    // function a11yProps(index) {
+    //     return {
+    //         id: `vertical-tab-${index}`,
+    //         'aria-controls': `vertical-tabpanel-${index}`,
+    //     };
+    // }
+    // const [value, setValue] = React.useState(0);
+
+    // const handleChange = (event, newValue) => {
+    //     setValue(newValue);
+    // };
 
     return (
         <div>
@@ -62,7 +66,7 @@ const RTM = () => {
                 <Box 
                     sx={{ flexGrow: 1,  display: 'flex', ml: 5, }}
                 >
-                    <Tabs className="w-2/12 bg-rose-500"
+                    {/* <Tabs className="w-2/12 bg-rose-500"
                         orientation="vertical"
                         // variant="scrollable"
                         value={value}
@@ -86,7 +90,8 @@ const RTM = () => {
                     </TabPanel>
                     <TabPanel className="w-10/12" value={value} index={3}>
                         <ParkingSpaceAvailability></ParkingSpaceAvailability>
-                    </TabPanel>
+                    </TabPanel> */}
+                    <ParkingSpaceAvailability></ParkingSpaceAvailability>
                 </Box>
             {/* </Container> */}
         </div>

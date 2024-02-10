@@ -1,9 +1,8 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography, Container } from '@mui/material';
+import logo from '/src/assets/logo.png';
 import Image from 'next/image';
 import React from 'react';
-import logo from '/src/assets/logo.png';
 import Link from 'next/link';
-import Container from '@mui/material/Container';
 
 const Footer = () => {
     return (
@@ -35,17 +34,17 @@ const Footer = () => {
                             <Box>
                                 <h4 className='text-lg font-medium'>Features</h4>
                                 <ul className='text-base font-mono'>
-                                    <li><Link href={'/'} className='hover:underline underline-offset-2'>Person Recognition</Link></li>
-                                    <li><Link href={'/'} className='hover:underline underline-offset-2'>Guides</Link></li>
-                                    <li><Link href={'/'} className='hover:underline underline-offset-2'>Temperature Control</Link></li>
+                                    <li><Link href={'/real-time-monitoring'} className='hover:underline underline-offset-2'>Real Time Monitoring</Link></li>
+                                    <li><Link href={'/parking'} className='hover:underline underline-offset-2'>Parking</Link></li>
+                                    <li><Link href={'/notification'} className='hover:underline underline-offset-2'>Notification</Link></li>
                                 </ul>
                             </Box>
                             <Box>
-                                <h4 className='text-lg font-medium'>About Us</h4>
+                                <h4 className='text-lg font-medium'>Quick links</h4>
                                 <ul className='text-base font-mono'>
-                                    <li><Link href={'/'} className='hover:underline underline-offset-2'>Where we are</Link></li>
-                                    <li><Link href={'/'} className='hover:underline underline-offset-2'>Why we are</Link></li>
-                                    <li><Link href={'/'} className='hover:underline underline-offset-2'>How we are</Link></li>
+                                    <li><Link href={'/'} className='hover:underline underline-offset-2'>Home</Link></li>
+                                    <li><Link href={'/about'} className='hover:underline underline-offset-2'>About Us</Link></li>
+                                    <li><Link href={'/contact'} className='hover:underline underline-offset-2'>Contact Us</Link></li>
                                 </ul>
                             </Box>
                             <Box>

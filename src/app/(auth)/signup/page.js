@@ -1,6 +1,7 @@
 "use client"
 import useAuthContext from "@/Hooks/useAuthContext";
-import { Google } from "@mui/icons-material";
+import useAxiosPublic from "@/Hooks/useAxiosPublic";
+import { FcGoogle } from "react-icons/fc";
 import { Button, Grid, IconButton, Link, Paper, TextField, Typography, } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -10,6 +11,7 @@ const SignUpPage = () => {
 
     const { createUser, googleLogin, updateUserInfo } = useAuthContext()
     const router = useRouter()
+    const axiosPublic = useAxiosPublic()
 
     // create user with email and password
     const {
@@ -20,24 +22,29 @@ const SignUpPage = () => {
     const onSubmit = (data) => {
         createUser(data.email, data.password)
             .then(result => {
-                updateUserInfo(data?.name, data?.photo).then(() => {
-                    console.log('Profile updated successfully.');
-
-                    reset()
-                    console.log(result.user);
-                    // toast
-                    toast.success('Sign Up Successfully', {
-                        position: 'top-center',
-                        autoClose: 1300,
+                console.log(result.user);
+                updateUserInfo(data?.name, data?.photo)
+                .then(() => {
+                    const userInfo = {
+                        name: data.name,
+                        email: data.email,
+                        role: "guest"
+                    }
+                    axiosPublic.post('/api/v1/new-user', userInfo)
+                    .then(res => {
+                        if (res.data.insertedId) {
+                            reset()
+                            toast.success('Sign Up Successfully', {
+                                position: 'top-center',
+                                autoClose: 1300,
+                            })
+                            router.push('/signin')
+                        }
                     })
-
-                    router.push('/signin')
+                    
                 }).catch((error) => {
                     console.log(error);
                 })
-            })
-            .catch(error => {
-                console.log(error);
             })
     }
 
@@ -112,8 +119,8 @@ const SignUpPage = () => {
                             </Typography>
                         </Grid>
                         <Grid onClick={handleGoogle} className='flex justify-center items-center space-x-2 border m-3 p-1 border-gray-300 border-rounded cursor-pointer'>
-                            <IconButton className="text-[#FF3811]">
-                                <Google></Google>
+                            <IconButton>
+                                <FcGoogle></FcGoogle>
                             </IconButton>
                             <Typography>Continue with Google</Typography>
                         </Grid>

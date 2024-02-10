@@ -30,10 +30,14 @@ yarn-error.log*
 
 # vercel
 .vercel
-fake.json
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
+package-lock.json
+
+#demo data
+fake.json
+fakeDB.json
+lib/*

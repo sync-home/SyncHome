@@ -1,25 +1,24 @@
 'use client'
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import logo from '/src/assets/logo.png';
+import MenuIcon from '@mui/icons-material/Menu';
 import Image from 'next/image';
 import Link from 'next/link';
 import useAuthContext from '@/Hooks/useAuthContext';
-import { Button } from '@mui/material';
+import {
+    Button, AppBar,
+    Box,
+    Toolbar,
+    IconButton,
+    Typography,
+    Menu,
+    Container,
+    Avatar,
+    Tooltip,
+    MenuItem
+} from '@mui/material';
 import { getRole } from '@/utils/getRole';
 import { usePathname } from 'next/navigation';
-
-
 
 function Navbar() {
 
@@ -58,7 +57,7 @@ function Navbar() {
         },
         {
             route: !loading && user?.email ? 'Monitor' : '',
-            pathname: !loading && user?.email ? '/rtm' : ''
+            pathname: !loading && user?.email ? '/real-time-monitoring' : ''
         }
     ];
 
@@ -231,7 +230,7 @@ function Navbar() {
                                 onClose={handleCloseUserMenu}
                             >
                                 <MenuItem onClick={handleCloseUserMenu}>
-                                    <Link href={`${role === 'admin' ? role : role === 'employee' ? role : role == 'resident' ? role : '/guest'}-dashboard/profile`}>Dashboard</Link>
+                                    <Link href={`/${role}-dashboard/profile`}>Dashboard</Link>
                                 </MenuItem>
                                 <MenuItem>
                                     <Link href={'/notification'}>Notifications</Link>

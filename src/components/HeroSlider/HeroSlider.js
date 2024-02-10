@@ -11,6 +11,7 @@ import 'swiper/css/navigation';
 import { Autoplay, Navigation } from 'swiper/modules';
 import Image from 'next/image';
 import LinkRedirect from '../Buttons/LinkRedirect';
+import './HeroSlider.css';
 
 const HeroSlider = () => {
 
@@ -53,7 +54,7 @@ const HeroSlider = () => {
                             className='h-full w-full object-cover'></Image>
                         <div className='absolute top-0 left-0 h-full w-full bg-[rgba(0,0,0,0.7)] flex flex-col justify-center items-center px-10'>
                             <h2 className='md:text-5xl text-3xl uppercase font-bold text-white'>{slide?.heading}</h2>
-                            <p className='text-white font-semibold mt-5'>{slide?.content}</p>
+                            <p className='text-white font-semibold mt-5 mb-10'>{slide?.content}</p>
                             <LinkRedirect url={'/features'} text={'Explore'} />
                         </div>
                     </div>

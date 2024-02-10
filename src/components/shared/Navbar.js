@@ -94,7 +94,7 @@ function Navbar() {
     }
 
     return (
-        <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black' }}>
+        <AppBar sx={{ backgroundColor: 'rgba(0,0,0,0.5)', color: 'white', position: 'fixed', top: '0px', left: '0px', zIndex: '100' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
@@ -105,7 +105,7 @@ function Navbar() {
                         noWrap
                         component="a"
                         href='/'
-                        className='text-black'
+                        className='text-white'
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -192,6 +192,7 @@ function Navbar() {
                         {pages?.length && pages.map((page) => (
                             <Box key={page?.route} onClick={() => handleActiveLink(page?.pathname)}>
                                 <Link
+                                // style={{color: 'white'}}
                                     className={`btn ${page?.pathname === activeLink ? 'active' : ''}`}
                                     href={page?.pathname}
 
@@ -240,10 +241,10 @@ function Navbar() {
                             </Menu>
                         </Box> :
                         <Box sx={{ display: 'flex', gap: 1 }}>
-                            <Button variant="outlined" href={'/signin'} className='uppercase font-mono font-semibold text-black whitespace-nowrap' >
+                            <Button variant="outlined" href={'/signin'} className='uppercase font-mono font-semibold text-white whitespace-nowrap' >
                                 Sign In
                             </Button>
-                            <Button variant="outlined" href={'/signup'} className='uppercase font-mono font-semibold text-black whitespace-nowrap' >
+                            <Button variant="outlined" href={'/signup'} className='uppercase font-mono font-semibold text-white whitespace-nowrap' >
                                 Sign Up
                             </Button>
                         </Box> : ''}

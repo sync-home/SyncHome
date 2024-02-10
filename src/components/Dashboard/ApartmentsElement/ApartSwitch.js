@@ -4,9 +4,9 @@ import Switch from '@mui/joy/Switch';
 import { useState } from 'react';
 
 
-const ApartSwitch = () => {
+const ApartSwitch = ({val}) => {
 
-    const [checked, setChecked] = useState(true);
+    const [checked, setChecked] = useState(val);
 
 
     return (

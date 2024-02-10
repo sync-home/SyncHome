@@ -12,9 +12,9 @@ const Input = styled(MuiInput)`
 `;
 
 
-const TempControl = () => {
+const TempControl = ({temp}) => {
 
-    const [value, setValue] = React.useState(30);
+    const [value, setValue] = React.useState(temp?.temp);
 
     const handleSliderChange = (event, newValue) => {
         setValue(newValue);

@@ -11,13 +11,16 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { useForm } from "react-hook-form";
 
-const WeeklyDialog = ({ weeklyOpen: open, setWeeklyOpen: setOpen }) => {
+const WeeklyDialog = ({ weeklyOpen: open, setWeeklyOpen: setOpen, sendId }) => {
 
     const { register, handleSubmit, watch, formState: { errors }, } = useForm();
 
-    const onSubmit = (data) => console.log(data)
+    const onSubmit = (data) => {
+        console.log(data);
+        console.log(sendId);
+    }
 
-    console.log(watch("example"))
+
 
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));

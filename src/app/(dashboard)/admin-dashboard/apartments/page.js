@@ -3,11 +3,12 @@
 import useAuthContext from '@/Hooks/useAuthContext';
 import useAxiosPublic from '@/Hooks/useAxiosPublic';
 import AcMode from '@/components/Dashboard/ApartmentsElement/AcMode';
-import ApartDialog from '@/components/Dashboard/ApartmentsElement/ApartDialog';
 import ApartEnergyGraph from '@/components/Dashboard/ApartmentsElement/ApartEnergyGraph';
 import ApartSwitch from '@/components/Dashboard/ApartmentsElement/ApartSwitch';
 import CctvCamera from '@/components/Dashboard/ApartmentsElement/CctvCamera';
+import AcDialog from '@/components/Dashboard/ApartmentsElement/Dialog/AcDialog';
 import CctvDialog from '@/components/Dashboard/ApartmentsElement/Dialog/CctvDialog';
+import DeviceDialog from '@/components/Dashboard/ApartmentsElement/Dialog/DeviceDialog';
 import FamilyDialog from '@/components/Dashboard/ApartmentsElement/Dialog/FamilyDialog';
 import TotalEnergyDialog from '@/components/Dashboard/ApartmentsElement/Dialog/TotalEnergyDialog';
 import WeeklyDialog from '@/components/Dashboard/ApartmentsElement/Dialog/WeeklyDialog';
@@ -36,7 +37,9 @@ const Apartments = () => {
         }
     });
 
-
+console.log(apartSelect);
+const data1 = apartData?.filter(items => items?.name == apartSelect);
+console.log(data1);
 
     // const apart = {
     //     "id": 1,
@@ -46,7 +49,7 @@ const Apartments = () => {
     //         { "name": "Smart Lamp", "brand": "Panasonic", "img": "https://i.ibb.co/7N5VQxX/xiomi-router", "status": true },
     //         { "name": "Air Purifier", "brand": "Philips", "img": "https://i.ibb.co/7N5VQxX/xiomi-router", "status": false }
     //     ],
-    //     "ac": { "status": true, "temp": 25, "mode": "auto" },
+    //     "ac": { "status": true, "temp": 25, "mode": "auto", "name": "Air Conditional", "brand": "LG Dualcool Inverter" },
     //     "cctv": { "bedroom": "JUfIpZCYquY?si=TgMBRi-lZuwTQAED", "front": "JUfIpZCYquY?si=TgMBRi-lZuwTQAED", "kitchen": "JUfIpZCYquY?si=TgMBRi-lZuwTQAED", "drawing": "JUfIpZCYquY?si=TgMBRi-lZuwTQAED" },
     //     "router": { "name": "Smart Router", "brand": "Xiomi", "img": "https://i.ibb.co/7N5VQxX/xiomi-router", "status": true },
     //     "wifi": 995,
@@ -91,29 +94,42 @@ const Apartments = () => {
     const [familyOpen, setFamilyOpen] = React.useState(false);
     const [weeklyOpen, setWeeklyOpen] = React.useState(false);
     const [totalEnergyOpen, setTotalEnergyOpen] = React.useState(false);
+    const [acOpen, setAcOpen] = React.useState(false);
+    const [sendId, setSendId] = useState('');
 
-    const handleAddDeviceOpen = () => {
+    const handleAddDeviceOpen = (id) => {
         setAddDeviceOpen(true);
+        setSendId(id);
     };
 
-    const handleCctvOpen = () => {
+    const handleCctvOpen = (id) => {
         setCctvOpen(true);
+        setSendId(id);
     }
 
-    const handleWifiOpen = () => {
+    const handleWifiOpen = (id) => {
         setWifiOpen(true);
+        setSendId(id);
     }
 
-    const handleFamilyOpen = () => {
+    const handleFamilyOpen = (id) => {
         setFamilyOpen(true);
+        setSendId(id);
     }
 
-    const handleWeeklyOpen = () => {
+    const handleWeeklyOpen = (id) => {
         setWeeklyOpen(true);
+        setSendId(id);
     }
 
-    const handleTotalEnergyOpen = () => {
+    const handleTotalEnergyOpen = (id) => {
         setTotalEnergyOpen(true);
+        setSendId(id);
+    }
+
+    const handleAcOpen = (id) => {
+        setAcOpen(true);
+        setSendId(id);
     }
 
     return (
@@ -141,7 +157,7 @@ const Apartments = () => {
                                             <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
                                                 <div className='flex justify-between items-center mb-5'>
                                                     <h4 className='font-bold text-[#363636]'>Quick Access</h4>
-                                                    <button onClick={handleAddDeviceOpen} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus /> Add Device</button>
+                                                    <button onClick={()=>handleAddDeviceOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus /> Add Device</button>
                                                 </div>
                                                 <div className='grid lg:grid-cols-3 grid-cols-1 gap-2'>
 
@@ -157,7 +173,7 @@ const Apartments = () => {
                                                                     <ApartSwitch val={device?.status} />
                                                                 </div>
                                                                 <div>
-                                                                    <Image height={100} width={100} src={`${device?.img}`} alt={`${device?.name}`} />
+                                                                    <Image height={100} width={100} src={`${device?.img ? device?.img : 'https://i.ibb.co/17HHBsG/tailwind.png'}`} alt={`${device?.name}`} />
                                                                 </div>
                                                             </div>
                                                         ))
@@ -169,7 +185,7 @@ const Apartments = () => {
                                                 <div className='lg:col-span-2'>
                                                     <div className='flex justify-between items-center mb-5'>
                                                         <h4 className='font-bold text-[#363636]'>CCTV Camera</h4>
-                                                        <button onClick={handleCctvOpen} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus />CCTV</button>
+                                                        <button onClick={()=>handleCctvOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus />CCTV</button>
                                                     </div>
                                                     <div>
                                                         {/* <CctvCamera cameraInfo={item?.cctv} /> */}
@@ -179,7 +195,7 @@ const Apartments = () => {
                                                     <div>
                                                         <div className='flex justify-between items-center mb-5'>
                                                             <h4 className='font-bold text-[#363636]'>WiFi Control</h4>
-                                                            <button onClick={handleWifiOpen} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
+                                                            <button onClick={()=>handleWifiOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
                                                         </div>
                                                         <div style={{ border: '1px solid #ddd' }} className='grid grid-cols-3 gap-2 items-center shadow-md rounded-md px-5 py-3'>
                                                             <div className='col-span-2'>
@@ -207,7 +223,11 @@ const Apartments = () => {
                                         </div>
                                         <div>
                                             <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
-                                                <h4 className='font-bold text-[#363636] mb-5'>Temperature Control</h4>
+                                            <div className='flex justify-between items-center mb-5'>
+                                                            <h4 className='font-bold text-[#363636]'>Temperature Control</h4>
+                                                            <button onClick={()=>handleAcOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
+                                                        </div>
+                                                {/* <h4 className='font-bold text-[#363636] mb-5'>Temperature Control</h4> */}
                                                 <TempControl temp={item?.ac} />
                                                 <div className='flex justify-between mt-5'>
                                                     <div>
@@ -228,7 +248,7 @@ const Apartments = () => {
                                             <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
                                                 <div className='flex justify-between items-center mb-5'>
                                                     <h4 className='font-bold text-[#363636]'>Total Family Members</h4>
-                                                    <button onClick={handleFamilyOpen} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
+                                                    <button onClick={()=>handleFamilyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
                                                 </div>
                                                 <div>
                                                     <div className=''>
@@ -253,7 +273,7 @@ const Apartments = () => {
                                         <div className=''>
                                         <div className='flex justify-between items-center mb-5'>
                                                     <h4 className='font-bold text-[#363636]'>Total Energy Usage</h4>
-                                                    <button onClick={handleTotalEnergyOpen} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Total Usage</span></button>
+                                                    <button onClick={()=>handleTotalEnergyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Total Usage</span></button>
                                                 </div>
                                             <select onChange={handleUsageData} style={{ border: '1px solid #ddd' }} className='rounded-full text-sm px-5 outline-0'>
                                                 {
@@ -290,7 +310,7 @@ const Apartments = () => {
                                         <div className='mt-10'>
                                             <div className='flex justify-between items-center mb-5'>
                                                 <h4 className='font-bold text-[#363636]'>Weekly Energy Usage Analytics</h4>
-                                                <button onClick={handleWeeklyOpen} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Weekly Data</span></button>
+                                                <button onClick={()=>handleWeeklyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Weekly Data</span></button>
                                             </div>
                                             <ApartEnergyGraph data={item?.usageData} />
                                         </div>
@@ -302,12 +322,13 @@ const Apartments = () => {
             }
 
             {/* Dialog */}
-            <ApartDialog addDeviceOpen={addDeviceOpen} setAddDeviceOpen={setAddDeviceOpen} />
-            <CctvDialog cctvOpen={cctvOpen} setCctvOpen={setCctvOpen} />
-            <WifiDialog wifiOpen={wifiOpen} setWifiOpen={setWifiOpen} />
-            <FamilyDialog familyOpen={familyOpen} setFamilyOpen={setFamilyOpen} />
-            <WeeklyDialog weeklyOpen={weeklyOpen} setWeeklyOpen={setWeeklyOpen} />
-            <TotalEnergyDialog totalEnergyOpen={totalEnergyOpen} setTotalEnergyOpen={setTotalEnergyOpen} />
+            <DeviceDialog addDeviceOpen={addDeviceOpen} setAddDeviceOpen={setAddDeviceOpen} sendId={sendId} refetch={refetch} />
+            <CctvDialog cctvOpen={cctvOpen} setCctvOpen={setCctvOpen} sendId={sendId} refetch={refetch} />
+            <WifiDialog wifiOpen={wifiOpen} setWifiOpen={setWifiOpen} sendId={sendId} refetch={refetch} />
+            <FamilyDialog familyOpen={familyOpen} setFamilyOpen={setFamilyOpen} sendId={sendId} refetch={refetch} />
+            <WeeklyDialog weeklyOpen={weeklyOpen} setWeeklyOpen={setWeeklyOpen} sendId={sendId} refetch={refetch} />
+            <TotalEnergyDialog totalEnergyOpen={totalEnergyOpen} setTotalEnergyOpen={setTotalEnergyOpen} sendId={sendId} refetch={refetch} />
+            <AcDialog acOpen={acOpen} setAcOpen={setAcOpen} sendId={sendId} refetch={refetch} />
         </div>
     );
 };

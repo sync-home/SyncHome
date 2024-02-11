@@ -10,18 +10,30 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { useForm } from "react-hook-form";
+import useAxiosPublic from '@/Hooks/useAxiosPublic';
 
-const ApartDialog = ({ addDeviceOpen:open, setAddDeviceOpen:setOpen }) => {
+const DeviceDialog = ({ addDeviceOpen:open, setAddDeviceOpen:setOpen, sendId, refetch }) => {
 
     const { register, handleSubmit, watch, formState: { errors }, } = useForm();
+    const axiosPublic = useAxiosPublic();
 
-    const onSubmit = (data) => console.log(data)
+    const onSubmit = (data) => {
+        data.status = true;
+        console.log(data);
+        console.log(sendId);
+        axiosPublic.put(`/apartments/${sendId}`, {data})
+        .then(result => {
+            console.log(result.data)
+            refetch();
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
 
-    console.log(watch("example"))
 
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -73,4 +85,4 @@ const ApartDialog = ({ addDeviceOpen:open, setAddDeviceOpen:setOpen }) => {
     );
 };
 
-export default ApartDialog;
+export default DeviceDialog;

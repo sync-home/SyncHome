@@ -10,14 +10,24 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { useForm } from "react-hook-form";
+import useAxiosPublic from '@/Hooks/useAxiosPublic';
 
-const CctvDialog = ({ cctvOpen:open, setCctvOpen:setOpen, sendId }) => {
+const CctvDialog = ({ cctvOpen:open, setCctvOpen:setOpen, sendId, refetch }) => {
 
     const { register, handleSubmit, watch, formState: { errors }, } = useForm();
+    const axiosPublic = useAxiosPublic();
 
     const onSubmit = (data) => {
         console.log(data)
         console.log(sendId);
+        axiosPublic.put(`/apartments/cctv/${sendId}`, {data})
+        .then(result => {
+            console.log(result.data)
+            refetch();
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 
 

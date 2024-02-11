@@ -10,14 +10,25 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { useForm } from "react-hook-form";
+import useAxiosPublic from '@/Hooks/useAxiosPublic';
 
-const WifiDialog = ({ wifiOpen:open, setWifiOpen:setOpen, sendId }) => {
+const WifiDialog = ({ wifiOpen: open, setWifiOpen: setOpen, sendId, refetch }) => {
 
     const { register, handleSubmit, watch, formState: { errors }, } = useForm();
+    const axiosPublic = useAxiosPublic();
 
     const onSubmit = (data) => {
+        data.status = true;
         console.log(data)
-    console.log(sendId);
+        console.log(sendId);
+        axiosPublic.put(`/apartments/wifi/${sendId}`, {data})
+        .then(result => {
+            console.log(result.data);
+            refetch();
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 
 
@@ -43,35 +54,35 @@ const WifiDialog = ({ wifiOpen:open, setWifiOpen:setOpen, sendId }) => {
                 <DialogContent className='bg-[#8338EC]'>
                     <DialogContentText>
                         <form onSubmit={handleSubmit(onSubmit)}>
-                           
+
                             <div className='flex flex-col mb-2'>
                                 <label className='text-white' htmlFor="name">Router Name *</label>
-                                <input 
-                                style={{border: '1px solid #ccc'}} 
-                                className='outline-0 px-2 rounded-md py-1' 
-                                type="text" 
-                                {...register("name", { required: true })} 
-                                placeholder='Ex: smart router' 
-                                id='name'/>
+                                <input
+                                    style={{ border: '1px solid #ccc' }}
+                                    className='outline-0 px-2 rounded-md py-1'
+                                    type="text"
+                                    {...register("name", { required: true })}
+                                    placeholder='Ex: smart router'
+                                    id='name' />
                             </div>
                             <div className='flex flex-col mb-2'>
                                 <label className='text-white' htmlFor="brand">Brand Name *</label>
-                                <input style={{border: '1px solid #ccc'}} className='outline-0 px-2 rounded-md py-1' type="text" {...register("brand", { required: true })} placeholder='Ex: xiaomi' id='brand'/>
+                                <input style={{ border: '1px solid #ccc' }} className='outline-0 px-2 rounded-md py-1' type="text" {...register("brand", { required: true })} placeholder='Ex: xiaomi' id='brand' />
                             </div>
                             <div className='flex flex-col mb-2'>
                                 <label className='text-white' htmlFor="img">Photo URL *</label>
-                                <input style={{border: '1px solid #ccc'}} className='outline-0 px-2 rounded-md py-1' type="text" {...register("img", { required: true })} placeholder='https://...' id='img'/>
+                                <input style={{ border: '1px solid #ccc' }} className='outline-0 px-2 rounded-md py-1' type="text" {...register("img", { required: true })} placeholder='https://...' id='img' />
                             </div>
                             <div className='flex flex-col mb-2'>
                                 <label className='text-white' htmlFor="wifi">Weekly WiFi Usage</label>
-                                <input style={{border: '1px solid #ccc'}} className='outline-0 px-2 rounded-md py-1' type="text" {...register("wifi")} placeholder='Ex: 900' id='wifi'/>
+                                <input style={{ border: '1px solid #ccc' }} className='outline-0 px-2 rounded-md py-1' type="text" {...register("wifi")} placeholder='Ex: 900' id='wifi' />
                             </div>
                             <input className='w-full text-center border-2 hover:bg-white hover:text-black transition-all ease-in-out cursor-pointer border-white rounded-md mt-5 p-1 text-white' type="submit" value="Add WiFi Info" />
                         </form>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions className='bg-[#8338EC] '>
-                    <Button style={{color: 'white'}} onClick={handleClose} autoFocus>
+                    <Button style={{ color: 'white' }} onClick={handleClose} autoFocus>
                         Close
                     </Button>
                 </DialogActions>

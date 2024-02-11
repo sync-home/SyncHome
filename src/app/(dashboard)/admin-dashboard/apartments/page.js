@@ -14,10 +14,11 @@ import TotalEnergyDialog from '@/components/Dashboard/ApartmentsElement/Dialog/T
 import WeeklyDialog from '@/components/Dashboard/ApartmentsElement/Dialog/WeeklyDialog';
 import WifiDialog from '@/components/Dashboard/ApartmentsElement/Dialog/WifiDialog';
 import TempControl from '@/components/Dashboard/ApartmentsElement/TempControl';
+import { Tooltip } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { FaChild, FaFemale, FaMale } from 'react-icons/fa';
+import { FaChild, FaFemale, FaMale, FaTrashAlt } from 'react-icons/fa';
 import { FaPlus } from 'react-icons/fa6';
 
 
@@ -37,9 +38,9 @@ const Apartments = () => {
         }
     });
 
-console.log(apartSelect);
-const data1 = apartData?.filter(items => items?.name == apartSelect);
-console.log(data1);
+    console.log(apartSelect);
+    const data1 = apartData?.filter(items => items?.name == apartSelect);
+    console.log(data1);
 
     // const apart = {
     //     "id": 1,
@@ -55,9 +56,9 @@ console.log(data1);
     //     "wifi": 995,
     //     "members": { "male": 1, "female": 1, "child": 2 },
     //     "energy_usage": [
-    //         { "duration": "Last 7 Days", "electricity": 300, "water": 10498, "gas": 1.39 },
-    //         { "duration": "Last 30 Days", "electricity": 1200, "water": 40569, "gas": 6.31 },
-    //         { "duration": "Current Year", "electricity": 14400, "water": 486828, "gas": 75.72 },
+    //         { "duration": "week", "electricity": 300, "water": 10498, "gas": 1.39 },
+    //         { "duration": "month", "electricity": 1200, "water": 40569, "gas": 6.31 },
+    //         { "duration": "year", "electricity": 14400, "water": 486828, "gas": 75.72 },
     //     ],
     //     "usageData": [
     //         { "day": "Monday", "electricity": 30, "water": 20, "gas": 15 },
@@ -132,6 +133,33 @@ console.log(data1);
         setSendId(id);
     }
 
+    // Device Delete
+    const handleDeleteDevice = (id, index) => {
+        console.log(id, index)
+        axiosPublic.put(`/apartments/del-device/${id}`, { index })
+            .then(result => {
+                console.log(result.data)
+                refetch();
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+    // Update Switch
+    const handleUpdateSwitch = (id, name, index, value) => {
+        value = !value;
+        console.log(id, name, index, value)
+        axiosPublic.put(`/apartments/switch/${id}`, {name, index, value})
+        .then(result => {
+            console.log(result)
+            refetch();
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+
     return (
         <div>
             {
@@ -157,7 +185,7 @@ console.log(data1);
                                             <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
                                                 <div className='flex justify-between items-center mb-5'>
                                                     <h4 className='font-bold text-[#363636]'>Quick Access</h4>
-                                                    <button onClick={()=>handleAddDeviceOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus /> Add Device</button>
+                                                    <button onClick={() => handleAddDeviceOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus /> Add Device</button>
                                                 </div>
                                                 <div className='grid lg:grid-cols-3 grid-cols-1 gap-2'>
 
@@ -166,13 +194,17 @@ console.log(data1);
                                                             <div
                                                                 key={idx}
                                                                 style={{ border: '1px solid #ddd' }}
-                                                                className='grid grid-cols-3 gap-2 items-center shadow-md rounded-md px-5 py-3'>
+                                                                className='grid grid-cols-3 gap-2 items-center shadow-md rounded-md px-5 py-3 relative'>
                                                                 <div className='col-span-2'>
                                                                     <h4 className='font-semibold text-[#363636] text-sm'>{device?.name}</h4>
                                                                     <p className='text-xs text-gray-600 mb-5'>{device?.brand}</p>
-                                                                    <ApartSwitch val={device?.status} />
+                                                                    <span 
+                                                                    onClick={()=>handleUpdateSwitch(item?._id, 'devices', idx, device?.status)}>
+                                                                        <ApartSwitch val={device?.status} />
+                                                                    </span>
                                                                 </div>
                                                                 <div>
+                                                                    <span onClick={() => handleDeleteDevice(item?._id, idx)} style={{ boxShadow: '0px 0px 2px #363636' }} className='absolute top-2 text-[#aaa] cursor-pointer hover:bg-[#8338EC] hover:text-white p-1 text-sm rounded-full right-2'><Tooltip title="Add" placement="left"><FaTrashAlt /></Tooltip></span>
                                                                     <Image height={100} width={100} src={`${device?.img ? device?.img : 'https://i.ibb.co/17HHBsG/tailwind.png'}`} alt={`${device?.name}`} />
                                                                 </div>
                                                             </div>
@@ -185,7 +217,7 @@ console.log(data1);
                                                 <div className='lg:col-span-2'>
                                                     <div className='flex justify-between items-center mb-5'>
                                                         <h4 className='font-bold text-[#363636]'>CCTV Camera</h4>
-                                                        <button onClick={()=>handleCctvOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus />CCTV</button>
+                                                        <button onClick={() => handleCctvOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus />CCTV</button>
                                                     </div>
                                                     <div>
                                                         {/* <CctvCamera cameraInfo={item?.cctv} /> */}
@@ -195,13 +227,15 @@ console.log(data1);
                                                     <div>
                                                         <div className='flex justify-between items-center mb-5'>
                                                             <h4 className='font-bold text-[#363636]'>WiFi Control</h4>
-                                                            <button onClick={()=>handleWifiOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
+                                                            <button onClick={() => handleWifiOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
                                                         </div>
                                                         <div style={{ border: '1px solid #ddd' }} className='grid grid-cols-3 gap-2 items-center shadow-md rounded-md px-5 py-3'>
                                                             <div className='col-span-2'>
                                                                 <h4 className='font-semibold text-[#363636] text-sm'>{item?.router?.name}</h4>
                                                                 <p className='text-xs text-gray-500 mb-5'>{item?.router?.brand}</p>
+                                                                <span onClick={()=>handleUpdateSwitch(item?._id, 'router','',item?.router?.status)} >
                                                                 <ApartSwitch val={item?.router?.status} />
+                                                                </span>
                                                             </div>
                                                             <div>
                                                                 <Image height={100} width={100} src={`${item?.router?.img}`} alt={`${item?.router?.name}`} />
@@ -223,19 +257,20 @@ console.log(data1);
                                         </div>
                                         <div>
                                             <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
-                                            <div className='flex justify-between items-center mb-5'>
-                                                            <h4 className='font-bold text-[#363636]'>Temperature Control</h4>
-                                                            <button onClick={()=>handleAcOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
-                                                        </div>
-                                                {/* <h4 className='font-bold text-[#363636] mb-5'>Temperature Control</h4> */}
+                                                <div className='flex justify-between items-center mb-5'>
+                                                    <h4 className='font-bold text-[#363636]'>Temperature Control</h4>
+                                                    <button onClick={() => handleAcOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
+                                                </div>
                                                 <TempControl temp={item?.ac} />
                                                 <div className='flex justify-between mt-5'>
                                                     <div>
-                                                        <h4 className='font-semibold text-[#363636] text-sm'>Air Conditionar</h4>
-                                                        <p className='text-xs text-gray-500 mb-5'>LG Dualcool Inverter</p>
+                                                        <h4 className='font-semibold text-[#363636] text-sm'>{item?.ac?.name}</h4>
+                                                        <p className='text-xs text-gray-500 mb-5'>{item?.ac?.brand}</p>
                                                     </div>
                                                     <div>
+                                                    <span onClick={()=>handleUpdateSwitch(item?._id, 'ac','',item?.ac?.status)} >
                                                         <ApartSwitch val={item?.ac?.status} />
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div>
@@ -248,10 +283,10 @@ console.log(data1);
                                             <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
                                                 <div className='flex justify-between items-center mb-5'>
                                                     <h4 className='font-bold text-[#363636]'>Total Family Members</h4>
-                                                    <button onClick={()=>handleFamilyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
+                                                    <button onClick={() => handleFamilyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
                                                 </div>
                                                 <div>
-                                                    <div className=''>
+                                                    <div>
                                                         <div style={{ border: '1px solid #ddd' }} className='rounded-md p-2 font-semibold text-sm flex items-center gap-2 text-[#21b0fe]'>
                                                             <FaMale />
                                                             Male : {item?.members?.male}
@@ -271,18 +306,14 @@ console.log(data1);
                                     </div>
                                     <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mt-5'>
                                         <div className=''>
-                                        <div className='flex justify-between items-center mb-5'>
-                                                    <h4 className='font-bold text-[#363636]'>Total Energy Usage</h4>
-                                                    <button onClick={()=>handleTotalEnergyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Total Usage</span></button>
-                                                </div>
+                                            <div className='flex justify-between items-center mb-5'>
+                                                <h4 className='font-bold text-[#363636]'>Total Energy Usage</h4>
+                                                <button onClick={() => handleTotalEnergyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Total Usage</span></button>
+                                            </div>
                                             <select onChange={handleUsageData} style={{ border: '1px solid #ddd' }} className='rounded-full text-sm px-5 outline-0'>
-                                                {
-                                                    item?.energy_usage?.map((energy, idx) => (
-                                                        <option
-                                                            key={idx}
-                                                            value={`${energy?.duration}`}>{energy?.duration}</option>
-                                                    ))
-                                                }
+                                                <option value="week">Last 7 Days</option>
+                                                <option value="month">Last 30 Days</option>
+                                                <option value="year">Current Year</option>
                                             </select>
                                         </div>
                                         <div>
@@ -310,7 +341,7 @@ console.log(data1);
                                         <div className='mt-10'>
                                             <div className='flex justify-between items-center mb-5'>
                                                 <h4 className='font-bold text-[#363636]'>Weekly Energy Usage Analytics</h4>
-                                                <button onClick={()=>handleWeeklyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Weekly Data</span></button>
+                                                <button onClick={() => handleWeeklyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Weekly Data</span></button>
                                             </div>
                                             <ApartEnergyGraph data={item?.usageData} />
                                         </div>

@@ -10,14 +10,25 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { useForm } from "react-hook-form";
+import useAxiosPublic from '@/Hooks/useAxiosPublic';
 
-const AcDialog = ({ acOpen:open, setAcOpen:setOpen, sendId }) => {
+const AcDialog = ({ acOpen:open, setAcOpen:setOpen, sendId, refetch }) => {
 
     const { register, handleSubmit, watch, formState: { errors }, } = useForm();
+    const axiosPublic = useAxiosPublic();
 
     const onSubmit = (data) => {
+        data.status = true;
         console.log(data);
         console.log(sendId);
+        axiosPublic.put(`/apartments/ac/${sendId}`, {data})
+        .then(result => {
+            console.log(result.data)
+            refetch();
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 
 

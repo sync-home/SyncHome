@@ -22,6 +22,11 @@ import Image from 'next/image';
 import { Button, ButtonBase } from '@mui/material';
 import { GrUserAdmin, GrUserWorker, GrUser, GrUserManager } from "react-icons/gr";
 import { useForm } from "react-hook-form"
+import { useQuery } from '@tanstack/react-query';
+import useAxiosPublic from '@/Hooks/useAxiosPublic';
+import Swal from 'sweetalert2';
+import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
+
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -58,13 +63,25 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-const AllUsers = ({ usersData }) => {
+const AllUsers = () => {
 
   const { register, handleSubmit, reset } = useForm()
   const [open, setOpen] = React.useState(false);
   const [updateData, setUpdateData] = React.useState({});
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const axiosPublic = useAxiosPublic();
+
+
+  // Fetch User data from database
+  const { data: usersData = [], isLoading, isPending, refetch } = useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const res = await axiosPublic.get('/users');
+      return res?.data;
+    }
+  })
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -78,11 +95,55 @@ const AllUsers = ({ usersData }) => {
 
   const onSubmit = (data) => {
     console.log(data)
+    console.log(updateData._id)
+    axiosPublic.patch(`/update-user/${updateData?._id}`, { data })
+      .then(result => {
+        console.log(result.data)
+        refetch();
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   const [searchVal, setSearchVal] = React.useState('');
   const handleOnChange = e => {
     setSearchVal(e.target.value)
+  }
+
+  const handleDeleteUser = (id) => {
+    console.log(id);
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "hover:no-underline bg-[#8338EC] px-5 py-1 text-white rounded-sm mr-1",
+        cancelButton: "hover:no-underline bg-[#96E9C6] px-5 py-1 text-white rounded-sm"
+      },
+      buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
+      title: "Are you sure?",
+      text: "You want to delete this user",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      reverseButtons: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        axiosPublic.delete(`/delete-user/${id}`)
+        .then(result => {
+          console.log(result.data)
+          refetch();
+          swalWithBootstrapButtons.fire({
+            title: "Deleted!",
+            text: "User has been deleted successfully",
+          });
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      } 
+    });
   }
 
   return (
@@ -105,39 +166,40 @@ const AllUsers = ({ usersData }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {usersData.filter(data => data.name.toLowerCase().includes(searchVal.toLowerCase())).map((user, idx) => (
-              <StyledTableRow key={idx}>
-                <StyledTableCell component="th" scope="row">{idx + 1}</StyledTableCell>
-                <StyledTableCell align="right">
-                  <Image src={user.photo} alt='table image' height={50} width={50} className='rounded-full'></Image>
-                </StyledTableCell>
-                <StyledTableCell align="right">{user.name}</StyledTableCell>
-                <StyledTableCell align="right">{user.email}</StyledTableCell>
-                <StyledTableCell align="right">{user.phone}</StyledTableCell>
-                <StyledTableCell align="right">
-                  <div className='capitalize'>
-                    {
-                      user?.role == "admin"
-                        ?
-                        <div className='flex flex-col items-center text-green-500'><GrUserAdmin className='text-2xl' /><p className='font-semibold'>{user.role}</p></div>
-                        : user?.role == "employee"
+            {
+              isLoading || isPending ? <p>Users Loading...</p> : usersData?.length ? usersData?.filter(data => data?.name.toLowerCase().includes(searchVal.toLowerCase())).map((user, idx) => (
+                <StyledTableRow key={idx}>
+                  <StyledTableCell component="th" scope="row">{idx + 1}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    <Image src={user?.photo} alt='table image' height={50} width={50} className='rounded-full'></Image>
+                  </StyledTableCell>
+                  <StyledTableCell align="right">{user?.name}</StyledTableCell>
+                  <StyledTableCell align="right">{user?.email}</StyledTableCell>
+                  <StyledTableCell align="right">{user?.phone}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    <div className='capitalize'>
+                      {
+                        user?.role == "admin"
                           ?
-                          <div className='flex flex-col items-center text-blue-500'><GrUserWorker className='text-2xl' /><p className='font-semibold'>{user.role}</p></div>
-                          : user?.role == "resident"
+                          <div className='flex flex-col items-center text-green-500'><GrUserAdmin className='text-2xl' /><p className='font-semibold'>{user?.role}</p></div>
+                          : user?.role == "employee"
                             ?
-                            <div className='flex flex-col items-center text-lime-900'><GrUser className='text-2xl' /><p className='font-semibold'>{user.role}</p></div> 
-                            : user?.role == "guest" 
-                            ?
-                            <div className='flex flex-col items-center text-orange-500'><GrUserManager  className='text-2xl' /><p className='font-semibold'>{user.role}</p></div> : ''
-                    }
-                  </div>
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <Button className='bg-red-500 mr-2' variant="contained" size="small">Delete</Button>
-                  <span onClick={() => setUpdateData(user)}><Button onClick={handleClickOpen} className='' variant="outlined" size="small">Update</Button></span>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+                            <div className='flex flex-col items-center text-blue-500'><GrUserWorker className='text-2xl' /><p className='font-semibold'>{user?.role}</p></div>
+                            : user?.role == "resident"
+                              ?
+                              <div className='flex flex-col items-center text-lime-900'><GrUser className='text-2xl' /><p className='font-semibold'>{user?.role}</p></div>
+                              : user?.role == "guest"
+                                ?
+                                <div className='flex flex-col items-center text-orange-500'><GrUserManager className='text-2xl' /><p className='font-semibold'>{user?.role}</p></div> : ''
+                      }
+                    </div>
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <Button onClick={()=>handleDeleteUser(user?._id)} className='bg-red-500 mr-2' variant="contained" size="small">Delete</Button>
+                    <span onClick={() => setUpdateData(user)}><Button onClick={handleClickOpen} className='' variant="outlined" size="small">Update</Button></span>
+                  </StyledTableCell>
+                </StyledTableRow>
+              )) : <p>Data not found</p>}
           </TableBody>
         </Table>
       </TableContainer>
@@ -149,7 +211,7 @@ const AllUsers = ({ usersData }) => {
           aria-labelledby="responsive-dialog-title"
         >
           <DialogTitle className='bg-[#8338ec]' id="responsive-dialog-title">
-            <h4 className='text-center text-white'>{`Update ${updateData.role}'s info`}</h4>
+            <h4 className='text-center text-white'>{`Update ${updateData?.role}'s info`}</h4>
           </DialogTitle>
           <DialogContent className='bg-[#8338ec]'>
             <DialogContentText>

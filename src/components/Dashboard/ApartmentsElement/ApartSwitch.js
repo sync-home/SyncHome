@@ -8,15 +8,6 @@ import { useState } from 'react';
 const ApartSwitch = ({val}) => {
 
     const [checked, setChecked] = useState(val);
-    // console.log(name, index, checked)
-    // const axiosPublic = useAxiosPublic();
-    // axiosPublic.put(`/apartments/switch/${id}`, {name, index, value:checked})
-    // .then(result => {
-    //     console.log(result.data)
-    // })
-    // .catch(error => {
-    //     console.log(error)
-    // })
 
     return (
 

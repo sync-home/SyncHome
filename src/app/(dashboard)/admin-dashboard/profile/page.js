@@ -22,7 +22,7 @@ const Profile = () => {
 
     return (
         <div>
-            <DashboardProfile adminData={users} />
+            <DashboardProfile profileData={users} />
         </div>
     );
 };

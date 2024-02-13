@@ -13,13 +13,33 @@ import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { useForm } from "react-hook-form"
+import useAxiosPublic from '@/Hooks/useAxiosPublic';
+import useAuthContext from '@/Hooks/useAuthContext';
+import { useQuery } from '@tanstack/react-query';
+import { FaEdit } from 'react-icons/fa';
 
-const DashboardProfile = ({ profileData }) => {
+const DashboardProfile = () => {
 
     const { register, handleSubmit, reset } = useForm();
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const axiosPublic = useAxiosPublic();
+    const { user, loading } = useAuthContext();
+
+    const { data: profileData = {}, isLoading, isPending, refetch } = useQuery({
+        enabled: !loading && !!user,
+        queryKey: ['user'],
+        queryFn: async () => {
+            const res = await axiosPublic.get(`/users/${user?.email}`)
+            return res?.data;
+        }
+    })
+    console.log(profileData);
+
+    if (isLoading || isPending) {
+        return <p>Data is coming...</p>;
+    }
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -32,6 +52,14 @@ const DashboardProfile = ({ profileData }) => {
 
     const onSubmit = (data) => {
         console.log(data)
+        axiosPublic.put(`/update-profile/${data?.email}`, { data })
+            .then(result => {
+                console.log(result.data)
+                refetch();
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     return (
@@ -55,7 +83,7 @@ const DashboardProfile = ({ profileData }) => {
                         </div>
                         <div className='flex flex-wrap gap-3 font-semibold'>
                             <p>Age : {profileData?.age ? profileData?.age : 'N/A'}</p>|
-                            <p>Gender : {profileData?.gender ? profileData?.gender : 'N/A'}</p>|
+                            <p className='capitalize'>Gender : {profileData?.gender ? profileData?.gender : 'N/A'}</p>|
                             <p>Status : <span className='text-green-500'>{profileData?.status}</span></p>
                         </div>
                         <div className='flex mt-10 lg:gap-20 gap-0'>
@@ -145,13 +173,13 @@ const DashboardProfile = ({ profileData }) => {
                                     </div>
                                 </div>
                                 <div className='flex flex-col gap-0 mb-2'>
-                                        <label className='text-white' htmlFor="region">Region</label>
-                                        <input type="text" {...register("region")} defaultValue={profileData?.region} placeholder='Region' className='outline-0 rounded-md text-black px-2 py-1 bg-white' />
-                                    </div>
-                                    <div className='flex flex-col gap-0 mb-2'>
-                                        <label className='text-white' htmlFor="address">Address</label>
-                                        <textarea cols="5" rows="3"type="text" {...register("address")} defaultValue={profileData?.address} placeholder='Address' className='outline-0 rounded-md text-black px-2 py-1 bg-white' />
-                                    </div>
+                                    <label className='text-white' htmlFor="region">Region</label>
+                                    <input type="text" {...register("region")} defaultValue={profileData?.region} placeholder='Region' className='outline-0 rounded-md text-black px-2 py-1 bg-white' />
+                                </div>
+                                <div className='flex flex-col gap-0 mb-2'>
+                                    <label className='text-white' htmlFor="address">Address</label>
+                                    <textarea cols="5" rows="3" type="text" {...register("address")} defaultValue={profileData?.address} placeholder='Address' className='outline-0 rounded-md text-black px-2 py-1 bg-white' />
+                                </div>
                                 <input className='w-full cursor-pointer bg-[#96E9C6] py-1 hover:bg-[#8338ec] border-2 border-[#96E9C6] hover:text-[#96E9C6] transition-all ease-in-out rounded-md mt-5 text-black text-center' type="submit" value="Update" />
                             </form>
                         </DialogContentText>

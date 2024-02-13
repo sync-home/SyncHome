@@ -2,9 +2,7 @@
 
 import useAuthContext from '@/Hooks/useAuthContext';
 import useAxiosPublic from '@/Hooks/useAxiosPublic';
-import AcMode from '@/components/Dashboard/ApartmentsElement/AcMode';
 import ApartEnergyGraph from '@/components/Dashboard/ApartmentsElement/ApartEnergyGraph';
-import ApartSwitch from '@/components/Dashboard/ApartmentsElement/ApartSwitch';
 import CctvCamera from '@/components/Dashboard/ApartmentsElement/CctvCamera';
 import AcDialog from '@/components/Dashboard/ApartmentsElement/Dialog/AcDialog';
 import CctvDialog from '@/components/Dashboard/ApartmentsElement/Dialog/CctvDialog';
@@ -13,12 +11,13 @@ import FamilyDialog from '@/components/Dashboard/ApartmentsElement/Dialog/Family
 import TotalEnergyDialog from '@/components/Dashboard/ApartmentsElement/Dialog/TotalEnergyDialog';
 import WeeklyDialog from '@/components/Dashboard/ApartmentsElement/Dialog/WeeklyDialog';
 import WifiDialog from '@/components/Dashboard/ApartmentsElement/Dialog/WifiDialog';
-import TempControl from '@/components/Dashboard/ApartmentsElement/TempControl';
-import { Tooltip } from '@mui/material';
+import { Button } from '@mui/joy';
+import Switch from '@mui/joy/Switch';
+import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
-import React, { useState } from 'react';
-import { FaChild, FaFemale, FaMale, FaTrashAlt } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { FaChild, FaFan, FaFemale, FaMale, FaMinus, FaSun, FaTrashAlt, FaWind } from 'react-icons/fa';
 import { FaPlus } from 'react-icons/fa6';
 
 
@@ -28,6 +27,9 @@ const Apartments = () => {
     const { user, loading } = useAuthContext();
     const [apartSelect, setApartSelect] = useState('Apartment - 101');
     const [useData, setUseData] = useState('week');
+    const [tempControl, setTmpControl] = useState(0);
+    const [tempId, setTempId] = useState('');
+ 
 
     const { data: apartData = [], refetch, isPending, isLoading } = useQuery({
         enabled: !loading && !!user,
@@ -38,9 +40,45 @@ const Apartments = () => {
         }
     });
 
-    console.log(apartSelect);
-    const data1 = apartData?.filter(items => items?.name == apartSelect);
-    console.log(data1);
+    
+
+    const handleModeChange = (newMode, id) => {
+        if (newMode !== null) {
+            axiosPublic.patch(`apartments/acmode/${id}`, {newMode})
+            .then(result => {
+                console.log(result.data)
+                refetch();
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+    };
+
+
+    useEffect(() => {
+        axiosPublic.patch(`/apartments/actemp/${tempId}`, { tempControl })
+            .then(result => {
+                console.log(result.data)
+                refetch();
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }, [tempControl])
+
+    const handlePlus = (temp, id) => {
+        if (temp < 100) {
+            setTmpControl(parseInt(temp) + 5)
+            setTempId(id);
+        }
+    }
+    const handleMinus = (temp, id) => {
+        if (temp > 0) {
+            setTmpControl(parseInt(temp) - 5)
+            setTempId(id);
+        }
+    }
 
     // const apart = {
     //     "id": 1,
@@ -82,6 +120,7 @@ const Apartments = () => {
 
     const handleOption = e => {
         setApartSelect(e?.target?.value);
+        refetch();
     }
 
     const handleUsageData = e => {
@@ -147,17 +186,30 @@ const Apartments = () => {
     }
 
     // Update Switch
-    const handleUpdateSwitch = (id, name, index, value) => {
+    const handleDeviceSwitch = (id, index, value) => {
         value = !value;
-        console.log(id, name, index, value)
-        axiosPublic.put(`/apartments/switch/${id}`, {name, index, value})
-        .then(result => {
-            console.log(result)
-            refetch();
-        })
-        .catch(error => {
-            console.log(error)
-        })
+        console.log(id, index, value)
+        axiosPublic.put(`/apartments/device-switch/${id}`, { index, value })
+            .then(result => {
+                console.log(result)
+                refetch();
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+    const handleSimpleSwitch = (id, name, value) => {
+        value = !value;
+        console.log(id, name, value)
+        axiosPublic.put(`/apartments/simple-switch/${id}`, { name, value })
+            .then(result => {
+                console.log(result)
+                refetch();
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     return (
@@ -198,13 +250,19 @@ const Apartments = () => {
                                                                 <div className='col-span-2'>
                                                                     <h4 className='font-semibold text-[#363636] text-sm'>{device?.name}</h4>
                                                                     <p className='text-xs text-gray-600 mb-5'>{device?.brand}</p>
-                                                                    <span 
-                                                                    onClick={()=>handleUpdateSwitch(item?._id, 'devices', idx, device?.status)}>
-                                                                        <ApartSwitch val={device?.status} />
+                                                                    <span>
+                                                                        <Switch sx={device?.status && {
+                                                                            '& .MuiSwitch-thumb': { backgroundColor: '#fff', border: '1px solid #fff' }, '& .MuiSwitch-track': { backgroundColor: '#8338ec' }
+                                                                        }}
+                                                                            variant="solid"
+                                                                            size="lg"
+                                                                            checked={device?.status}
+                                                                            onChange={() => handleDeviceSwitch(item?._id, idx, device?.status)}
+                                                                        />
                                                                     </span>
                                                                 </div>
                                                                 <div>
-                                                                    <span onClick={() => handleDeleteDevice(item?._id, idx)} style={{ boxShadow: '0px 0px 2px #363636' }} className='absolute top-2 text-[#aaa] cursor-pointer hover:bg-[#8338EC] hover:text-white p-1 text-sm rounded-full right-2'><Tooltip title="Add" placement="left"><FaTrashAlt /></Tooltip></span>
+                                                                    <span onClick={() => handleDeleteDevice(item?._id, idx)} style={{ boxShadow: '0px 0px 2px #363636' }} className='absolute top-2 text-[#aaa] cursor-pointer hover:bg-[#8338EC] hover:text-white p-1 text-sm rounded-full right-2'><FaTrashAlt /></span>
                                                                     <Image height={100} width={100} src={`${device?.img ? device?.img : 'https://i.ibb.co/17HHBsG/tailwind.png'}`} alt={`${device?.name}`} />
                                                                 </div>
                                                             </div>
@@ -233,8 +291,15 @@ const Apartments = () => {
                                                             <div className='col-span-2'>
                                                                 <h4 className='font-semibold text-[#363636] text-sm'>{item?.router?.name}</h4>
                                                                 <p className='text-xs text-gray-500 mb-5'>{item?.router?.brand}</p>
-                                                                <span onClick={()=>handleUpdateSwitch(item?._id, 'router','',item?.router?.status)} >
-                                                                <ApartSwitch val={item?.router?.status} />
+                                                                <span>
+                                                                    <Switch sx={item?.router?.status && {
+                                                                        '& .MuiSwitch-thumb': { backgroundColor: '#fff', border: '1px solid #fff' }, '& .MuiSwitch-track': { backgroundColor: '#8338ec' }
+                                                                    }}
+                                                                        variant="solid"
+                                                                        size="lg"
+                                                                        checked={item?.router?.status}
+                                                                        onChange={() => handleSimpleSwitch(item?._id, 'router', item?.router?.status)}
+                                                                    />
                                                                 </span>
                                                             </div>
                                                             <div>
@@ -261,23 +326,117 @@ const Apartments = () => {
                                                     <h4 className='font-bold text-[#363636]'>Temperature Control</h4>
                                                     <button onClick={() => handleAcOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
                                                 </div>
-                                                <TempControl temp={item?.ac} />
+
+                                                <div>
+                                                    <div>
+                                                        <div style={{ boxShadow: '0px 0px 8px #ccc' }} className="h-40 w-40 flex mb-5 items-center justify-center text-2xl font-bold rounded-full mx-auto">
+                                                            <div className='h-32 w-32 rounded-full bg-gray-200 flex items-center justify-center'>
+                                                                <p>{item?.ac?.temp}°C</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <Box sx={{ width: 250, marginX: 'auto' }}>
+                                                        <div className="flex justify-center gap-10">
+                                                            <div>
+                                                                <Button onClick={() => handlePlus(item?.ac?.temp, item?._id)} sx={{ backgroundColor: '#8338EC' }}><FaPlus /></Button>
+                                                            </div>
+                                                            <div>
+                                                                <Button onClick={() => handleMinus(item?.ac?.temp, item?._id)} sx={{ backgroundColor: '#8338EC' }}><FaMinus /></Button>
+                                                            </div>
+                                                        </div>
+                                                    </Box>
+                                                </div>
                                                 <div className='flex justify-between mt-5'>
                                                     <div>
                                                         <h4 className='font-semibold text-[#363636] text-sm'>{item?.ac?.name}</h4>
                                                         <p className='text-xs text-gray-500 mb-5'>{item?.ac?.brand}</p>
                                                     </div>
                                                     <div>
-                                                    <span onClick={()=>handleUpdateSwitch(item?._id, 'ac','',item?.ac?.status)} >
-                                                        <ApartSwitch val={item?.ac?.status} />
+                                                        <span>
+                                                            <Switch sx={item?.ac?.status && {
+                                                                '& .MuiSwitch-thumb': { backgroundColor: '#fff', border: '1px solid #fff' }, '& .MuiSwitch-track': { backgroundColor: '#8338ec' }
+                                                            }}
+                                                                variant="solid"
+                                                                size="lg"
+                                                                checked={item?.ac?.status}
+                                                                onChange={() => handleSimpleSwitch(item?._id, 'ac', item?.ac?.status)}
+                                                            />
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div>
                                                     <h4 className='font-semibold text-[#363636] text-sm mb-5'>Modes</h4>
+
                                                     <div>
-                                                        <AcMode val={item?.ac?.mode} />
+                                                        <ToggleButtonGroup
+                                                            value={item?.ac?.mode}
+                                                            exclusive
+                                                            onChange={(e)=>handleModeChange(e.target.value, item?._id)}
+                                                            aria-label="text alignment"
+                                                        >
+                                                            <ToggleButton
+                                                                value="auto"
+                                                                aria-label="auto"
+                                                                sx={{
+                                                                    borderRadius: '20px',
+                                                                    marginRight: '8px',
+                                                                    color: '#363636',
+                                                                    backgroundColor: item?.ac?.mode === 'auto' ? '#3f51b5' : '#cccccc',
+                                                                    '&:hover': {
+                                                                        backgroundColor: item?.ac?.mode === 'auto' ? '#303f9f' : '#aaaaaa',
+                                                                    },
+                                                                    '&.Mui-selected': {
+                                                                        backgroundColor: '#8338ec',
+                                                                        color: '#fff'
+                                                                    },
+                                                                }}
+                                                            >
+                                                                <FaSun className='mr-1' />
+                                                                Auto
+                                                            </ToggleButton>
+                                                            <ToggleButton
+                                                                value="wind"
+                                                                aria-label="wind"
+                                                                sx={{
+                                                                    borderRadius: '20px',
+                                                                    marginRight: '8px',
+                                                                    color: '#363636',
+                                                                    backgroundColor: item?.ac?.mode === 'wind' ? '#3f51b5' : '#cccccc',
+                                                                    '&:hover': {
+                                                                        backgroundColor: item?.ac?.mode === 'wind' ? '#303f9f' : '#aaaaaa',
+                                                                    },
+                                                                    '&.Mui-selected': {
+                                                                        backgroundColor: '#8338ec',
+                                                                        color: '#fff'
+                                                                    },
+                                                                }}
+                                                            >
+                                                                <FaWind className='mr-1' />
+                                                                Wind
+                                                            </ToggleButton>
+                                                            <ToggleButton
+                                                                value="swing"
+                                                                aria-label="swing"
+                                                                sx={{
+                                                                    borderRadius: '20px',
+                                                                    color: '#363636',
+                                                                    backgroundColor: item?.ac?.mode === 'swing' ? '#3f51b5' : '#cccccc',
+                                                                    '&:hover': {
+                                                                        backgroundColor: item?.ac?.mode === 'swing' ? '#303f9f' : '#aaaaaa',
+                                                                    },
+                                                                    '&.Mui-selected': {
+                                                                        backgroundColor: '#8338ec',
+                                                                        color: '#fff'
+                                                                    },
+                                                                }}
+                                                            >
+                                                                <FaFan className='mr-1' />
+                                                                Swing
+                                                            </ToggleButton>
+                                                        </ToggleButtonGroup>
+                                                        {/* <AcMode val={item?.ac?.mode} /> */}
                                                     </div>
+
                                                 </div>
                                             </div>
                                             <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>

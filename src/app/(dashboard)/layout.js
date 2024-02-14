@@ -1,5 +1,6 @@
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar/DashboardSidebar';
-import { faHouse, faUser, faUsers, faChartLine, faVideo, faTools, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faUser, faUsers, faChartLine, faVideo, faTools, faCalendarAlt, faTriangleExclamation, } from '@fortawesome/free-solid-svg-icons';
+import { FaCircleExclamation } from 'react-icons/fa6';
 
 const DashboardLayout = ({ children }) => {
 
@@ -15,6 +16,7 @@ const DashboardLayout = ({ children }) => {
         {'name': 'Community Events', 'path': '/resident-dashboard/community-events', 'icon': faCalendarAlt},
         {'name': 'Back to Home', 'path': '/', 'icon': faHouse},
         {'name': 'Control Room', 'path': '/employee-dashboard/services', 'icon': faHouse},
+        {'name': 'Report', 'path': '/employee-dashboard/Report', 'icon': faTriangleExclamation},
     ];
 
     return (

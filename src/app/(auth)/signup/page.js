@@ -34,7 +34,7 @@ const SignUpPage = () => {
                     .then(res => {
                         if (res.data.insertedId) {
                             reset()
-                            toast.success('Sign Up Successfully', {
+                            toast.success('Sign Up Successful', {
                                 position: 'top-center',
                                 autoClose: 1300,
                             })
@@ -54,7 +54,7 @@ const SignUpPage = () => {
             .then(result => {
                 console.log(result.user);
                  // toast
-                 toast.success('Sign Up Successfully', {
+                 toast.success('Sign Up Successful', {
                     position: 'top-center',
                     autoClose: 1300,
                 })

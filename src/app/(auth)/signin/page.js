@@ -26,7 +26,7 @@ const SignInPage = () => {
                 console.log(result.user);
 
                  // toast
-                 toast.success('Sign Up Successfully', {
+                 toast.success('Sign In Successful', {
                     position: 'top-center',
                     autoClose: 1300,
                 })
@@ -49,7 +49,7 @@ const SignInPage = () => {
                 console.log(result.user);
 
                  // toast
-                    toast.success('Sign Up Successfully', {
+                    toast.success('Sign In Successful', {
                         position: 'top-center',
                         autoClose: 1300,
                     })

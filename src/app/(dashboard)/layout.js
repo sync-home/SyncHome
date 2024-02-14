@@ -1,26 +1,27 @@
 "use client";
 
+
 import useAuthContext from '@/Hooks/useAuthContext';
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar/DashboardSidebar';
 import TanstackProvider from '@/provider/TanstackProvider';
-import { faHouse, faUser, faUsers, faChartLine, faVideo } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
 import { getRole } from '@/utils/getRole';
+import { faHouse, faUser, faUsers, faChartLine, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 
 
 const DashboardLayout = ({ children }) => {
 
-    const [role, setRole] = useState(null)
     const {user} = useAuthContext();
+    const [ role, setRole ] = useState(null)
 
-    useEffect(() => {
+    getRole(user?.email).then(data => {
+        if (data?.role) setRole(data.role)
+    });
 
-        getRole(user?.email).then(data => {
-            if (data?.role) setRole(data.role)
-        });
 
-    }, [])
-
+    if(!role){
+        return <p>Role is coming...</p>
+    }
 
     let sidebarData = [];
 
@@ -53,12 +54,9 @@ const DashboardLayout = ({ children }) => {
         ];
     } else if (role == 'guest') {
         sidebarData = [
-            { 'name': 'Guest Profile', 'path': '/admin-dashboard/profile', 'icon': faUser },
-            { 'name': 'guest All Users', 'path': '/admin-dashboard/all-users', 'icon': faUsers },
-            { 'name': 'guest Energy', 'path': '/admin-dashboard/energy', 'icon': faChartLine },
-            { 'name': 'guest Camera', 'path': '/admin-dashboard/camera', 'icon': faVideo },
-            { 'name': 'guest Apartments', 'path': '/admin-dashboard/apartments', 'icon': faHouse },
-            { 'name': 'guest Back to Home', 'path': '/', 'icon': faHouse },
+            { 'name': 'Guest Profile', 'path': '/guest-dashboard/profile', 'icon': faUser },
+            
+            { 'name': 'Back to Home', 'path': '/', 'icon': faHouse },
         ];
     };
 

@@ -109,9 +109,7 @@ const DashboardProfile = () => {
                                 <div key={idx}>
                                     <div className='py-2 flex flex-wrap gap-5'>
                                         <span>{idx + 1}.</span>
-                                        <span>Logged in at </span>
-                                        <span>Date : {data?.date}</span>
-                                        <span>Time : {data?.time}</span>
+                                        <span>Logged in at {data?.date}</span>
                                     </div>
                                     <hr />
                                 </div>
@@ -151,10 +149,7 @@ const DashboardProfile = () => {
                                     <div className='flex-1'>
                                         <label className='text-white'>Role</label>
                                         <select {...register("role")} defaultValue={profileData?.role} className='w-full p-2 text-black rounded-md'>
-                                            <option value="admin">admin</option>
-                                            <option value="employee">employee</option>
-                                            <option value="resident">resident</option>
-                                            <option value="guest">guest</option>
+                                            <option value={`${profileData?.role}`}>{profileData?.role}</option>
                                         </select>
                                     </div>
                                 </div>

@@ -34,7 +34,18 @@ const DashboardSidebar = ({ sidebarData }) => {
                 rootStyles={{ height: '100vh', border: '0' }}
                 onBackdropClick={() => setToggled((prev) => !prev)}
             >
-                <Menu className='h-full text-white'>
+                <Menu 
+                menuItemStyles={{
+                    button: {
+                      // the active class will be added automatically by react router
+                      // so we can use it to style the active menu item
+                      [`&.active`]: {
+                        backgroundColor: '#000',
+                        color: '#b6c8d9',
+                      },
+                    },
+                  }}
+                className='h-full text-white'>
                     <div className='grid grid-cols-4'>
                         {
                             !collapsed ? <Link
@@ -61,10 +72,10 @@ const DashboardSidebar = ({ sidebarData }) => {
                         sidebarData.map((item, idx) => (
                             <MenuItem
                                 key={idx}
-                                icon={<FontAwesomeIcon icon={item.icon} />}
-                                component={<Link href={`${item.path}`} />}
+                                icon={<FontAwesomeIcon icon={item?.icon} />}
+                                component={<Link href={`${item?.path}`} />}
                                 className='hover:text-black'>
-                                {item.name}
+                                {item?.name}
                             </MenuItem>
                         ))
                     }

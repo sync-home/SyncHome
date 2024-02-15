@@ -1,21 +1,22 @@
 "use client";
 
+
 import useAuthContext from "@/Hooks/useAuthContext";
 import DashboardLoading from "@/components/Dashboard/DashboardLoading/DashboardLoading";
 import { getRole } from "@/utils/getRole";
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
 
 const AdminDashboardLayout = ({ children }) => {
-    const [role, setRole] = useState(null);
-    const { user } = useAuthContext();
+
+    const {user} = useAuthContext();
+    const [ role, setRole ] = useState(null)
     const router = useRouter();
 
-    useEffect(() => {
-        getRole(user?.email).then(data => {
-            if (data?.role) setRole(data.role)
-        });
-    }, [])
+    getRole(user?.email).then(data => {
+        if (data?.role) setRole(data.role)
+    });
 
     if(!role){
         return <DashboardLoading/>

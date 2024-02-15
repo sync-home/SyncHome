@@ -25,16 +25,16 @@ const SignInPage = () => {
             .then(result => {
                 reset()
                 console.log(result.user);
-                axiosPublic.put(`/userLoginActivity/${result?.user?.email}`, {data: result?.user?.metadata?.lastSignInTime})
-                .then(result => {
-                    console.log(result)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+                axiosPublic.put(`/userLoginActivity/${result?.user?.email}`, { data: result?.user?.metadata?.lastSignInTime })
+                    .then(result => {
+                        console.log(result)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
 
-                 // toast
-                 toast.success('Sign Up Successfully', {
+                // toast
+                toast.success('Sign Up Successfully', {
                     position: 'top-center',
                     autoClose: 1300,
                 })
@@ -50,18 +50,26 @@ const SignInPage = () => {
             })
     }
 
-     // create user for using google
-     const handleGoogle = () => {
+    // create user for using google
+    const handleGoogle = () => {
         googleLogin()
             .then(result => {
                 console.log(result.user);
 
-                 // toast
-                    toast.success('Sign Up Successfully', {
-                        position: 'top-center',
-                        autoClose: 1300,
+                axiosPublic.put(`/userLoginActivity/${result?.user?.email}`, { data: result?.user?.metadata?.lastSignInTime })
+                    .then(result => {
+                        console.log(result)
                     })
-                    
+                    .catch(error => {
+                        console.log(error)
+                    })
+
+                // toast
+                toast.success('Sign Up Successfully', {
+                    position: 'top-center',
+                    autoClose: 1300,
+                })
+
                 router.push('/')
             })
             .catch(error => {

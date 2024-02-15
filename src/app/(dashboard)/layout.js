@@ -32,6 +32,7 @@ const DashboardLayout = ({ children }) => {
             { 'name': 'Energy', 'path': '/admin-dashboard/energy', 'icon': faChartLine },
             { 'name': 'Camera', 'path': '/admin-dashboard/camera', 'icon': faVideo },
             { 'name': 'Apartments', 'path': '/admin-dashboard/apartments', 'icon': faHouse },
+            { 'name': 'Requests', 'path': '/admin-dashboard/requests', 'icon': faHouse },
             { 'name': 'Back to Home', 'path': '/', 'icon': faHouse },
         ];
     } else if (role == 'resident') {
@@ -55,7 +56,7 @@ const DashboardLayout = ({ children }) => {
     } else if (role == 'guest') {
         sidebarData = [
             { 'name': 'Guest Profile', 'path': '/guest-dashboard/profile', 'icon': faUser },
-            
+            { 'name': 'Request', 'path': '/guest-dashboard/request', 'icon': faUser }, 
             { 'name': 'Back to Home', 'path': '/', 'icon': faHouse },
         ];
     };

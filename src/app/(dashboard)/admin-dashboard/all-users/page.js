@@ -1,7 +1,7 @@
 import AllUsers from '@/components/Dashboard/AdminDashboard/AllUsers/AllUsers';
 import React from 'react';
 
-const Allusers = async() => {
+const Allusers = () => {
 
     // const usersData=[
     //     {

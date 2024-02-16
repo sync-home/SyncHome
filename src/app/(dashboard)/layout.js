@@ -1,25 +1,14 @@
 "use client";
-
-
-import useAuthContext from '@/Hooks/useAuthContext';
+import useGetRole from '@/Hooks/useGetRole';
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar/DashboardSidebar';
-import TanstackProvider from '@/provider/TanstackProvider';
-import { getRole } from '@/utils/getRole';
 import { faHouse, faUser, faUsers, faChartLine, faVideo } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
 
 
 const DashboardLayout = ({ children }) => {
 
-    const {user} = useAuthContext();
-    const [ role, setRole ] = useState(null)
+    const role = useGetRole();
 
-    getRole(user?.email).then(data => {
-        if (data?.role) setRole(data.role)
-    });
-
-
-    if(!role){
+    if (!role) {
         return <p>Role is coming...</p>
     }
 
@@ -56,7 +45,7 @@ const DashboardLayout = ({ children }) => {
     } else if (role == 'guest') {
         sidebarData = [
             { 'name': 'Guest Profile', 'path': '/guest-dashboard/profile', 'icon': faUser },
-            { 'name': 'Request', 'path': '/guest-dashboard/request', 'icon': faUser }, 
+            { 'name': 'Request', 'path': '/guest-dashboard/request', 'icon': faUser },
             { 'name': 'Back to Home', 'path': '/', 'icon': faHouse },
         ];
     };
@@ -77,9 +66,7 @@ const DashboardLayout = ({ children }) => {
                         <h3 className="text-white font-bold text-center text-2xl capitalize">{role} Dashboard</h3>
                     </div>
                     <div className="lg:m-10 m-5">
-                        <TanstackProvider>
-                            {children}
-                        </TanstackProvider>
+                        {children}
                     </div>
                 </div>
             </div>

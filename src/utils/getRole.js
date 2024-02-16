@@ -1,7 +1,7 @@
 export async function getRole(email) {
 
     try {
-        const res = await fetch(`http://localhost:5000/api/v1/users/${email}`, {
+        const res = await fetch(`https://synchome-server-pink.vercel.app/api/v1/users/${email}`, {
             cache: 'force-cache'
         })
 
@@ -9,9 +9,16 @@ export async function getRole(email) {
             throw new Error('Failed to fetch data')
         }
 
-        return res.json()
+        const responseData = await res.json();
+
+        // Check if responseData is empty or undefined
+        if (!responseData) {
+            throw new Error('Empty response data');
+        }
+
+        return responseData;
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return { message: error?.message }
     }
 }

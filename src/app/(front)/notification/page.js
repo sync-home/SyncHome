@@ -7,13 +7,13 @@ import { toast } from 'react-toastify';
 const Notification = async () => {
 
 
-    const res = await fetch('https://synchome-server.vercel.app/api/v1/notifications', {
+    const res = await fetch('https://synchome-server-pink.vercel.app/api/v1/notifications', {
         cache: 'no-store'
     })
     const posts = await res.json()
 
     const handleDelete = async (id) => {
-        const res = await axios.delete(`http://localhost:5000/api/v1/remove-notifications/${id}`)
+        const res = await axios.delete(`https://synchome-server-pink.vercel.app/api/v1/remove-notifications/${id}`)
         console.log(res.data);
 
         if (res.data.deletedCount > 0) {

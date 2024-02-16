@@ -2,7 +2,7 @@
 import useGetRole from "@/Hooks/useGetRole";
 import DashboardLoading from "@/components/Dashboard/DashboardLoading/DashboardLoading";
 
-const AdminDashboardLayout = ({ children }) => {
+const ResidentDashboardLayout = ({ children }) => {
 
     const role = useGetRole();
 
@@ -10,10 +10,10 @@ const AdminDashboardLayout = ({ children }) => {
         return <DashboardLoading/>
     }
 
-    if (role == 'admin') {
+    if (role == 'resident') {
         return children;
     }else router.push('/');
     
 };
 
-export default AdminDashboardLayout;
+export default ResidentDashboardLayout;

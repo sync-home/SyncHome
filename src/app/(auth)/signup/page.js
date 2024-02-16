@@ -36,8 +36,8 @@ const SignUpPage = () => {
                     axiosPublic.post('new-user', userInfo)
                     .then(res => {
                         if (res.data.insertedId) {
-                            reset();
-                            toast.success('Sign Up Successfully', {
+                            reset()
+                            toast.success('Sign Up Successful', {
                                 position: 'top-center',
                                 autoClose: 1300,
                             })
@@ -66,7 +66,7 @@ const SignUpPage = () => {
                 }
                 axiosPublic.post('new-user', userInfo)
                  // toast
-                 toast.success('Sign Up Successfully', {
+                 toast.success('Sign Up Successful', {
                     position: 'top-center',
                     autoClose: 1300,
                 })

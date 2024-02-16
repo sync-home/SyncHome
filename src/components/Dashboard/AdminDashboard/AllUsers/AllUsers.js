@@ -22,7 +22,6 @@ import Image from 'next/image';
 import { Button, ButtonBase } from '@mui/material';
 import { GrUserAdmin, GrUserWorker, GrUser, GrUserManager } from "react-icons/gr";
 import { useForm } from "react-hook-form"
-import { useQuery } from '@tanstack/react-query';
 import useAxiosPublic from '@/Hooks/useAxiosPublic';
 import Swal from 'sweetalert2';
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary';

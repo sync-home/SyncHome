@@ -33,8 +33,8 @@ const SignInPage = () => {
                         console.log(error)
                     })
 
-                // toast
-                toast.success('Sign Up Successfully', {
+                 // toast
+                 toast.success('Sign In Successful', {
                     position: 'top-center',
                     autoClose: 1300,
                 })
@@ -65,7 +65,7 @@ const SignInPage = () => {
                     })
 
                 // toast
-                toast.success('Sign Up Successfully', {
+                toast.success('Sign Up Successful', {
                     position: 'top-center',
                     autoClose: 1300,
                 })

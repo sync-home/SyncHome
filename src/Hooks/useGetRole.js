@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import useAuthContext from "./useAuthContext";
 import useAxiosPublic from "./useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
@@ -8,16 +7,21 @@ const useGetRole = () => {
 
     const { user, loading } = useAuthContext();
     const axiosPublic = useAxiosPublic();
-    const [role, setRole] = useState(null);
 
-    const {data} = useQuery({
+    const {data: userData={}, isPending, isLoading} = useQuery({
         enabled: !loading,
-        queryKey: ['user'],
+        queryKey: ['user', `${user?.email}`],
         queryFn: async() => {
-            const res = await axiosPublic.get(`https://synchome-server-pink.vercel.app/api/v1/users/${user?.email}`)
-            setRole(res?.data?.role);
+            const res = await axiosPublic.get(`/users/${user?.email}`)
+            return res?.data;
         }
     })
+
+    const role = userData?.role;
+
+    if(isLoading || isPending || !role){
+        return <p>Role is pending and loading...</p>;
+    }
 
     return role;
 };

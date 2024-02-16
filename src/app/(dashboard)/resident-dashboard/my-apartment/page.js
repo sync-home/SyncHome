@@ -21,21 +21,20 @@ import { FaChild, FaFan, FaFemale, FaMale, FaMinus, FaSun, FaTrashAlt, FaWind } 
 import { FaPlus } from 'react-icons/fa6';
 
 
-const Apartments = () => {
+const MyApartment = () => {
 
     const axiosPublic = useAxiosPublic();
     const { user, loading } = useAuthContext();
-    const [apartSelect, setApartSelect] = useState('Apartment - 101');
     const [useData, setUseData] = useState('week');
     const [tempControl, setTmpControl] = useState(0);
     const [tempId, setTempId] = useState('');
  
 
-    const { data: apartData = [], refetch, isPending, isLoading } = useQuery({
+    const { data: apartData = {}, refetch, isPending, isLoading } = useQuery({
         enabled: !loading,
         queryKey: ['apartments', `${user?.email}`],
         queryFn: async () => {
-            const res = await axiosPublic.get('/apartments');
+            const res = await axiosPublic.get(`/apartments/${user?.email}`);
             return res?.data;
         }
     });
@@ -79,8 +78,6 @@ const Apartments = () => {
             setTempId(id);
         }
     }
-
-    // const apart = {
     //     "id": 1,
     //     "name": "Apartment - 101",
     //     "email": "shahidul@gmail.com",
@@ -118,10 +115,6 @@ const Apartments = () => {
     //     { "day": "Sunday", "electricity": 50, "water": 40, "gas": 35 }
     // ];
 
-    const handleOption = e => {
-        setApartSelect(e?.target?.value);
-        refetch();
-    }
 
     const handleUsageData = e => {
         setUseData(e?.target?.value);
@@ -215,34 +208,24 @@ const Apartments = () => {
     return (
         <div>
             {
-                isPending || isLoading ? <p>Website is Loading</p> : apartData?.length ? <><div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5 flex lg:flex-row flex-col justify-center lg:justify-between'>
-                    <h4 className='font-bold uppercase text-xl text-[#363636]'>Total Apartment : {apartData?.length}</h4>
-                    <select onChange={handleOption} style={{ border: '1px solid #ddd' }} className='px-5 rounded-md py-1 outline-0'>
-                        {
-                            apartData?.map((item, idx) => (
-                                <option
-                                    key={idx}
-                                    value={item?.name}
-                                >{item?.name}</option>
-                            ))
-                        }
-                    </select>
+                isPending || isLoading ? <p>Website is Loading</p> : apartData ? <><div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
+                    <h4 className='font-bold text-center uppercase text-xl text-[#363636]'>My Apartment</h4>
                 </div>
                     <div>
                         {
-                            apartData?.filter(items => items?.name == apartSelect).map((item, idx) => (
-                                <div key={idx}>
+                            
+                                <div>
                                     <div className='grid lg:grid-cols-3 grid-cols-1 gap-10'>
                                         <div className='lg:col-span-2'>
                                             <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
                                                 <div className='flex justify-between items-center mb-5'>
                                                     <h4 className='font-bold text-[#363636]'>Quick Access</h4>
-                                                    <button onClick={() => handleAddDeviceOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus /> Add Device</button>
+                                                    <button onClick={() => handleAddDeviceOpen(apartData?._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus /> Add Device</button>
                                                 </div>
                                                 <div className='grid lg:grid-cols-3 grid-cols-1 gap-2'>
 
                                                     {
-                                                        item?.devices?.map((device, idx) => (
+                                                        apartData?.devices?.map((device, idx) => (
                                                             <div
                                                                 key={idx}
                                                                 style={{ border: '1px solid #ddd' }}
@@ -257,12 +240,12 @@ const Apartments = () => {
                                                                             variant="solid"
                                                                             size="lg"
                                                                             checked={device?.status}
-                                                                            onChange={() => handleDeviceSwitch(item?._id, idx, device?.status)}
+                                                                            onChange={() => handleDeviceSwitch(apartData?._id, idx, device?.status)}
                                                                         />
                                                                     </span>
                                                                 </div>
                                                                 <div>
-                                                                    <span onClick={() => handleDeleteDevice(item?._id, idx)} style={{ boxShadow: '0px 0px 2px #363636' }} className='absolute top-2 text-[#aaa] cursor-pointer hover:bg-[#8338EC] hover:text-white p-1 text-sm rounded-full right-2'><FaTrashAlt /></span>
+                                                                    <span onClick={() => handleDeleteDevice(apartData?._id, idx)} style={{ boxShadow: '0px 0px 2px #363636' }} className='absolute top-2 text-[#aaa] cursor-pointer hover:bg-[#8338EC] hover:text-white p-1 text-sm rounded-full right-2'><FaTrashAlt /></span>
                                                                     <Image height={100} width={100} src={`${device?.img ? device?.img : 'https://i.ibb.co/17HHBsG/tailwind.png'}`} alt={`${device?.name}`} />
                                                                 </div>
                                                             </div>
@@ -275,35 +258,35 @@ const Apartments = () => {
                                                 <div className='lg:col-span-2'>
                                                     <div className='flex justify-between items-center mb-5'>
                                                         <h4 className='font-bold text-[#363636]'>CCTV Camera</h4>
-                                                        <button onClick={() => handleCctvOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus />CCTV</button>
+                                                        <button onClick={() => handleCctvOpen(apartData?._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus />CCTV</button>
                                                     </div>
                                                     <div>
-                                                       <CctvCamera cameraInfo={item?.cctv} />
+                                                       <CctvCamera cameraInfo={apartData?.cctv} />
                                                     </div>
                                                 </div>
                                                 <div>
                                                     <div>
                                                         <div className='flex justify-between items-center mb-5'>
                                                             <h4 className='font-bold text-[#363636]'>WiFi Control</h4>
-                                                            <button onClick={() => handleWifiOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
+                                                            <button onClick={() => handleWifiOpen(apartData?._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
                                                         </div>
                                                         <div style={{ border: '1px solid #ddd' }} className='grid grid-cols-3 gap-2 items-center shadow-md rounded-md px-5 py-3'>
                                                             <div className='col-span-2'>
-                                                                <h4 className='font-semibold text-[#363636] text-sm'>{item?.router?.name}</h4>
-                                                                <p className='text-xs text-gray-500 mb-5'>{item?.router?.brand}</p>
+                                                                <h4 className='font-semibold text-[#363636] text-sm'>{apartData?.router?.name}</h4>
+                                                                <p className='text-xs text-gray-500 mb-5'>{apartData?.router?.brand}</p>
                                                                 <span>
-                                                                    <Switch sx={item?.router?.status && {
+                                                                    <Switch sx={apartData?.router?.status && {
                                                                         '& .MuiSwitch-thumb': { backgroundColor: '#fff', border: '1px solid #fff' }, '& .MuiSwitch-track': { backgroundColor: '#8338ec' }
                                                                     }}
                                                                         variant="solid"
                                                                         size="lg"
-                                                                        checked={item?.router?.status}
-                                                                        onChange={() => handleSimpleSwitch(item?._id, 'router', item?.router?.status)}
+                                                                        checked={apartData?.router?.status}
+                                                                        onChange={() => handleSimpleSwitch(apartData?._id, 'router', apartData?.router?.status)}
                                                                     />
                                                                 </span>
                                                             </div>
                                                             <div>
-                                                                <Image height={100} width={100} src={`${item?.router?.img}`} alt={`${item?.router?.name}`} />
+                                                                <Image height={100} width={100} src={`${apartData?.router?.img}`} alt={`${apartData?.router?.name}`} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -313,7 +296,7 @@ const Apartments = () => {
                                                             <div className='text-center'>
                                                                 <h4 className='font-semibold text-[#363636] text-sm'>Total Devices : 4</h4>
                                                                 <p className='text-gray-500 mt-2'>Total Usage</p>
-                                                                <p className='text-xl font-bold text-[#363636]'>{item?.wifi} GB</p>
+                                                                <p className='text-xl font-bold text-[#363636]'>{apartData?.wifi} GB</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -324,42 +307,42 @@ const Apartments = () => {
                                             <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
                                                 <div className='flex justify-between items-center mb-5'>
                                                     <h4 className='font-bold text-[#363636]'>Temperature Control</h4>
-                                                    <button onClick={() => handleAcOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
+                                                    <button onClick={() => handleAcOpen(apartData?._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
                                                 </div>
 
                                                 <div>
                                                     <div>
                                                         <div style={{ boxShadow: '0px 0px 8px #ccc' }} className="h-40 w-40 flex mb-5 items-center justify-center text-2xl font-bold rounded-full mx-auto">
                                                             <div className='h-32 w-32 rounded-full bg-gray-200 flex items-center justify-center'>
-                                                                <p>{item?.ac?.temp}°C</p>
+                                                                <p>{apartData?.ac?.temp}°C</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <Box sx={{ width: 250, marginX: 'auto' }}>
                                                         <div className="flex justify-center gap-10">
                                                             <div>
-                                                                <Button onClick={() => handlePlus(item?.ac?.temp, item?._id)} sx={{ backgroundColor: '#8338EC' }}><FaPlus /></Button>
+                                                                <Button onClick={() => handlePlus(apartData?.ac?.temp, apartData?._id)} sx={{ backgroundColor: '#8338EC' }}><FaPlus /></Button>
                                                             </div>
                                                             <div>
-                                                                <Button onClick={() => handleMinus(item?.ac?.temp, item?._id)} sx={{ backgroundColor: '#8338EC' }}><FaMinus /></Button>
+                                                                <Button onClick={() => handleMinus(apartData?.ac?.temp, apartData?._id)} sx={{ backgroundColor: '#8338EC' }}><FaMinus /></Button>
                                                             </div>
                                                         </div>
                                                     </Box>
                                                 </div>
                                                 <div className='flex justify-between mt-5'>
                                                     <div>
-                                                        <h4 className='font-semibold text-[#363636] text-sm'>{item?.ac?.name}</h4>
-                                                        <p className='text-xs text-gray-500 mb-5'>{item?.ac?.brand}</p>
+                                                        <h4 className='font-semibold text-[#363636] text-sm'>{apartData?.ac?.name}</h4>
+                                                        <p className='text-xs text-gray-500 mb-5'>{apartData?.ac?.brand}</p>
                                                     </div>
                                                     <div>
                                                         <span>
-                                                            <Switch sx={item?.ac?.status && {
+                                                            <Switch sx={apartData?.ac?.status && {
                                                                 '& .MuiSwitch-thumb': { backgroundColor: '#fff', border: '1px solid #fff' }, '& .MuiSwitch-track': { backgroundColor: '#8338ec' }
                                                             }}
                                                                 variant="solid"
                                                                 size="lg"
-                                                                checked={item?.ac?.status}
-                                                                onChange={() => handleSimpleSwitch(item?._id, 'ac', item?.ac?.status)}
+                                                                checked={apartData?.ac?.status}
+                                                                onChange={() => handleSimpleSwitch(apartData?._id, 'ac', apartData?.ac?.status)}
                                                             />
                                                         </span>
                                                     </div>
@@ -369,9 +352,9 @@ const Apartments = () => {
 
                                                     <div>
                                                         <ToggleButtonGroup
-                                                            value={item?.ac?.mode}
+                                                            value={apartData?.ac?.mode}
                                                             exclusive
-                                                            onChange={(e)=>handleModeChange(e.target.value, item?._id)}
+                                                            onChange={(e)=>handleModeChange(e.target.value, apartData?._id)}
                                                             aria-label="text alignment"
                                                         >
                                                             <ToggleButton
@@ -381,9 +364,9 @@ const Apartments = () => {
                                                                     borderRadius: '20px',
                                                                     marginRight: '8px',
                                                                     color: '#363636',
-                                                                    backgroundColor: item?.ac?.mode === 'auto' ? '#3f51b5' : '#cccccc',
+                                                                    backgroundColor: apartData?.ac?.mode === 'auto' ? '#3f51b5' : '#cccccc',
                                                                     '&:hover': {
-                                                                        backgroundColor: item?.ac?.mode === 'auto' ? '#303f9f' : '#aaaaaa',
+                                                                        backgroundColor: apartData?.ac?.mode === 'auto' ? '#303f9f' : '#aaaaaa',
                                                                     },
                                                                     '&.Mui-selected': {
                                                                         backgroundColor: '#8338ec',
@@ -401,9 +384,9 @@ const Apartments = () => {
                                                                     borderRadius: '20px',
                                                                     marginRight: '8px',
                                                                     color: '#363636',
-                                                                    backgroundColor: item?.ac?.mode === 'wind' ? '#3f51b5' : '#cccccc',
+                                                                    backgroundColor: apartData?.ac?.mode === 'wind' ? '#3f51b5' : '#cccccc',
                                                                     '&:hover': {
-                                                                        backgroundColor: item?.ac?.mode === 'wind' ? '#303f9f' : '#aaaaaa',
+                                                                        backgroundColor: apartData?.ac?.mode === 'wind' ? '#303f9f' : '#aaaaaa',
                                                                     },
                                                                     '&.Mui-selected': {
                                                                         backgroundColor: '#8338ec',
@@ -420,9 +403,9 @@ const Apartments = () => {
                                                                 sx={{
                                                                     borderRadius: '20px',
                                                                     color: '#363636',
-                                                                    backgroundColor: item?.ac?.mode === 'swing' ? '#3f51b5' : '#cccccc',
+                                                                    backgroundColor: apartData?.ac?.mode === 'swing' ? '#3f51b5' : '#cccccc',
                                                                     '&:hover': {
-                                                                        backgroundColor: item?.ac?.mode === 'swing' ? '#303f9f' : '#aaaaaa',
+                                                                        backgroundColor: apartData?.ac?.mode === 'swing' ? '#303f9f' : '#aaaaaa',
                                                                     },
                                                                     '&.Mui-selected': {
                                                                         backgroundColor: '#8338ec',
@@ -434,7 +417,7 @@ const Apartments = () => {
                                                                 Swing
                                                             </ToggleButton>
                                                         </ToggleButtonGroup>
-                                                        {/* <AcMode val={item?.ac?.mode} /> */}
+                                                        {/* <AcMode val={apartData?.ac?.mode} /> */}
                                                     </div>
 
                                                 </div>
@@ -442,21 +425,21 @@ const Apartments = () => {
                                             <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
                                                 <div className='flex justify-between items-center mb-5'>
                                                     <h4 className='font-bold text-[#363636]'>Total Family Members</h4>
-                                                    <button onClick={() => handleFamilyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
+                                                    <button onClick={() => handleFamilyOpen(apartData?._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
                                                 </div>
                                                 <div>
                                                     <div>
                                                         <div style={{ border: '1px solid #ddd' }} className='rounded-md p-2 font-semibold text-sm flex items-center gap-2 text-[#21b0fe]'>
                                                             <FaMale />
-                                                            Male : {item?.members?.male}
+                                                            Male : {apartData?.members?.male}
                                                         </div>
                                                         <div style={{ border: '1px solid #ddd' }} className='rounded-md p-2 my-2 font-semibold text-[#fe218b] text-sm flex items-center gap-2'>
                                                             <FaFemale />
-                                                            Female : {item?.members?.female}
+                                                            Female : {apartData?.members?.female}
                                                         </div>
                                                         <div style={{ border: '1px solid #ddd' }} className='rounded-md p-2 font-semibold text-[#0d3b66] text-sm flex items-center gap-2'>
                                                             <FaChild />
-                                                            Child : {item?.members?.child}
+                                                            Child : {apartData?.members?.child}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -467,7 +450,7 @@ const Apartments = () => {
                                         <div className=''>
                                             <div className='flex justify-between items-center mb-5'>
                                                 <h4 className='font-bold text-[#363636]'>Total Energy Usage</h4>
-                                                <button onClick={() => handleTotalEnergyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Total Usage</span></button>
+                                                <button onClick={() => handleTotalEnergyOpen(apartData?._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Total Usage</span></button>
                                             </div>
                                             <select onChange={handleUsageData} style={{ border: '1px solid #ddd' }} className='rounded-full text-sm px-5 outline-0'>
                                                 <option value="week">Last 7 Days</option>
@@ -477,7 +460,7 @@ const Apartments = () => {
                                         </div>
                                         <div>
                                             {
-                                                item?.energy_usage?.filter(data => data?.duration == useData).map((erergyData, idx) => (
+                                                apartData?.energy_usage?.filter(data => data?.duration == useData).map((erergyData, idx) => (
                                                     <div
                                                         key={idx}
                                                         className='flex justify-center flex-wrap my-5 gap-10'>
@@ -500,13 +483,13 @@ const Apartments = () => {
                                         <div className='mt-10'>
                                             <div className='flex justify-between items-center mb-5'>
                                                 <h4 className='font-bold text-[#363636]'>Weekly Energy Usage Analytics</h4>
-                                                <button onClick={() => handleWeeklyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Weekly Data</span></button>
+                                                <button onClick={() => handleWeeklyOpen(apartData?._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Weekly Data</span></button>
                                             </div>
-                                            <ApartEnergyGraph data={item?.usageData} />
+                                            <ApartEnergyGraph data={apartData?.usageData} />
                                         </div>
                                     </div>
                                 </div>
-                            ))
+                            
                         }
                     </div></> : <p>Data not found, something wrong in the server</p>
             }
@@ -523,4 +506,4 @@ const Apartments = () => {
     );
 };
 
-export default Apartments;
+export default MyApartment;

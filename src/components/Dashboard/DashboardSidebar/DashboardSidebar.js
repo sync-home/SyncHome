@@ -9,7 +9,7 @@ import { Button } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-const DashboardSidebar = ({ adminSidebarData }) => {
+const DashboardSidebar = ({ sidebarData }) => {
 
     const [collapsed, setCollapsed] = useState(false);
     const [toggled, setToggled] = useState(false);
@@ -24,7 +24,7 @@ const DashboardSidebar = ({ adminSidebarData }) => {
 
 
     return (
-        <>
+        <div>
             <span className='lg:hidden flex fixed top-5 left-5 z-20 text-white text-xl' onClick={handleToggleSidebar}><LuLayoutGrid /></span>
             <Sidebar
                 backgroundColor="#8338ec"
@@ -58,7 +58,7 @@ const DashboardSidebar = ({ adminSidebarData }) => {
                     </div>
                     <hr />
                     {
-                        adminSidebarData.map((item, idx) => (
+                        sidebarData.map((item, idx) => (
                             <MenuItem
                                 key={idx}
                                 icon={<FontAwesomeIcon icon={item.icon} />}
@@ -69,8 +69,8 @@ const DashboardSidebar = ({ adminSidebarData }) => {
                         ))
                     }
                 </Menu>
-            </Sidebar>;
-        </>
+            </Sidebar>
+        </div>
     );
 };
 

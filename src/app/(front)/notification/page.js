@@ -13,7 +13,7 @@ const Notification = async () => {
     const posts = await res.json()
 
     const handleDelete = async (id) => {
-        const res = await axios.delete(`http://localhost:5000/api/v1/remove-notifications/${id}`)
+        const res = await axios.delete(`https://synchome-server.vercel.app/api/v1/remove-notifications/${id}`)
         console.log(res.data);
 
         if (res.data.deletedCount > 0) {
@@ -38,7 +38,7 @@ const Notification = async () => {
                                 key={row._id}
                             >
                                 <TableCell component="th" scope="row">
-                                    <Avatar alt="Remy Sharp" src={row.img} />
+                                    <Avatar alt="rayhan" src={row.img} />
                                 </TableCell>
                                 <TableCell className='max-w-3xl'>
                                     <p className='mb-3 rounded-md text-white  w-[90px] px-2 text-center' style={{ background: row.bgColor }}>Notification</p>

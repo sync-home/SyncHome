@@ -133,7 +133,7 @@ const ServicesPage = () => {
                                 <div>
                                     <p>Weather Today</p>
                                     <h2 className="text-3xl font-bold my-1">
-                                        24`C
+                                        24°C
                                     </h2>
                                     <p className="text-xl">Satkhira</p>
                                 </div>
@@ -150,7 +150,7 @@ const ServicesPage = () => {
                         <Card className="w-full text-center py-5 rounded-lg">
                             <p>Temperature</p>
                             <h2 className="text-3xl font-bold my-1 text-[#8338EC]">
-                                20<small>`C</small>
+                                20<small>°C</small>
                             </h2>
                             <p className="font-semibold">Inside</p>
                         </Card>

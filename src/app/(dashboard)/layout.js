@@ -36,11 +36,9 @@ const DashboardLayout = ({ children }) => {
         ];
     } else if (role == 'employee') {
         sidebarData = [
-            { 'name': 'Employee Profile', 'path': '/admin-dashboard/profile', 'icon': faUser },
-            { 'name': 'Employee All Users', 'path': '/admin-dashboard/all-users', 'icon': faUsers },
-            { 'name': 'Employee Energy', 'path': '/admin-dashboard/energy', 'icon': faChartLine },
-            { 'name': 'Employee Camera', 'path': '/admin-dashboard/camera', 'icon': faVideo },
-            { 'name': 'Employee Apartments', 'path': '/admin-dashboard/apartments', 'icon': faHouse },
+            { 'name': 'Employee Profile', 'path': '/employee-dashboard/profile', 'icon': faUser },
+            {'name': 'Control Room', 'path': '/employee-dashboard/services', 'icon': faHouse},
+            {'name': 'Report', 'path': '/employee-dashboard/Report', 'icon': faTriangleExclamation},
             { 'name': 'Employee Back to Home', 'path': '/', 'icon': faHouse },
         ];
     } else if (role == 'guest') {

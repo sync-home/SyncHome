@@ -22,15 +22,18 @@ const SignUpPage = () => {
     const onSubmit = (data) => {
         createUser(data.email, data.password)
             .then(result => {
-                console.log(result.user);
                 updateUserInfo(data?.name, data?.photo)
                 .then(() => {
                     const userInfo = {
-                        name: data.name,
-                        email: data.email,
-                        role: "guest"
+                        name: data?.name,
+                        email: data?.email,
+                        photo: data?.photo,
+                        login_activity: [{"date": `${new Date().toUTCString()}`}],
+                        phone: 'N/A',
+                        role: "guest",
+                        status: 'active'
                     }
-                    axiosPublic.post('/api/v1/new-user', userInfo)
+                    axiosPublic.post('new-user', userInfo)
                     .then(res => {
                         if (res.data.insertedId) {
                             reset()
@@ -52,7 +55,16 @@ const SignUpPage = () => {
     const handleGoogle = () => {
         googleLogin()
             .then(result => {
-                console.log(result.user);
+                const userInfo = {
+                    name: result?.user?.displayName,
+                    email: result?.user?.email,
+                    photo: result?.user?.photoURL,
+                    login_activity: [{"date": `${result?.user?.metadata?.lastSignInTime}`}],
+                    phone: 'N/A',
+                    role: "guest",
+                    status: 'active'
+                }
+                axiosPublic.post('new-user', userInfo)
                  // toast
                  toast.success('Sign Up Successful', {
                     position: 'top-center',

@@ -278,7 +278,7 @@ const Apartments = () => {
                                                         <button onClick={() => handleCctvOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus />CCTV</button>
                                                     </div>
                                                     <div>
-                                                        {/* <CctvCamera cameraInfo={item?.cctv} /> */}
+                                                       <CctvCamera cameraInfo={item?.cctv} />
                                                     </div>
                                                 </div>
                                                 <div>

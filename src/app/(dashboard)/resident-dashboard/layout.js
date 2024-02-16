@@ -14,7 +14,7 @@ const ResidentDashboardLayout = ({ children }) => {
 
     if (role === 'resident') {
         return children;
-    }
+    }else router.push('/')
     
 };
 

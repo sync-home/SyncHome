@@ -16,7 +16,7 @@ import ParkingSpaceAvailability from '@/components/RTM/ParkingSpaceAvailability'
 
 
 const RTM = () => {
-    // const data= await fetch("https://synchome-server-pink.vercel.app/parking")
+    // const data= await fetch("http://localhost:5000/parking")
     // return data.json()
 
     // function TabPanel(props) {

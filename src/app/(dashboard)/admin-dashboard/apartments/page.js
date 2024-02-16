@@ -32,7 +32,7 @@ const Apartments = () => {
  
 
     const { data: apartData = [], refetch, isPending, isLoading } = useQuery({
-        enabled: !loading && !!user,
+        enabled: !loading,
         queryKey: ['apartments', `${user?.email}`],
         queryFn: async () => {
             const res = await axiosPublic.get('/apartments');

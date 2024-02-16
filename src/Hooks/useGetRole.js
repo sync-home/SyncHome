@@ -8,7 +8,7 @@ const useGetRole = () => {
     const { user, loading } = useAuthContext();
     const axiosPublic = useAxiosPublic();
 
-    const {data: userData={}, isPending, isLoading} = useQuery({
+    const {data: userData={}} = useQuery({
         enabled: !loading,
         queryKey: ['user', `${user?.email}`],
         queryFn: async() => {
@@ -18,10 +18,6 @@ const useGetRole = () => {
     })
 
     const role = userData?.role;
-
-    if(isLoading || isPending || !role){
-        return <p>Role is pending and loading...</p>;
-    }
 
     return role;
 };

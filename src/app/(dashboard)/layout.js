@@ -1,7 +1,7 @@
 "use client";
 import useGetRole from '@/Hooks/useGetRole';
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar/DashboardSidebar';
-import { faHouse, faUser, faUsers, faChartLine, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faUser, faUsers, faChartLine, faVideo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 
 const DashboardLayout = ({ children }) => {

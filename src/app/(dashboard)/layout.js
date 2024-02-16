@@ -31,6 +31,7 @@ const DashboardLayout = ({ children }) => {
             { 'name': 'Resident Energy', 'path': '/admin-dashboard/energy', 'icon': faChartLine },
             { 'name': 'Resident Camera', 'path': '/admin-dashboard/camera', 'icon': faVideo },
             { 'name': 'Resident Apartments', 'path': '/admin-dashboard/apartments', 'icon': faHouse },
+            { 'name': 'My Apartment', 'path': '/resident-dashboard/my-apartment', 'icon': faHouse },
             { 'name': 'Resident Back to Home', 'path': '/', 'icon': faHouse },
         ];
     } else if (role == 'employee') {

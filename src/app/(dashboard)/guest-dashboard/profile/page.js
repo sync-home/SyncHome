@@ -1,7 +1,6 @@
 import DashboardProfile from "@/components/Dashboard/DashboardProfile/DashboardProfile";
-import React from 'react';
 
-const ResidentProfile = () => {
+const GuestProflie = () => {
     return (
         <div>
             <DashboardProfile />
@@ -9,4 +8,4 @@ const ResidentProfile = () => {
     );
 };
 
-export default ResidentProfile;
+export default GuestProflie;

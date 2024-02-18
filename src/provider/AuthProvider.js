@@ -1,6 +1,5 @@
 'use client'
 import auth from "@/config/firebase.config";
-import { getRole } from "@/utils/getRole";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateEmail, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 

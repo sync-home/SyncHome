@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 const Notification = async () => {
 
 
-    const res = await fetch('https://synchome-server.vercel.app/api/v1/notifications', {
+    const res = await fetch('http://localhost:5000/api/v1/notifications', {
         cache: 'no-store'
     })
     const posts = await res.json()
@@ -38,7 +38,7 @@ const Notification = async () => {
                                 key={row._id}
                             >
                                 <TableCell component="th" scope="row">
-                                    <Avatar alt="Remy Sharp" src={row.img} />
+                                    <Avatar alt="rayhan" src={row.img} />
                                 </TableCell>
                                 <TableCell className='max-w-3xl'>
                                     <p className='mb-3 rounded-md text-white  w-[90px] px-2 text-center' style={{ background: row.bgColor }}>Notification</p>

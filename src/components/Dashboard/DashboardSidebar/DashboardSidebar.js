@@ -9,7 +9,7 @@ import { Button } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-const DashboardSidebar = ({ adminSidebarData }) => {
+const DashboardSidebar = ({ sidebarData }) => {
 
     const [collapsed, setCollapsed] = useState(false);
     const [toggled, setToggled] = useState(false);
@@ -24,7 +24,7 @@ const DashboardSidebar = ({ adminSidebarData }) => {
 
 
     return (
-        <>
+        <div>
             <span className='lg:hidden flex fixed top-5 left-5 z-20 text-white text-xl' onClick={handleToggleSidebar}><LuLayoutGrid /></span>
             <Sidebar
                 backgroundColor="#8338ec"
@@ -34,7 +34,18 @@ const DashboardSidebar = ({ adminSidebarData }) => {
                 rootStyles={{ height: '100vh', border: '0' }}
                 onBackdropClick={() => setToggled((prev) => !prev)}
             >
-                <Menu className='h-full text-white'>
+                <Menu 
+                menuItemStyles={{
+                    button: {
+                      // the active class will be added automatically by react router
+                      // so we can use it to style the active menu item
+                      [`&.active`]: {
+                        backgroundColor: '#000',
+                        color: '#b6c8d9',
+                      },
+                    },
+                  }}
+                className='h-full text-white'>
                     <div className='grid grid-cols-4'>
                         {
                             !collapsed ? <Link
@@ -58,19 +69,19 @@ const DashboardSidebar = ({ adminSidebarData }) => {
                     </div>
                     <hr />
                     {
-                        adminSidebarData.map((item, idx) => (
+                        sidebarData.map((item, idx) => (
                             <MenuItem
                                 key={idx}
-                                icon={<FontAwesomeIcon icon={item.icon} />}
-                                component={<Link href={`${item.path}`} />}
+                                icon={<FontAwesomeIcon icon={item?.icon} />}
+                                component={<Link href={`${item?.path}`} />}
                                 className='hover:text-black'>
-                                {item.name}
+                                {item?.name}
                             </MenuItem>
                         ))
                     }
                 </Menu>
-            </Sidebar>;
-        </>
+            </Sidebar>
+        </div>
     );
 };
 

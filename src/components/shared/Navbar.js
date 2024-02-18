@@ -17,21 +17,18 @@ import {
     Tooltip,
     MenuItem
 } from '@mui/material';
-import { getRole } from '@/utils/getRole';
 import { usePathname } from 'next/navigation';
+import useGetRole from '@/Hooks/useGetRole';
 
 function Navbar() {
 
     const location = usePathname();
-    const [ anchorElNav, setAnchorElNav ] = React.useState(null);
-    const [ anchorElUser, setAnchorElUser ] = React.useState(null);
-    const { user, loading, logOut } = useAuthContext()
-    const [ role, setRole ] = React.useState(null)
-    const [ activeLink, setActiveLink ] = React.useState(location ? location : '/');
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const { user, loading, logOut } = useAuthContext();
+    const role = useGetRole();
+    const [activeLink, setActiveLink] = React.useState(location ? location : '/');
 
-    getRole(user?.email).then(data => {
-        if (data?.role) setRole(data.role)
-    });
 
     /* Feature pages */
     const pages = [
@@ -94,7 +91,7 @@ function Navbar() {
     }
 
     return (
-        <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black' }}>
+        <AppBar>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
@@ -105,7 +102,7 @@ function Navbar() {
                         noWrap
                         component="a"
                         href='/'
-                        className='text-black'
+                        className='text-white'
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -192,6 +189,7 @@ function Navbar() {
                         {pages?.length && pages.map((page) => (
                             <Box key={page?.route} onClick={() => handleActiveLink(page?.pathname)}>
                                 <Link
+                                    // style={{color: 'white'}}
                                     className={`btn ${page?.pathname === activeLink ? 'active' : ''}`}
                                     href={page?.pathname}
 
@@ -240,10 +238,10 @@ function Navbar() {
                             </Menu>
                         </Box> :
                         <Box sx={{ display: 'flex', gap: 1 }}>
-                            <Button variant="outlined" href={'/signin'} className='uppercase font-mono font-semibold text-black whitespace-nowrap' >
+                            <Button variant="outlined" href={'/signin'} className='uppercase font-mono font-semibold text-white whitespace-nowrap' >
                                 Sign In
                             </Button>
-                            <Button variant="outlined" href={'/signup'} className='uppercase font-mono font-semibold text-black whitespace-nowrap' >
+                            <Button variant="outlined" href={'/signup'} className='uppercase font-mono font-semibold text-white whitespace-nowrap' >
                                 Sign Up
                             </Button>
                         </Box> : ''}

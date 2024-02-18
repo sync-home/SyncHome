@@ -4,14 +4,15 @@ import { Google } from "@mui/icons-material";
 import { Button, Grid, IconButton, Link, Paper, TextField, Typography, } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
-
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
+import useAxiosPublic from "@/Hooks/useAxiosPublic";
 
 const SignInPage = () => {
 
     const { logIn, googleLogin } = useAuthContext()
     const router = useRouter()
+    const axiosPublic = useAxiosPublic();
 
     // create user with email and password
     const {
@@ -24,9 +25,16 @@ const SignInPage = () => {
             .then(result => {
                 reset()
                 console.log(result.user);
+                axiosPublic.put(`/userLoginActivity/${result?.user?.email}`, { data: result?.user?.metadata?.lastSignInTime })
+                    .then(result => {
+                        console.log(result)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
 
                  // toast
-                 toast.success('Sign Up Successfully', {
+                 toast.success('Sign In Successful', {
                     position: 'top-center',
                     autoClose: 1300,
                 })
@@ -42,18 +50,26 @@ const SignInPage = () => {
             })
     }
 
-     // create user for using google
-     const handleGoogle = () => {
+    // create user for using google
+    const handleGoogle = () => {
         googleLogin()
             .then(result => {
                 console.log(result.user);
 
-                 // toast
-                    toast.success('Sign Up Successfully', {
-                        position: 'top-center',
-                        autoClose: 1300,
+                axiosPublic.put(`/userLoginActivity/${result?.user?.email}`, { data: result?.user?.metadata?.lastSignInTime })
+                    .then(result => {
+                        console.log(result)
                     })
-                    
+                    .catch(error => {
+                        console.log(error)
+                    })
+
+                // toast
+                toast.success('Sign Up Successful', {
+                    position: 'top-center',
+                    autoClose: 1300,
+                })
+
                 router.push('/')
             })
             .catch(error => {

@@ -5,8 +5,7 @@ import useAuthContext from '@/Hooks/useAuthContext';
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar/DashboardSidebar';
 import TanstackProvider from '@/provider/TanstackProvider';
 import { faHouse, faUser, faUsers, faChartLine, faVideo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { getRole } from '@/utils/getRole';
-import { faHouse, faUser, faUsers, faChartLine, faVideo } from '@fortawesome/free-solid-svg-icons';
+// import { getRole } from '@/utils/getRole';
 import { useState } from 'react';
 
 
@@ -15,14 +14,14 @@ const DashboardLayout = ({ children }) => {
     const {user} = useAuthContext();
     const [ role, setRole ] = useState(null)
 
-    getRole(user?.email).then(data => {
-        if (data?.role) setRole(data.role)
-    });
+    // getRole(user?.email).then(data => {
+    //     if (data?.role) setRole(data.role)
+    // });
 
 
-    if(!role){
-        return <p>Role is coming...</p>
-    }
+    // if(!role){
+    //     return <p>Role is coming...</p>
+    // }
 
     let sidebarData = [];
 

@@ -1,19 +1,22 @@
 "use client"
 import ClearIcon from '@mui/icons-material/Clear';
 import { Avatar, Grid, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Notification = async () => {
 
-
-    const res = await fetch('https://synchome-server.vercel.app/api/v1/notifications', {
-        cache: 'no-store'
+    const { data: posts = [], refetch } = useQuery({
+        queryKey: ['posts'],
+        queryFn: async () => {
+            const res = await axios.get('https://synchome-server.vercel.app/api/v1/notifications');
+            return res?.data;
+        }
     })
-    const posts = await res.json()
 
     const handleDelete = async (id) => {
-        const res = await axios.delete(`https://synchome-server.vercel.app/api/v1/remove-notifications/${id}`)
+        const res = await axios.delete(`http://localhost:5000/api/v1/remove-notification/${id}`)
         console.log(res.data);
 
         if (res.data.deletedCount > 0) {

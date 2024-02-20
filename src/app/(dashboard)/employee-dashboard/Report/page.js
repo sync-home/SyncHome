@@ -45,11 +45,13 @@ const ReportPage = () => {
     }
   })
 
-  const countObjectsWithStatus = (rows) => {
-    return rows.filter(obj => obj.hasOwnProperty('status')).length;
+  const countStatus = (rows, status) => {
+    return rows.filter(obj => obj.hasOwnProperty('status') && obj.status === status).length;
   }
 
-  const numberOfStatus = countObjectsWithStatus(rows);
+  const solvedCount = countStatus(rows, 'solved');
+  // Get the number of objects with "pending" status
+  const pendingCount = countStatus(rows, 'pending');
 
   // problem solved button
   const handleSolved = book => {
@@ -81,7 +83,7 @@ const ReportPage = () => {
             <div className={`w-full px-6 py-4 bg-[#DCFCE7] h-[170px] rounded-2xl`}>
               <div>
                 <FaCheck className='text-4xl bg-[#3CD755] p-2 rounded-full text-white'></FaCheck>
-                <h4 className='text-2xl font-bold mt-2'>{numberOfStatus}</h4>
+                <h4 className='text-2xl font-bold mt-2'>{solvedCount}</h4>
               </div>
               <p className="mt-2">Solved</p>
               <p className="mt-2 text-[#5D60EF]">2% from Yesterday</p>
@@ -91,7 +93,7 @@ const ReportPage = () => {
             <div className={`w-full px-6 py-4 bg-[#FFF4DE] h-[170px] rounded-2xl`}>
               <div>
                 <FaHourglass className='text-4xl bg-[#FF947A] p-2 rounded-full text-white'></FaHourglass>
-                <h4 className='text-2xl font-bold mt-2'>4</h4>
+                <h4 className='text-2xl font-bold mt-2'>{pendingCount}</h4>
               </div>
               <p className="mt-2">Pending</p>
               <p className="mt-2 text-[#5D60EF]">2% from Yesterday</p>

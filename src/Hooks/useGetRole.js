@@ -8,8 +8,8 @@ const useGetRole = () => {
     const { user, loading } = useAuthContext();
     const axiosPublic = useAxiosPublic();
 
-    const {data: userData={}} = useQuery({
-        enabled: !loading,
+    const {data: userData={}, isLoading, isPending} = useQuery({
+        enabled: !loading && !!user?.email,
         queryKey: ['user', `${user?.email}`],
         queryFn: async() => {
             const res = await axiosPublic.get(`/users/${user?.email}`)
@@ -17,9 +17,7 @@ const useGetRole = () => {
         }
     })
 
-    const role = userData?.role;
-
-    return role;
+    return {role: userData?.role, isLoading, isPending};
 };
 
 export default useGetRole;

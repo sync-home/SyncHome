@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 const AdminDashboardLayout = ({ children }) => {
 
     const router = useRouter()
-    const role = useGetRole();
+    const {role, isLoading, isPending} = useGetRole();
 
-    if(!role){
+    if(isPending || isLoading){
         return <DashboardLoading/>
     }
 

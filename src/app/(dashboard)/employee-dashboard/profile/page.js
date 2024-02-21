@@ -8,7 +8,7 @@ const ProfilePage = () => {
         "age": 35,
         "gender": "Male",
         "status": "Active",
-        "role": "Admin",
+        "role": "employee",
         "email": "alice.smith@example.com",
         "phone": "+1122334455",
         "region": "Asia",

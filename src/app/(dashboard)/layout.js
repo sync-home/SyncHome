@@ -1,15 +1,21 @@
 "use client";
+import useAuthContext from '@/Hooks/useAuthContext';
 import useGetRole from '@/Hooks/useGetRole';
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar/DashboardSidebar';
-import { faHouse, faUser, faUsers, faChartLine, faVideo, faGears, faGear, faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faUser, faUsers, faChartLine, faVideo, faGears, faGear, faCalendar, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 
 const DashboardLayout = ({ children }) => {
 
-    const role = useGetRole();
+    const {user, loading} = useAuthContext()
+    const {role, isLoading, isPending} = useGetRole();
 
-    if (!role) {
+
+    if (isPending || isLoading) {
         return <p>Role is coming...</p>
+    }
+    if(!role){
+        return
     }
 
     let sidebarData = [];

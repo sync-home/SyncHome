@@ -26,7 +26,7 @@ function Navbar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const { user, loading, logOut } = useAuthContext();
-    const role = useGetRole();
+    const {role, isLoading, isPending} = useGetRole();
     const [activeLink, setActiveLink] = React.useState(location ? location : '/');
 
 
@@ -226,9 +226,9 @@ function Navbar() {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                <MenuItem onClick={handleCloseUserMenu}>
+                                { !isPending && !isLoading ? <MenuItem onClick={handleCloseUserMenu}>
                                     <Link href={`/${role}-dashboard/profile`}>Dashboard</Link>
-                                </MenuItem>
+                                </MenuItem> : ""}
                                 <MenuItem>
                                     <Link href={'/notification'}>Notifications</Link>
                                 </MenuItem>

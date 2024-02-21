@@ -9,3 +9,5 @@ const useAxiosPublic = () => {
 };
 
 export default useAxiosPublic;
+
+// https://synchome-server-pink.vercel.app

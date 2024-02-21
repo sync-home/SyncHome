@@ -3,7 +3,7 @@ import useGetRole from "@/Hooks/useGetRole";
 import DashboardLoading from "@/components/Dashboard/DashboardLoading/DashboardLoading";
 import { useRouter } from "next/navigation";
 
-const AdminDashboardLayout = ({ children }) => {
+const EmployeeDashboardLayout = ({ children }) => {
 
     const router = useRouter()
     const role = useGetRole();
@@ -12,10 +12,10 @@ const AdminDashboardLayout = ({ children }) => {
         return <DashboardLoading/>
     }
 
-    if (role == 'admin') {
+    if (role == 'employee') {
         return children;
     }else router.push('/');
     
 };
 
-export default AdminDashboardLayout;
+export default EmployeeDashboardLayout;

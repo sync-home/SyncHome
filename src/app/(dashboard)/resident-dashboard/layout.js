@@ -3,19 +3,19 @@ import useGetRole from "@/Hooks/useGetRole";
 import DashboardLoading from "@/components/Dashboard/DashboardLoading/DashboardLoading";
 import { useRouter } from "next/navigation";
 
-const AdminDashboardLayout = ({ children }) => {
+const ResidentDashboardLayout = ({ children }) => {
 
-    const router = useRouter()
-    const role = useGetRole();
+    const router = useRouter();
+    const {role, isLoading, isPending} = useGetRole();
 
-    if(!role){
+    if(isPending || isLoading){
         return <DashboardLoading/>
     }
 
-    if (role == 'admin') {
+    if (role === 'resident') {
         return children;
-    }else router.push('/');
+    }else router.push('/')
     
 };
 
-export default AdminDashboardLayout;
+export default ResidentDashboardLayout;

@@ -17,21 +17,18 @@ import {
     Tooltip,
     MenuItem
 } from '@mui/material';
-import { getRole } from '@/utils/getRole';
 import { usePathname } from 'next/navigation';
+import useGetRole from '@/Hooks/useGetRole';
 
 function Navbar() {
 
     const location = usePathname();
-    const [ anchorElNav, setAnchorElNav ] = React.useState(null);
-    const [ anchorElUser, setAnchorElUser ] = React.useState(null);
-    const { user, loading, logOut } = useAuthContext()
-    const [ role, setRole ] = React.useState(null)
-    const [ activeLink, setActiveLink ] = React.useState(location ? location : '/');
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const { user, loading, logOut } = useAuthContext();
+    const role = useGetRole();
+    const [activeLink, setActiveLink] = React.useState(location ? location : '/');
 
-    getRole(user?.email).then(data => {
-        if (data?.role) setRole(data.role)
-    });
 
     /* Feature pages */
     const pages = [
@@ -94,7 +91,7 @@ function Navbar() {
     }
 
     return (
-        <AppBar sx={{ backgroundColor: 'rgba(0,0,0,0.5)', color: 'white', position: 'fixed', top: '0px', left: '0px', zIndex: '100' }}>
+        <AppBar>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
@@ -192,7 +189,7 @@ function Navbar() {
                         {pages?.length && pages.map((page) => (
                             <Box key={page?.route} onClick={() => handleActiveLink(page?.pathname)}>
                                 <Link
-                                // style={{color: 'white'}}
+                                    // style={{color: 'white'}}
                                     className={`btn ${page?.pathname === activeLink ? 'active' : ''}`}
                                     href={page?.pathname}
 

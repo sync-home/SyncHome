@@ -1,19 +1,47 @@
 "use client";
-
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const MaintenanceRequests = () => {
-  const [maintenanceData, setMaintenanceData] = useState({
+  const initialMaintenanceData = {
     apartment: "",
     place: "",
     date: "",
-    issueDescription: "",
-  });
+    issue: "",
+    status: "pending",
+  };
+
+  const [maintenanceData, setMaintenanceData] = useState(
+    initialMaintenanceData
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(maintenanceData);
+
+    try {
+      //const res = await axios.post(`http://localhost:5000/api/v1/report`, maintenanceData);
+      const res = await axios.post(
+        `https://synchome-server.vercel.app/api/v1/report`,
+        maintenanceData
+      );
+      if (res.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Ok",
+          text: "successfully sent your request",
+        });
+        setMaintenanceData(initialMaintenanceData); // Reset form fields after successful submission
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      }); // Show error message if submission fails
+    }
   };
 
   const handleChange = (e) => {
@@ -61,14 +89,15 @@ const MaintenanceRequests = () => {
 
           <div className="w-full lg:w-1/2">
             <TextField
-              id="issueDescription"
+              id="issue"
               label="Write your issue here..."
               multiline
               rows={3}
               fullWidth
               variant="outlined"
-              value={maintenanceData.issueDescription}
+              value={maintenanceData.issue}
               onChange={handleChange}
+              className="text-black"
             />
           </div>
         </div>

@@ -33,7 +33,7 @@ const SignUpPage = () => {
                         role: "guest",
                         status: 'active'
                     }
-                    axiosPublic.post('new-user', userInfo)
+                    axiosPublic.post('/new-user', userInfo)
                     .then(res => {
                         if (res.data.insertedId) {
                             reset()

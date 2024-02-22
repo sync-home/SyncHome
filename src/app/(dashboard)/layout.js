@@ -1,27 +1,22 @@
 "use client";
-
-
 import useAuthContext from '@/Hooks/useAuthContext';
+import useGetRole from '@/Hooks/useGetRole';
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar/DashboardSidebar';
-import TanstackProvider from '@/provider/TanstackProvider';
-import { faHouse, faUser, faUsers, faChartLine, faVideo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
-// import { getRole } from '@/utils/getRole';
-import { useState } from 'react';
+import { faHouse, faUser, faUsers, faChartLine, faVideo, faGears, faGear, faCalendar, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 
 const DashboardLayout = ({ children }) => {
 
-    const {user} = useAuthContext();
-    const [ role, setRole ] = useState(null)
-
-    // getRole(user?.email).then(data => {
-    //     if (data?.role) setRole(data.role)
-    // });
+    const {user, loading} = useAuthContext()
+    const {role, isLoading, isPending} = useGetRole();
 
 
-    // if(!role){
-    //     return <p>Role is coming...</p>
-    // }
+    if (isPending || isLoading) {
+        return <p>Role is coming...</p>
+    }
+    if(!role){
+        return
+    }
 
     let sidebarData = [];
 
@@ -37,12 +32,15 @@ const DashboardLayout = ({ children }) => {
         ];
     } else if (role == 'resident') {
         sidebarData = [
-            { 'name': 'Resident Profile', 'path': '/admin-dashboard/profile', 'icon': faUser },
-            { 'name': 'Resident All Users', 'path': '/admin-dashboard/all-users', 'icon': faUsers },
-            { 'name': 'Resident Energy', 'path': '/admin-dashboard/energy', 'icon': faChartLine },
-            { 'name': 'Resident Camera', 'path': '/admin-dashboard/camera', 'icon': faVideo },
-            { 'name': 'Resident Apartments', 'path': '/admin-dashboard/apartments', 'icon': faHouse },
-            { 'name': 'Resident Back to Home', 'path': '/', 'icon': faHouse },
+            { 'name': 'Profile', 'path': '/resident-dashboard/profile', 'icon': faUser },
+            { 'name': 'All Users', 'path': '/resident-dashboard/all-users', 'icon': faUsers },
+            { 'name': 'Energy', 'path': '/resident-dashboard/energy-usage', 'icon': faChartLine },
+            { 'name': 'Camera', 'path': '/resident-dashboard/camera', 'icon': faVideo },
+            { 'name': 'Apartments', 'path': '/resident-dashboard/my-apartment', 'icon': faHouse },
+            { 'name': 'Maintenance Request', 'path': '/resident-dashboard/maintenance-requests', 'icon': faGear },
+            { 'name': 'Maintenance Status', 'path': '/resident-dashboard/maintenance-status', 'icon': faGears },
+            { 'name': 'Community Events', 'path': '/resident-dashboard/community-events', 'icon': faCalendar },
+            { 'name': 'Back to Home', 'path': '/', 'icon': faHouse },
         ];
     } else if (role == 'employee') {
         sidebarData = [
@@ -54,7 +52,7 @@ const DashboardLayout = ({ children }) => {
     } else if (role == 'guest') {
         sidebarData = [
             { 'name': 'Guest Profile', 'path': '/guest-dashboard/profile', 'icon': faUser },
-            { 'name': 'Request', 'path': '/guest-dashboard/request', 'icon': faUser }, 
+            { 'name': 'Request', 'path': '/guest-dashboard/request', 'icon': faUser },
             { 'name': 'Back to Home', 'path': '/', 'icon': faHouse },
         ];
     };
@@ -75,9 +73,7 @@ const DashboardLayout = ({ children }) => {
                         <h3 className="text-white font-bold text-center text-2xl capitalize">{role} Dashboard</h3>
                     </div>
                     <div className="lg:m-10 m-5">
-                        <TanstackProvider>
-                            {children}
-                        </TanstackProvider>
+                        {children}
                     </div>
                 </div>
             </div>

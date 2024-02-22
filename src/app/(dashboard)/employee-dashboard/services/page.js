@@ -52,7 +52,7 @@ const ServicesPage = () => {
             title: `${isGateVisible ? 'Main gate is Close' : 'Main Gate Is Open'}`,
             date: formattedDate,
         }
-        axiosPublic.post('/api/v1/notifications', notiData)
+        axiosPublic.post('/notifications', notiData)
     };
 
     const toggleGate2 = () => {
@@ -66,7 +66,7 @@ const ServicesPage = () => {
             title: `${isGateVisible2 ? 'Tv is Off' : 'Tv is On'}`,
             date: formattedDate
         }
-        axiosPublic.post('/api/v1/notifications', notiData)
+        axiosPublic.post('/notifications', notiData)
     };
 
     const toggleGate3 = () => {
@@ -80,7 +80,7 @@ const ServicesPage = () => {
             title: `${isGateVisible3 ? 'Wifi is Off' : 'Wifi is On'}`,
             date: formattedDate
         }
-        axiosPublic.post('/api/v1/notifications', notiData)
+        axiosPublic.post('/notifications', notiData)
     };
 
     const toggleGate4 = () => {
@@ -94,7 +94,7 @@ const ServicesPage = () => {
             title: `${isGateVisible4 ? 'Bath Tub is Off' : 'Bath Tub is On'}`,
             date: formattedDate
         }
-        axiosPublic.post('/api/v1/notifications', notiData)
+        axiosPublic.post('/notifications', notiData)
     };
 
     return (

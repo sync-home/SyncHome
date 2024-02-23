@@ -3,8 +3,11 @@ import { Avatar, Card, CardMedia, } from "@mui/material";
 import { useEffect, useState } from "react";
 import './services.css'
 import { FaAngleRight, FaBath, FaHome, FaTv, FaWifi } from "react-icons/fa";
+import useAxiosPublic from "@/Hooks/useAxiosPublic";
 
 const ServicesPage = () => {
+
+    const axiosPublic = useAxiosPublic()
 
     // device controller
     const [isGateVisible, setIsGateVisible] = useState(false);
@@ -35,28 +38,63 @@ const ServicesPage = () => {
 
     }, []);
 
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split('T')[0];
+
     const toggleGate = () => {
         const newVisibility = !isGateVisible;
         setIsGateVisible(newVisibility);
         localStorage.setItem('isGateVisible', newVisibility);
+
+        // post the backed side
+        const notiData = {
+            bgColor: "#6601CB",
+            title: `${isGateVisible ? 'Main gate is Close' : 'Main Gate Is Open'}`,
+            date: formattedDate,
+        }
+        axiosPublic.post('/notifications', notiData)
     };
 
     const toggleGate2 = () => {
         const newVisibility = !isGateVisible2;
         setIsGateVisible2(newVisibility);
         localStorage.setItem('isGateVisible2', newVisibility);
+
+        // post the backed side
+        const notiData = {
+            bgColor: "#009931",
+            title: `${isGateVisible2 ? 'Tv is Off' : 'Tv is On'}`,
+            date: formattedDate
+        }
+        axiosPublic.post('/notifications', notiData)
     };
 
     const toggleGate3 = () => {
         const newVisibility = !isGateVisible3;
         setIsGateVisible3(newVisibility);
         localStorage.setItem('isGateVisible3', newVisibility);
+
+        // post the backed side
+        const notiData = {
+            bgColor: "#FF9A01",
+            title: `${isGateVisible3 ? 'Wifi is Off' : 'Wifi is On'}`,
+            date: formattedDate
+        }
+        axiosPublic.post('/notifications', notiData)
     };
 
     const toggleGate4 = () => {
         const newVisibility = !isGateVisible4;
         setIsGateVisible4(newVisibility);
         localStorage.setItem('isGateVisible4', newVisibility);
+
+        // post the backed side
+        const notiData = {
+            bgColor: "#FF9A01",
+            title: `${isGateVisible4 ? 'Bath Tub is Off' : 'Bath Tub is On'}`,
+            date: formattedDate
+        }
+        axiosPublic.post('/notifications', notiData)
     };
 
     return (

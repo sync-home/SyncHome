@@ -1,23 +1,37 @@
 "use client"
+import useAxiosPublic from '@/Hooks/useAxiosPublic';
+import useGetRole from '@/Hooks/useGetRole';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Avatar, Grid, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Notification = async () => {
 
+    const axiosPublic = useAxiosPublic()
+    const {role} = useGetRole();
 
-    const res = await fetch('https://synchome-server.vercel.app/api/v1/notifications', {
-        cache: 'no-store'
+    const { data: posts = [], refetch } = useQuery({
+        queryKey: ['posts'],
+        queryFn: async () => {
+            const res = await axios.get('https://synchome-server.vercel.app/api/v1/notifications');
+            return res?.data;
+        }
     })
-    const posts = await res.json()
+
 
     const handleDelete = async (id) => {
-        const res = await axios.delete(`https://synchome-server.vercel.app/api/v1/remove-notifications/${id}`)
-        console.log(res.data);
+        const res = await axios.delete(`https://synchome-server.vercel.app/api/v1/remove-notification/${id}`)
+
 
         if (res.data.deletedCount > 0) {
             refetch()
+            const deletedItem = posts.find(post => post._id === id);
+            
+            {
+                role === "guest" && axiosPublic.post('/trash', deletedItem)
+            }
             toast.success('Deleted Successfully', {
                 position: 'top-center',
                 autoClose: 1300,

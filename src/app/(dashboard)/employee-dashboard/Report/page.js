@@ -58,7 +58,6 @@ const ReportPage = () => {
     const res = axios.patch(`https://synchome-server.vercel.app/api/v1/reports/${book._id}`)
     refetch()
       .then(res => {
-        console.log(res.data);
       })
   }
 

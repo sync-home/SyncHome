@@ -64,7 +64,7 @@ const SignUpPage = () => {
                     role: "guest",
                     status: 'active'
                 }
-                axiosPublic.post('new-user', userInfo)
+                axiosPublic.post('/new-user', userInfo)
                  // toast
                  toast.success('Sign Up Successful', {
                     position: 'top-center',

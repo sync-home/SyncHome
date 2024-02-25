@@ -1,15 +1,21 @@
 "use client";
+import useAuthContext from '@/Hooks/useAuthContext';
 import useGetRole from '@/Hooks/useGetRole';
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar/DashboardSidebar';
-import { faHouse, faUser, faUsers, faChartLine, faVideo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faUser, faUsers, faChartLine, faVideo, faGears, faGear, faCalendar, faTriangleExclamation, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 
 
 const DashboardLayout = ({ children }) => {
 
-    const role = useGetRole();
+    const {user, loading} = useAuthContext()
+    const {role, isLoading, isPending} = useGetRole();
 
-    if (!role) {
+
+    if (isPending || isLoading) {
         return <p>Role is coming...</p>
+    }
+    if(!role){
+        return
     }
 
     let sidebarData = [];
@@ -26,13 +32,15 @@ const DashboardLayout = ({ children }) => {
         ];
     } else if (role == 'resident') {
         sidebarData = [
-            { 'name': 'Resident Profile', 'path': '/admin-dashboard/profile', 'icon': faUser },
-            { 'name': 'Resident All Users', 'path': '/admin-dashboard/all-users', 'icon': faUsers },
-            { 'name': 'Resident Energy', 'path': '/admin-dashboard/energy', 'icon': faChartLine },
-            { 'name': 'Resident Camera', 'path': '/admin-dashboard/camera', 'icon': faVideo },
-            { 'name': 'Resident Apartments', 'path': '/admin-dashboard/apartments', 'icon': faHouse },
-            { 'name': 'My Apartment', 'path': '/resident-dashboard/my-apartment', 'icon': faHouse },
-            { 'name': 'Resident Back to Home', 'path': '/', 'icon': faHouse },
+            { 'name': 'Profile', 'path': '/resident-dashboard/profile', 'icon': faUser },
+            { 'name': 'Used Energy', 'path': '/resident-dashboard/energy-usage', 'icon': faChartLine },
+            { 'name': 'Camera', 'path': '/resident-dashboard/camera', 'icon': faVideo },
+            { 'name': 'Apartments', 'path': '/resident-dashboard/my-apartment', 'icon': faHouse },
+            { 'name': 'Maintenance Request', 'path': '/resident-dashboard/maintenance-requests', 'icon': faGear },
+            { 'name': 'Maintenance Status', 'path': '/resident-dashboard/maintenance-status', 'icon': faGears },
+            { 'name': 'Washing Machine', 'path': '/resident-dashboard/washing-machine', 'icon': faClockRotateLeft },
+            { 'name': 'Community Events', 'path': '/resident-dashboard/community-events', 'icon': faCalendar },
+            { 'name': 'Back to Home', 'path': '/', 'icon': faHouse },
         ];
     } else if (role == 'employee') {
         sidebarData = [

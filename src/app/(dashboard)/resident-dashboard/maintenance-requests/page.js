@@ -1,19 +1,57 @@
 "use client";
-
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import axios from "axios";
+import Swal from "sweetalert2";
+import useAuthContext from "@/Hooks/useAuthContext";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
 const MaintenanceRequests = () => {
-  const [maintenanceData, setMaintenanceData] = useState({
+  const { user } = useAuthContext();
+  const email = user?.email;
+
+  const initialMaintenanceData = {
     apartment: "",
     place: "",
     date: "",
-    issueDescription: "",
-  });
+    issue: "",
+    status: "pending",
+    email: email,
+  };
+
+  const [maintenanceData, setMaintenanceData] = useState(
+    initialMaintenanceData
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(maintenanceData);
+
+    try {
+      const res = await axios.post(
+        `https://synchome-server.vercel.app/api/v1/report`,
+        maintenanceData
+      );
+
+      if (res.data.insertedId) {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Your request has been submitted successfully.",
+        });
+        // Reset form fields after successful submission
+        setMaintenanceData(initialMaintenanceData);
+      }
+    } catch (error) {
+      // Show error message if submission fails
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to submit your request. Please try again later.",
+      });
+    }
   };
 
   const handleChange = (e) => {
@@ -22,13 +60,13 @@ const MaintenanceRequests = () => {
   };
 
   return (
-    <div className="w-full m-auto">
-      <h1 className="text-xl lg:text-2xl font-bold my-5">
+    <Box p={3}>
+      <Typography variant="h5" gutterBottom className='pb-3'>
         Maintenance Requests
-      </h1>
+      </Typography>
       <form onSubmit={handleSubmit}>
-        <div className="space-y-5">
-          <div className="w-full lg:w-1/2 flex flex-col  justify-between gap-4">
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
             <TextField
               id="apartment"
               label="Apartment"
@@ -37,6 +75,8 @@ const MaintenanceRequests = () => {
               value={maintenanceData.apartment}
               onChange={handleChange}
             />
+          </Grid>
+          <Grid item xs={12} md={6}>
             <TextField
               id="place"
               label="Place"
@@ -45,9 +85,8 @@ const MaintenanceRequests = () => {
               value={maintenanceData.place}
               onChange={handleChange}
             />
-          </div>
-
-          <div className="w-full lg:w-1/2 flex flex-col lg:flex-row justify-between gap-4">
+          </Grid>
+          <Grid item xs={12} md={6}>
             <TextField
               id="date"
               label="Date"
@@ -56,30 +95,36 @@ const MaintenanceRequests = () => {
               fullWidth
               value={maintenanceData.date}
               onChange={handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
-          </div>
-
-          <div className="w-full lg:w-1/2">
+          </Grid>
+          <Grid item xs={12}>
             <TextField
-              id="issueDescription"
-              label="Write your issue here..."
+              id="issue"
+              label="Describe the issue"
               multiline
-              rows={3}
+              rows={4}
               fullWidth
               variant="outlined"
-              value={maintenanceData.issueDescription}
+              value={maintenanceData.issue}
               onChange={handleChange}
             />
-          </div>
-        </div>
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-        >
-          Submit
-        </button>
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              fullWidth
+            >
+              Submit Request
+            </Button>
+          </Grid>
+        </Grid>
       </form>
-    </div>
+    </Box>
   );
 };
 

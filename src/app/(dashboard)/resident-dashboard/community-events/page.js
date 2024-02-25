@@ -65,7 +65,10 @@ const CommunityEvents = () => {
 
   return (
     <div>
-      <h1 className="text-xl lg:text-2xl font-bold mb-4">Community Events</h1>
+     
+      <Typography variant="h5" gutterBottom className='pb-3'>
+      Community Events
+      </Typography>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {initialEvents?.map((event) => (

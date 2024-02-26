@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -15,9 +16,8 @@ import {
   ListItemText,
 } from '@mui/material';
 import useAuthContext from '@/Hooks/useAuthContext';
-import Swal from 'sweetalert2';
-import MaintenanceStatus from '../maintenance-status/page';
 import WashingCloth from '@/components/Dashboard/ResidentDashboard/WashingCloth/WashingCloth';
+import { toast } from 'react-toastify';
 
 const WashingMachine = () => {
   const { user } = useAuthContext();
@@ -84,18 +84,10 @@ const WashingMachine = () => {
     })
     .then(response => {
       if(response.data.insertedId){
-        Swal.fire({
-          icon: "success",
-          title: "Ok",
-          text: "Your cloth washing has been complete",
-        });
+        toast("Your cloth washing has been complete!");
       }
       else{
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-        });
+        toast("Something went wrong!");
       }
     })
     .catch(error => {

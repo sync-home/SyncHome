@@ -1,13 +1,16 @@
-"use client";
+'use client'
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import Swal from "sweetalert2";
 import useAuthContext from "@/Hooks/useAuthContext";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import { toast } from "react-toastify";
 
 const MaintenanceRequests = () => {
   const { user } = useAuthContext();
@@ -36,21 +39,13 @@ const MaintenanceRequests = () => {
       );
 
       if (res.data.insertedId) {
-        Swal.fire({
-          icon: "success",
-          title: "Success",
-          text: "Your request has been submitted successfully.",
-        });
+        toast("Your request has been submitted successfully!");
         // Reset form fields after successful submission
         setMaintenanceData(initialMaintenanceData);
       }
     } catch (error) {
       // Show error message if submission fails
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Failed to submit your request. Please try again later.",
-      });
+      toast("Failed to submit your request. Please try again later.!");
     }
   };
 
@@ -60,70 +55,94 @@ const MaintenanceRequests = () => {
   };
 
   return (
-    <Box p={3}>
-      <Typography variant="h5" gutterBottom className='pb-3'>
-        Maintenance Requests
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <TextField
-              id="apartment"
-              label="Apartment"
-              variant="outlined"
-              fullWidth
-              value={maintenanceData.apartment}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              id="place"
-              label="Place"
-              variant="outlined"
-              fullWidth
-              value={maintenanceData.place}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              id="date"
-              label="Date"
-              type="date"
-              variant="outlined"
-              fullWidth
-              value={maintenanceData.date}
-              onChange={handleChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              id="issue"
-              label="Describe the issue"
-              multiline
-              rows={4}
-              fullWidth
-              variant="outlined"
-              value={maintenanceData.issue}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              fullWidth
-            >
-              Submit Request
-            </Button>
-          </Grid>
+    <Box>
+      <Grid container spacing={6}>
+        <Grid item xs={12} md={6} style={{height:'auto'}}>
+          <Box display="flex" height="100%" >
+            <Card style={{ width: "100%" }}>
+              <CardMedia
+                component="img"
+                image="https://i.ibb.co/S0r3QvP/maintenance.jpg"
+                alt="maintenance-image"
+                style={{ height: "auto", maxWidth: "100%" }}
+              />
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Report Maintenance Issues
+                </Typography>
+                <Typography variant="body1">
+                  Welcome! We're here to help maintain your home. If you notice
+                  any issues that require our attention, please report them
+                  using the form below. Our dedicated team will promptly
+                  address your concerns.
+                </Typography>
+              </CardContent>
+            </Card>
+          </Box>
         </Grid>
-      </form>
+        <Grid item xs={12} md={6}>
+          <form onSubmit={handleSubmit} style={{ height: "100%" }}>
+            <Grid container spacing={2} style={{ height: "100%" }}>
+              <Grid item xs={12}>
+                <TextField
+                  id="apartment"
+                  label="Apartment"
+                  variant="outlined"
+                  fullWidth
+                  value={maintenanceData.apartment}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="place"
+                  label="Place"
+                  variant="outlined"
+                  fullWidth
+                  value={maintenanceData.place}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="date"
+                  label="Date"
+                  type="date"
+                  variant="outlined"
+                  fullWidth
+                  value={maintenanceData.date}
+                  onChange={handleChange}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="issue"
+                  label="Describe the issue"
+                  multiline
+                  rows={4}
+                  fullWidth
+                  variant="outlined"
+                  value={maintenanceData.issue}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  fullWidth
+                >
+                  Submit Request
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

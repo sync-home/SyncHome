@@ -16,13 +16,16 @@ const MaintenanceStatus = () => {
   const { user } = useAuthContext();
   const email = user?.email;
 
-  const { data: rows = [], refetch } = useQuery({
+  const { data: rows = [], refetch, isLoading, isError } = useQuery({
     queryKey: ['rows'],
     queryFn: async () => {
       const res = await axios.get(`https://synchome-server.vercel.app/api/v1/report?email=${email}`);
       return res?.data;
     }
   });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error fetching data</div>;
 
   return (
     <>

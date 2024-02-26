@@ -1,4 +1,8 @@
+'use client'
+
 import React from "react";
+import axios from "axios";
+import { useQuery } from '@tanstack/react-query';
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -6,105 +10,62 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 
 const CommunityEvents = () => {
-  const initialEvents = [
-    {
-      id: 1,
-      title: "Community BBQ",
-      image: "https://i.ibb.co/44vjz74/event.jpg",
-      date: "2024-02-15",
-      location: "Community Park",
-      description:
-        "Join us for a fun-filled BBQ event in the community park. There will be food, games, and music for everyone!",
-    },
-    {
-      id: 2,
-      title: "Yoga in the Park",
-      image: "https://i.ibb.co/JkffBCT/yoga.jpg",
-      date: "2024-02-22",
-      location: "Community Park",
-      description:
-        "Start your day with a refreshing yoga session in the serene surroundings of the community park. All levels are welcome!",
-    },
-    {
-      id: 3,
-      title: "Movie Night Under the Stars",
-      image: "https://i.ibb.co/44vjz74/event.jpg",
-      date: "2024-02-29",
-      location: "Community Amphitheater",
-      description:
-        "Bring your blankets and snacks for a cozy movie night under the stars. We'll be screening a family-friendly movie for all to enjoy!",
-    },
-    {
-      id: 4,
-      title: "Community BBQ",
-      image: "https://i.ibb.co/n3rJjTN/enent2.jpg",
-      date: "2024-02-15",
-      location: "Community Park",
-      description:
-        "Join us for a fun-filled BBQ event in the community park. There will be food, games, and music for everyone!",
-    },
-    {
-      id: 5,
-      title: "Yoga in the Park",
-      image: "https://i.ibb.co/JkffBCT/yoga.jpg",
-      date: "2024-02-22",
-      location: "Community Park",
-      description:
-        "Start your day with a refreshing yoga session in the serene surroundings of the community park. All levels are welcome!",
-    },
-    {
-      id: 6,
-      title: "Movie Night Under the Stars",
-      image: "https://i.ibb.co/n3rJjTN/enent2.jpg",
-      date: "2024-02-29",
-      location: "Community Amphitheater",
-      description:
-        "Bring your blankets and snacks for a cozy movie night under the stars. We'll be screening a family-friendly movie for all to enjoy!",
-    },
-  ];
+  const { data: events = [], refetch, isLoading, isError } = useQuery({
+    queryKey: ['events'],
+    queryFn: async () => {
+      const res = await axios.get(`https://synchome-server.vercel.app/api/v1/events`);
+      return res.data;
+    }
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error fetching data</div>;
 
   return (
     <div>
-     
-      <Typography variant="h5" gutterBottom className='pb-3'>
-      Community Events
+      <Typography variant="h6" gutterBottom className="pb-3">
+        Community Events
       </Typography>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {initialEvents?.map((event) => (
-          <Card key={event.id}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="150"
-                image={event?.image}
-                alt="event image"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {event.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {event.description}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  className="pt-2"
-                >
-                  Date: {event.date}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  className="pt-2"
-                >
-                  Location: {event.location}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        ))}
+        {events.length === 0 ? (
+          <Typography variant="body1">No running events found!</Typography>
+        ) : (
+          events.map((event) => (
+            <Card key={event.id}>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="150"
+                  image={event.image}
+                  alt="event image"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {event.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {event.description}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    className="pt-2"
+                  >
+                    Date: {event.date}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    className="pt-2"
+                  >
+                    Location: {event.location}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          ))
+        )}
       </div>
     </div>
   );

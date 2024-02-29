@@ -23,11 +23,11 @@ import useGetRole from '@/Hooks/useGetRole';
 function Navbar() {
 
     const location = usePathname();
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [ anchorElNav, setAnchorElNav ] = React.useState(null);
+    const [ anchorElUser, setAnchorElUser ] = React.useState(null);
     const { user, loading, logOut } = useAuthContext();
-    const {role, isLoading, isPending} = useGetRole();
-    const [activeLink, setActiveLink] = React.useState(location ? location : '/');
+    const { role, isLoading, isPending } = useGetRole();
+    const [ activeLink, setActiveLink ] = React.useState(location ? location : '/');
 
 
     /* Feature pages */
@@ -49,8 +49,8 @@ function Navbar() {
             pathname: '/parking'
         },
         {
-            route: 'Features',
-            pathname: '/features'
+            route: 'Shop',
+            pathname: '/shop'
         },
         {
             route: !loading && user?.email ? 'Monitor' : '',
@@ -58,20 +58,16 @@ function Navbar() {
         }
     ];
 
-    // if(!isPending && !isLoading && user?.email && !role){
-    //     handleSignOut()
-    // }
-
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
+
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = (event) => {
-        console.log(event.currentTarget);
+    const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
 
@@ -81,6 +77,8 @@ function Navbar() {
 
     const handleSignOut = () => {
         setAnchorElUser(null);
+
+        /* TODO: ask confirmation */
         logOut().then(() => {
             console.log('logout successfully.');
         }).catch((error) => {
@@ -95,9 +93,9 @@ function Navbar() {
     }
 
     return (
-        <AppBar>
+        <AppBar sx={{ backgroundColor: 'rgba(0, 0, 0, 0.6)', color: 'white' }}>
             <Container maxWidth="xl">
-                <Toolbar disableGutters>
+                <Toolbar  sx={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }} disableGutters>
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
                         <Image src={logo} height={30} width={30} sx={{ display: { xs: 'none', md: 'flex' } }} alt='logo' />
                     </Box>
@@ -230,10 +228,10 @@ function Navbar() {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                { role?
-                                 <MenuItem onClick={handleCloseUserMenu}>
-                                    <Link href={`/${role}-dashboard/profile`}>Dashboard</Link>
-                                </MenuItem>:""}
+                                {role ?
+                                    <MenuItem onClick={handleCloseUserMenu}>
+                                        <Link href={`/${role}-dashboard/profile`}>Dashboard</Link>
+                                    </MenuItem> : ""}
                                 <MenuItem>
                                     <Link href={'/notification'}>Notifications</Link>
                                 </MenuItem>

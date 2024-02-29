@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 .btn {
-  @apply text-black my-2 mx-1.5 block uppercase font-mono font-semibold whitespace-nowrap;
+  @apply my-2 mx-1.5 block uppercase font-mono font-semibold whitespace-nowrap;
 }
 
 .btn:hover, .active {

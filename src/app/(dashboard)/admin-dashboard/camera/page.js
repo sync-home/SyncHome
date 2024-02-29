@@ -13,7 +13,7 @@ const Camera = () => {
                 <div style={{ borderBottom: '1px solid #ccc' }} className="px-5 py-3">
                     <h4 className="text-xl font-semibold text-[#363636] flex items-center gap-2">Live <FaRegCircleDot /></h4>
                 </div>
-                <div className="grid lg:grid-cols-3 grid-cols-1 gap-5 p-2">
+                <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 p-2">
                     <CameraLayout path={'JUfIpZCYquY?si=oOoiP8TTVDEAjOIw'} name={'Floor 01 CCTV'} />
                     <CameraLayout path={'xjQzg1QAlXs?si=FRg83E1UE2EwPEr4'} name={'Floor 02 CCTV'} />
                     <CameraLayout path={'yWFv9eA72LA?si=ziT6o70HKOcouXBP'} name={'Floor 03 CCTV'} />
@@ -28,7 +28,7 @@ const Camera = () => {
                 </div>
                 <div className="mt-5">
                     <span style={{ border: '1px solid #ccc', borderRadius: '2px', padding: '2px 10px', margin: '10px' }}>Yesterday</span>
-                    <div className="grid lg:grid-cols-3 grid-cols-1 gap-5 p-2">
+                    <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 p-2">
                         <CameraLayout path={'JUfIpZCYquY?si=oOoiP8TTVDEAjOIw'} name={'Floor 01 CCTV'}></CameraLayout>
                         <CameraLayout path={'xjQzg1QAlXs?si=FRg83E1UE2EwPEr4'} name={'Floor 02 CCTV'}></CameraLayout>
                         <CameraLayout path={'yWFv9eA72LA?si=ziT6o70HKOcouXBP'} name={'Floor 03 CCTV'}></CameraLayout>
@@ -36,7 +36,7 @@ const Camera = () => {
                 </div>
                 <div className="mt-5">
                     <span style={{ border: '1px solid #ccc', borderRadius: '2px', padding: '2px 10px', margin: '10px' }}>Last 7 Days</span>
-                    <div className="grid lg:grid-cols-3 grid-cols-1 gap-5 p-2">
+                    <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 p-2">
                         <CameraLayout path={'JUfIpZCYquY?si=oOoiP8TTVDEAjOIw'} name={'Floor 01 CCTV'}></CameraLayout>
                         <CameraLayout path={'xjQzg1QAlXs?si=FRg83E1UE2EwPEr4'} name={'Floor 02 CCTV'}></CameraLayout>
                         <CameraLayout path={'yWFv9eA72LA?si=ziT6o70HKOcouXBP'} name={'Floor 03 CCTV'}></CameraLayout>
@@ -44,7 +44,7 @@ const Camera = () => {
                 </div>
                 <div className="mt-5">
                     <span style={{ border: '1px solid #ccc', borderRadius: '2px', padding: '2px 10px', margin: '10px' }}>Last 30 Days</span>
-                    <div className="grid lg:grid-cols-3 grid-cols-1 gap-5 p-2">
+                    <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 p-2">
                         <CameraLayout path={'JUfIpZCYquY?si=oOoiP8TTVDEAjOIw'} name={'Floor 01 CCTV'}></CameraLayout>
                         <CameraLayout path={'xjQzg1QAlXs?si=FRg83E1UE2EwPEr4'} name={'Floor 02 CCTV'}></CameraLayout>
                         <CameraLayout path={'yWFv9eA72LA?si=ziT6o70HKOcouXBP'} name={'Floor 03 CCTV'}></CameraLayout>

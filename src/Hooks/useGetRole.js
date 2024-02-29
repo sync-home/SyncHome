@@ -15,7 +15,8 @@ const useGetRole = () => {
         queryFn: async () => {
             const res = await axiosPublic.get(`/user-role/${user?.email}`)
 
-            return res?.data?.role;
+            /* useQuery can't return undefined and will throw: `Query data cannot be undefined. Please make sure to return a value other than undefined from your query function. Affected query key: ["user-role","hoqe1997@gmail.com"]` */
+            return res?.data?.role || 'guest';
         }
     })
 

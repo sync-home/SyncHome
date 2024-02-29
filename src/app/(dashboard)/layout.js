@@ -1,5 +1,4 @@
 "use client";
-import useAuthContext from '@/Hooks/useAuthContext';
 import useGetRole from '@/Hooks/useGetRole';
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar/DashboardSidebar';
 import { faHouse, faUser, faUsers, faChartLine, faVideo, faGears, faGear, faCalendar, faTriangleExclamation, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +6,6 @@ import { faHouse, faUser, faUsers, faChartLine, faVideo, faGears, faGear, faCale
 
 const DashboardLayout = ({ children }) => {
 
-    const {user, loading} = useAuthContext()
     const {role, isLoading, isPending} = useGetRole();
 
 
@@ -57,10 +55,6 @@ const DashboardLayout = ({ children }) => {
         ];
     };
 
-
-
-    console.log(role);
-    // console.log(user?.email);
 
     return (
         <>

@@ -69,7 +69,7 @@ const ReportPage = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-5 mx-5 mb-5 mt-2">
             {/* 1st nested card */}
-            <div className={`w-full px-6 py-4 bg-[#FFE2E6] h-[170px] rounded-2xl`}>
+            <div className={`w-full px-6 py-4 bg-[#FFE2E6] rounded-2xl`}>
               <div>
                 <FaTriangleExclamation className='text-4xl bg-[#FA5A7C] p-2 rounded-full text-white'></FaTriangleExclamation>
                 <h4 className='text-2xl font-bold mt-2'>{rows.length}</h4>
@@ -79,7 +79,7 @@ const ReportPage = () => {
             </div>
 
             {/* 2nd nested card */}
-            <div className={`w-full px-6 py-4 bg-[#DCFCE7] h-[170px] rounded-2xl`}>
+            <div className={`w-full px-6 py-4 bg-[#DCFCE7] rounded-2xl`}>
               <div>
                 <FaCheck className='text-4xl bg-[#3CD755] p-2 rounded-full text-white'></FaCheck>
                 <h4 className='text-2xl font-bold mt-2'>{solvedCount}</h4>
@@ -89,7 +89,7 @@ const ReportPage = () => {
             </div>
 
             {/* 3rd nested card */}
-            <div className={`w-full px-6 py-4 bg-[#FFF4DE] h-[170px] rounded-2xl`}>
+            <div className={`w-full px-6 py-4 bg-[#FFF4DE] rounded-2xl`}>
               <div>
                 <FaHourglass className='text-4xl bg-[#FF947A] p-2 rounded-full text-white'></FaHourglass>
                 <h4 className='text-2xl font-bold mt-2'>{pendingCount}</h4>

@@ -82,8 +82,8 @@ const SignInPage = () => {
     }
 
     return (
-        <Grid className='flex justify-center items-center min-h-screen'>
-            <Paper className="py-7 px-5 w-full max-w-md my-5 mx-auto">
+        <Grid className='flex justify-center items-center lg:min-h-screen'>
+            <Paper className="lg:py-16 py-10 px-5 w-full max-w-md lg:my-5 my-16 mx-6 lg:mx-auto">
                 <Grid align="center">
                     <h2 className='my-3 text-4xl font-bold'>Sign In</h2>
                     <Typography variant="caption" className='text-sm text-gray-400'>Sign In to access your account</Typography>

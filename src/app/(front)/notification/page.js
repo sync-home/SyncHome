@@ -42,7 +42,7 @@ const Notification = async () => {
     return (
         <Grid className='bg-[#EEF1F6] w-full py-16'>
             <div>
-                <h2 className='text-4xl font-bold text-center mb-8 border-b-4 border-b-[#81EF61] max-w-md mx-auto'>See Your Notifications</h2>
+                <h2 className='text-4xl font-bold text-center mb-16 border-b-4 border-b-[#81EF61] max-w-md mx-auto'>See Your Notifications</h2>
             </div>
             <TableContainer className='max-w-[1200px] mx-auto pt-8  bg-[#fff] rounded-lg'>
                 <Table>

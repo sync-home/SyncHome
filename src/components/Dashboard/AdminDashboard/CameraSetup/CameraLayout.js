@@ -10,7 +10,7 @@ const CameraLayout = ({path, name}) => {
     const videoId = 'JUfIpZCYquY?si=oOoiP8TTVDEAjOIw';
 
     const opts = {
-        height: 'auto',
+        height: '250px',
         width: '100%',
         playerVars: {
             // https://developers.google.com/youtube/player_parameters

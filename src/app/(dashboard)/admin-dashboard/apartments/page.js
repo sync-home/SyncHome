@@ -239,7 +239,7 @@ const Apartments = () => {
                                                     <h4 className='font-bold text-[#363636]'>Quick Access</h4>
                                                     <button onClick={() => handleAddDeviceOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus /> Add Device</button>
                                                 </div>
-                                                <div className='grid lg:grid-cols-3 grid-cols-1 gap-2'>
+                                                <div className='grid md:grid-cols-3 grid-cols-1 gap-2'>
 
                                                     {
                                                         item?.devices?.map((device, idx) => (

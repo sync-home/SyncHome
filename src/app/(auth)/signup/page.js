@@ -87,8 +87,8 @@ const SignUpPage = () => {
     }
 
     return (
-        <Grid className='flex justify-center items-center min-h-screen'>
-            <Paper className="py-7 px-5 w-full max-w-md my-5 mx-auto">
+        <Grid className='flex justify-center items-center lg:min-h-screen'>
+            <Paper className="py-7 px-5 w-full max-w-md my-16 lg:mx-auto mx-6">
                 <Grid align="center">
                     <h2 className='my-3 text-4xl font-bold'>Sign Up</h2>
                     <Typography variant="caption" className='text-sm text-gray-400'>Sign up to access your account.</Typography>

@@ -64,7 +64,7 @@ const MaintenanceRequests = () => {
                 component="img"
                 image="https://i.ibb.co/S0r3QvP/maintenance.jpg"
                 alt="maintenance-image"
-                style={{ height: "auto", maxWidth: "100%" }}
+                style={{ height: "350px", maxWidth: "100%" }}
               />
               <CardContent>
                 <Typography variant="h6" gutterBottom>

@@ -11,6 +11,15 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
 
     const [ user, setUser ] = useState(null)
+    const [ selectedProducts, setSelectedProducts ] = useState([ {
+        "title": "Gift pen 2 pics",
+        "price": 10,
+        "specifications": "Our new brand for pen, each pan has 3ml ink and 0.02mm nip radius. You can write 1000m."
+    }, {
+        "title": "Gift pen 6 pics",
+        "price": 12,
+        "specifications": "Our new brand for pen, each pan has 3ml ink and 0.02mm nip radius. You can write 1000m."
+    } ])
     const [ loading, setLoading ] = useState(true)
 
     // google sign up
@@ -88,7 +97,15 @@ const AuthProvider = ({ children }) => {
     }, [])
 
 
+    /* Shop */
+    const handleSelect = (product) => {
+        const newSelection = [ ...selectedProducts, product ]
+        setSelectedProducts(newSelection)
+    }
+
     const authInfo = {
+        handleSelect,
+        selectedProducts,
         user,
         loading,
         createUser,

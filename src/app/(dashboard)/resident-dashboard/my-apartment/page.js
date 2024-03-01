@@ -32,9 +32,9 @@ import { FaPlus } from "react-icons/fa6";
 const MyApartment = () => {
   const axiosPublic = useAxiosPublic();
   const { user, loading } = useAuthContext();
-  const [useData, setUseData] = useState("week");
-  const [tempControl, setTmpControl] = useState(0);
-  const [tempId, setTempId] = useState("");
+  const [ useData, setUseData ] = useState("week");
+  const [ tempControl, setTmpControl ] = useState(0);
+  const [ tempId, setTempId ] = useState("");
 
   const {
     data: apartData = {},
@@ -42,8 +42,8 @@ const MyApartment = () => {
     isPending,
     isLoading,
   } = useQuery({
-    enabled: !loading,
-    queryKey: ["apartments", `${user?.email}`],
+    enabled: !loading && !!user?.email,
+    queryKey: [ "apartments", `${user?.email}` ],
     queryFn: async () => {
       const res = await axiosPublic.get(`/apartments/${user?.email}`);
       return res?.data;
@@ -65,7 +65,7 @@ const MyApartment = () => {
   };
 
   useEffect(() => {
-    axiosPublic
+    tempId?.length && axiosPublic
       .patch(`/apartments/actemp/${tempId}`, { tempControl })
       .then((result) => {
         console.log(result.data);
@@ -74,7 +74,7 @@ const MyApartment = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [tempControl]);
+  }, [ tempControl ]);
 
   const handlePlus = (temp, id) => {
     if (temp < 100) {
@@ -130,14 +130,14 @@ const MyApartment = () => {
   };
 
   //dialog
-  const [addDeviceOpen, setAddDeviceOpen] = React.useState(false);
-  const [cctvOpen, setCctvOpen] = React.useState(false);
-  const [wifiOpen, setWifiOpen] = React.useState(false);
-  const [familyOpen, setFamilyOpen] = React.useState(false);
-  const [weeklyOpen, setWeeklyOpen] = React.useState(false);
-  const [totalEnergyOpen, setTotalEnergyOpen] = React.useState(false);
-  const [acOpen, setAcOpen] = React.useState(false);
-  const [sendId, setSendId] = useState("");
+  const [ addDeviceOpen, setAddDeviceOpen ] = React.useState(false);
+  const [ cctvOpen, setCctvOpen ] = React.useState(false);
+  const [ wifiOpen, setWifiOpen ] = React.useState(false);
+  const [ familyOpen, setFamilyOpen ] = React.useState(false);
+  const [ weeklyOpen, setWeeklyOpen ] = React.useState(false);
+  const [ totalEnergyOpen, setTotalEnergyOpen ] = React.useState(false);
+  const [ acOpen, setAcOpen ] = React.useState(false);
+  const [ sendId, setSendId ] = useState("");
 
   const handleAddDeviceOpen = (id) => {
     setAddDeviceOpen(true);
@@ -304,11 +304,10 @@ const MyApartment = () => {
                               <Image
                                 height={100}
                                 width={100}
-                                src={`${
-                                  device?.img
-                                    ? device?.img
-                                    : "https://i.ibb.co/17HHBsG/tailwind.png"
-                                }`}
+                                src={`${device?.img
+                                  ? device?.img
+                                  : "https://i.ibb.co/17HHBsG/tailwind.png"
+                                  }`}
                                 alt={`${device?.name}`}
                               />
                             </div>

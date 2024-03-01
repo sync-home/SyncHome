@@ -1,10 +1,15 @@
-import Banner from "./Banner";
+import FeaturedBanner from "../../../components/shared/FeaturedBanner";
 import Features from "./Features";
 import feature01 from '@/assets/parking/notification.png';
 import feature02 from '@/assets/parking/car-exit.png';
 import feature03 from '@/assets/parking/guest-parking.png';
 import feature04 from '@/assets/parking/parking.png';
 import feature05 from '@/assets/parking/real-time-parking.png';
+
+import bannerBg from '@/assets/parking/smart-parking.jpg';
+import featureImg from '@/assets/parking/parking-smart-control.jpg';
+
+const title = 'Vehicular Haven'
 
 const featureSection = [
     {
@@ -34,10 +39,17 @@ const featureSection = [
     },
 ]
 
+const headings = [
+    'Introducing Smart Parking for Effortless Navigation!',
+    'The Future of Smart and Seamless Parking Solutions',
+    'Experience Intelligent Parking Solutions Today!',
+    'Discover the Power of Smart Parking Technology!'
+];
+
 export default function Parking() {
     return (
         <>
-            <Banner />
+            <FeaturedBanner headings={headings} bannerBg={bannerBg} featureImg={featureImg} title={title} />
             <Features contents={featureSection} />
         </>
     );

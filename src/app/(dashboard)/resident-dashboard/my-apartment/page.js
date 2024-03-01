@@ -42,7 +42,7 @@ const MyApartment = () => {
     isPending,
     isLoading,
   } = useQuery({
-    enabled: !loading,
+    enabled: !loading && !!user?.email,
     queryKey: ["apartments", `${user?.email}`],
     queryFn: async () => {
       const res = await axiosPublic.get(`/apartments/${user?.email}`);

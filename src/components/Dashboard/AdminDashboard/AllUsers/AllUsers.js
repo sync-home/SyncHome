@@ -23,19 +23,19 @@ import { Button, ButtonBase } from '@mui/material';
 import { GrUserAdmin, GrUserWorker, GrUser, GrUserManager } from "react-icons/gr";
 import { useForm } from "react-hook-form"
 import useAxiosPublic from '@/Hooks/useAxiosPublic';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
 import { useQuery } from '@tanstack/react-query';
 
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
+  [ `&.${tableCellClasses.head}` ]: {
     backgroundColor: '#96E9C6',
     color: "#363636",
     textAlign: 'center'
   },
-  [`&.${tableCellClasses.body}`]: {
+  [ `&.${tableCellClasses.body}` ]: {
     fontSize: 14,
     textAlign: 'center'
   },
@@ -55,8 +55,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const AllUsers = () => {
 
   const { register, handleSubmit, reset } = useForm()
-  const [open, setOpen] = React.useState(false);
-  const [updateData, setUpdateData] = React.useState({});
+  const [ open, setOpen ] = React.useState(false);
+  const [ updateData, setUpdateData ] = React.useState({});
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const axiosPublic = useAxiosPublic();
@@ -64,7 +64,7 @@ const AllUsers = () => {
 
   // Fetch User data from database
   const { data: usersData = [], isLoading, isPending, refetch } = useQuery({
-    queryKey: ['users'],
+    queryKey: [ 'users' ],
     queryFn: async () => {
       const res = await axiosPublic.get('/users');
       return res?.data;
@@ -95,44 +95,44 @@ const AllUsers = () => {
       })
   }
 
-  const [searchVal, setSearchVal] = React.useState('');
+  const [ searchVal, setSearchVal ] = React.useState('');
   const handleOnChange = e => {
     setSearchVal(e.target.value)
   }
 
   const handleDeleteUser = (id) => {
     console.log(id);
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: "hover:no-underline bg-[#8338EC] px-5 py-1 text-white rounded-sm mr-1",
-        cancelButton: "hover:no-underline bg-[#96E9C6] px-5 py-1 text-white rounded-sm"
-      },
-      buttonsStyling: false
-    });
-    swalWithBootstrapButtons.fire({
-      title: "Are you sure?",
-      text: "You want to delete this user",
-      showCancelButton: true,
-      confirmButtonText: "Delete",
-      cancelButtonText: "Cancel",
-      reverseButtons: false
-    }).then((result) => {
-      if (result.isConfirmed) {
+    // const swalWithBootstrapButtons = Swal.mixin({
+    //   customClass: {
+    //     confirmButton: "hover:no-underline bg-[#8338EC] px-5 py-1 text-white rounded-sm mr-1",
+    //     cancelButton: "hover:no-underline bg-[#96E9C6] px-5 py-1 text-white rounded-sm"
+    //   },
+    //   buttonsStyling: false
+    // });
+    // swalWithBootstrapButtons.fire({
+    //   title: "Are you sure?",
+    //   text: "You want to delete this user",
+    //   showCancelButton: true,
+    //   confirmButtonText: "Delete",
+    //   cancelButtonText: "Cancel",
+    //   reverseButtons: false
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
 
-        axiosPublic.delete(`/delete-user/${id}`)
-        .then(result => {
-          console.log(result.data)
-          refetch();
-          swalWithBootstrapButtons.fire({
-            title: "Deleted!",
-            text: "User has been deleted successfully",
-          });
-        })
-        .catch(error => {
-          console.log(error)
-        })
-      } 
-    });
+    axiosPublic.delete(`/delete-user/${id}`)
+      .then(result => {
+        console.log(result.data)
+        refetch();
+        // swalWithBootstrapButtons.fire({
+        //   title: "Deleted!",
+        //   text: "User has been deleted successfully",
+        // });
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    //   } 
+    // });
   }
 
   return (
@@ -184,7 +184,7 @@ const AllUsers = () => {
                     </div>
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    <Button onClick={()=>handleDeleteUser(user?._id)} className='bg-red-500 mr-2' variant="contained" size="small">Delete</Button>
+                    <Button onClick={() => handleDeleteUser(user?._id)} className='bg-red-500 mr-2' variant="contained" size="small">Delete</Button>
                     <span onClick={() => setUpdateData(user)}><Button onClick={handleClickOpen} className='' variant="outlined" size="small">Update</Button></span>
                   </StyledTableCell>
                 </StyledTableRow>

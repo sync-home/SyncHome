@@ -93,9 +93,9 @@ function Navbar() {
     }
 
     return (
-        <AppBar sx={{ backgroundColor: 'rgba(0, 0, 0, 0.6)', color: 'white' }}>
+        <AppBar sx={{ backgroundColor: 'rgba(0, 0, 0, 0.7)', color: 'white' }}>
             <Container maxWidth="xl">
-                <Toolbar  sx={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }} disableGutters>
+                <Toolbar disableGutters>
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
                         <Image src={logo} height={30} width={30} sx={{ display: { xs: 'none', md: 'flex' } }} alt='logo' />
                     </Box>
@@ -202,52 +202,54 @@ function Navbar() {
                         ))}
                     </Box>
 
-                    {/* user image side */}
-                    {!loading ? user?.email
-                        ? <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title={user?.displayName || 'user photo'}>
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt={user?.displayName || 'user photo'} src={user?.photoURL} />
-                                </IconButton>
-                            </Tooltip>
+                    {/* user info side */}
+                    {!loading
+                        ? user?.email
+                            ? <Box sx={{ flexGrow: 0 }}>
+                                <Tooltip title={user?.displayName || 'user photo'}>
+                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                        <Avatar alt={user?.displayName || 'user photo'} src={user?.photoURL} />
+                                    </IconButton>
+                                </Tooltip>
 
-                            {/* dropdown menu */}
-                            <Menu
-                                sx={{ mt: '45px' }}
-                                id="menu-syncHome"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorElUser)}
-                                onClose={handleCloseUserMenu}
-                            >
-                                {role ?
-                                    <MenuItem onClick={handleCloseUserMenu}>
-                                        <Link href={`/${role}-dashboard/profile`}>Dashboard</Link>
-                                    </MenuItem> : ""}
-                                <MenuItem>
-                                    <Link href={'/notification'}>Notifications</Link>
-                                </MenuItem>
-                                <MenuItem onClick={handleSignOut}>
-                                    Logout
-                                </MenuItem>
-                            </Menu>
-                        </Box> :
-                        <Box sx={{ display: 'flex', gap: 1 }}>
-                            <Button variant="outlined" href={'/signin'} className='uppercase font-mono font-semibold text-white whitespace-nowrap' >
-                                Sign In
-                            </Button>
-                            <Button variant="outlined" href={'/signup'} className='uppercase font-mono font-semibold text-white whitespace-nowrap' >
-                                Sign Up
-                            </Button>
-                        </Box> : ''}
+                                {/* dropdown menu */}
+                                <Menu
+                                    sx={{ mt: '45px' }}
+                                    id="menu-syncHome"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}
+                                >
+                                    {!isLoading && !isPending && role ?
+                                        <MenuItem onClick={handleCloseUserMenu}>
+                                            <Link href={`/${role}-dashboard/profile`}>Dashboard</Link>
+                                        </MenuItem> : ""}
+                                    <MenuItem>
+                                        <Link href={'/notification'}>Notifications</Link>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleSignOut}>
+                                        Logout
+                                    </MenuItem>
+                                </Menu>
+                            </Box> :
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <Button variant="outlined" href={'/signin'} className='uppercase font-mono font-semibold text-white whitespace-nowrap' >
+                                    Sign In
+                                </Button>
+                                <Button variant="outlined" href={'/signup'} className='uppercase font-mono font-semibold text-white whitespace-nowrap' >
+                                    Sign Up
+                                </Button>
+                            </Box> :
+                        ''}
                 </Toolbar>
             </Container>
         </AppBar>

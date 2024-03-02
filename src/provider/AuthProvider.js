@@ -1,8 +1,9 @@
 'use client'
+import useAxiosSecure from "@/Hooks/useAxiosSecure";
 import auth from "@/config/firebase.config";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateEmail, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
-
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext([])
 
@@ -10,8 +11,18 @@ const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
 
+    const axiosSecure = useAxiosSecure();
     const [ user, setUser ] = useState(null)
-    const [ loading, setLoading ] = useState(true)
+    const [ selectedProducts, setSelectedProducts ] = useState([ {
+        "title": "Gift pen 2 pics",
+        "price": 10,
+        "specifications": "Our new brand for pen, each pan has 3ml ink and 0.02mm nip radius. You can write 1000m."
+    }, {
+        "title": "Gift pen 6 pics",
+        "price": 12,
+        "specifications": "Our new brand for pen, each pan has 3ml ink and 0.02mm nip radius. You can write 1000m."
+    } ])
+    const [ loading, setLoading ] = useState(true);
 
     // google sign up
     const googleLogin = () => {
@@ -78,7 +89,27 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
             console.log('on state change', currentUser)
+            if (currentUser) {
+                const userInfo = { email: currentUser?.email };
 
+                try {
+                    axiosSecure.post("/auth/jwt", userInfo).then((res) => {
+                        console.log('cookie set', res?.data?.error);
+                        return !res?.data?.error && setLoading(false);
+                    });
+                } catch (error) {
+                    return toast.error('Something wrong! Please login again to solve it.', {
+                        position: 'top-center',
+                        autoClose: 1500,
+                    })
+                }
+            } else {
+                // remove token
+                axiosSecure.post("/auth/logout", currentUser).then((res) => {
+                    console.log('cookie reset', res?.data?.error);
+                    return !res?.data?.error && setLoading(false);
+                });
+            }
             setUser(currentUser)
             setLoading(false)
         })
@@ -88,7 +119,15 @@ const AuthProvider = ({ children }) => {
     }, [])
 
 
+    /* Shop */
+    const handleSelect = (product) => {
+        const newSelection = [ ...selectedProducts, product ]
+        setSelectedProducts(newSelection)
+    }
+
     const authInfo = {
+        handleSelect,
+        selectedProducts,
         user,
         loading,
         createUser,

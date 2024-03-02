@@ -19,13 +19,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Image from 'next/image';
-import { Button, ButtonBase } from '@mui/material';
+import { Button } from '@mui/material';
 import { GrUserAdmin, GrUserWorker, GrUser, GrUserManager } from "react-icons/gr";
-import { useForm } from "react-hook-form"
-import useAxiosPublic from '@/Hooks/useAxiosPublic';
-// import Swal from 'sweetalert2';
-import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
+import { useForm } from "react-hook-form";
 import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from '@/Hooks/useAxiosSecure';
 
 
 
@@ -59,14 +57,14 @@ const AllUsers = () => {
   const [ updateData, setUpdateData ] = React.useState({});
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
 
   // Fetch User data from database
   const { data: usersData = [], isLoading, isPending, refetch } = useQuery({
     queryKey: [ 'users' ],
     queryFn: async () => {
-      const res = await axiosPublic.get('/users');
+      const res = await axiosSecure.get('/users');
       return res?.data;
     }
   })
@@ -85,7 +83,7 @@ const AllUsers = () => {
   const onSubmit = (data) => {
     console.log(data)
     console.log(updateData._id)
-    axiosPublic.patch(`/update-user/${updateData?._id}`, { data })
+    axiosSecure.patch(`/update-user/${updateData?._id}`, { data })
       .then(result => {
         console.log(result.data)
         refetch();
@@ -119,7 +117,7 @@ const AllUsers = () => {
     // }).then((result) => {
     //   if (result.isConfirmed) {
 
-    axiosPublic.delete(`/delete-user/${id}`)
+    axiosSecure.delete(`/delete-user/${id}`)
       .then(result => {
         console.log(result.data)
         refetch();

@@ -8,11 +8,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { Card } from '@mui/material';
 import { FaCheck, FaHourglass } from 'react-icons/fa';
 import { FaTriangleExclamation } from 'react-icons/fa6';
+import useAxiosPublic from '@/Hooks/useAxiosPublic';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -36,11 +36,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 const ReportPage = () => {
+const axiosPublic = useAxiosPublic();
 
   const { data: rows = [], refetch } = useQuery({
-    queryKey: ['rows'],
+    queryKey: ['reports'],
     queryFn: async () => {
-      const res = await axios.get('https://synchome-server.vercel.app/api/v1/reports');
+      const res = await axiosPublic.get('/reports');
       return res?.data;
     }
   })

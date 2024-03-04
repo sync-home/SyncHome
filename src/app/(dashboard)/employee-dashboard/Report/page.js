@@ -37,6 +37,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const ReportPage = () => {
 
+  const currentDate = new Date();
+  const formattedDate = currentDate.toISOString().split('T')[0];
+
   const { data: rows = [], refetch } = useQuery({
     queryKey: ['rows'],
     queryFn: async () => {
@@ -56,8 +59,9 @@ const ReportPage = () => {
   // problem solved button
   const handleSolved = book => {
     const res = axios.patch(`https://synchome-server.vercel.app/api/v1/reports/${book._id}`)
-    refetch()
+    
       .then(res => {
+        refetch()
       })
   }
 
@@ -123,11 +127,16 @@ const ReportPage = () => {
                 <StyledTableCell align='center' className='border-2 border-[#F6BCFF]'>{row.apartment}</StyledTableCell>
                 <StyledTableCell align='center' className='border-2 border-[#F6BCFF]'>{row.place}</StyledTableCell>
                 <StyledTableCell align='center' className='border-2 border-[#F6BCFF]'>{row.date}</StyledTableCell>
-                <StyledTableCell align='center' className='border-2 border-[#F6BCFF]'>{row.solved_time}</StyledTableCell>
+                <StyledTableCell align='center' className='border-2 border-[#F6BCFF]'>
+                  {
+                    row.status === 'solved' ? <span>{formattedDate}</span> : ""
+                  }
+                </StyledTableCell>
                 <StyledTableCell align='center' className='border-2 border-[#F6BCFF]'>
                   {
                     row.status === 'solved' ? <span>Solved</span> : <button onClick={() => handleSolved(row)} className='btn'>Pending</button>
                   }
+
                 </StyledTableCell>
               </StyledTableRow>
             ))}

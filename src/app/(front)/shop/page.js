@@ -9,7 +9,10 @@ import Image from "next/image";
 import useAuthContext from "@/Hooks/useAuthContext";
 import PurchaseButton from "@/components/Buttons/PurchaseButton";
 import ProductCard from "@/components/shop/ProductCard/ProductCard";
-
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "@/Hooks/useAxiosPublic";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import 'react-tabs/style/react-tabs.css';
 const title = 'Smart Shopping'
 
 const featuredTypeWriterHeadings = [
@@ -21,61 +24,86 @@ const featuredTypeWriterHeadings = [
 
 export default function Shop() {
     const { selectedProducts } = useAuthContext()
+    const axiosPublic = useAxiosPublic()
 
-    const demo = {
-        title: 'Gift pen 2 pics',
-        price: 10,
-        specifications: 'Our new brand for pen, each pan has 3ml ink and 0.02mm nip radius. You can write 1000m.'
-    }
+    const { data: products = [], isLoading, refetch } = useQuery({
+        queryKey: [ 'products' ],
+        queryFn: async () => {
+            try {
+                const productFetched = await axiosPublic('/products');
+
+                return productFetched?.data
+            } catch (error) {
+                console.log(error?.message);
+                return []
+            }
+        }
+    })
 
     return (
         <>
             <FeaturedBanner headings={featuredTypeWriterHeadings} bannerBg={bannerBg} featureImg={featureImg} title={title} />
             <Box className="py-10">
                 {/* main product box-container */}
-                <Grid container spacing={2} columns={16} className="px-5">
-                    {/* row */}
-                    <Grid item xs={16} sm={10}>
-                        {/* left column [products card] */}
-                        <h2 className="text-xl md:text-2xl font-semibold capitalize mb-5">Pen - Grocery products</h2>
-                        <Grid container spacing={{ xs: 2, md: 3 }}>
-                            {/* product grid container */}
-                            {Array.from(Array(6).fill(demo)).map((product, index) => {
-                                return (
-                                    <Grid item xs={16} sm={6} lg={4} key={index}>
-                                        {/* Product grid */}
-                                        <ProductCard product={product} />
-                                    </Grid>
-                                )
-                            })}
+                <Tabs defaultIndex={1} onSelect={(index) => console.log(index)} >
+                    <TabList>
+                        <Tab>All</Tab>
+                        <Tab>Grocery</Tab>
+                    </TabList>
+
+                    <TabPanel>
+                        <Grid container spacing={2} columns={16} className="px-5">
+                            {/* row */}
+                            <Grid item xs={16} sm={10}>
+                                {/* left column [products card] */}
+                                <h2 className="text-xl md:text-2xl font-semibold capitalize mb-5">Pen - Grocery products</h2>
+                                <Grid container spacing={{ xs: 2, md: 3 }}>
+                                    {/* product grid container */}
+                                    {!isLoading ?
+                                        products?.length > 0 ?
+                                            products.map((product, index) => {
+                                                console.log(product);
+                                                return (
+                                                    <Grid item xs={16} sm={6} lg={4} key={index}>
+                                                        {/* Product grid */}
+                                                        <ProductCard product={product} />
+                                                    </Grid>
+                                                )
+                                            }) : 'No data found'
+                                        : 'Loading...'}
+                                </Grid>
+                            </Grid>
+
+                            <Grid item xs={16} sm={6}>
+                                {/* right column [Cart] */}
+                                <h2 className="text-xl md:text-2xl font-semibold text-center capitalize pb-5">Your Selected Products</h2>
+
+                                <hr className="border-[1.5px] w-11/12 mx-auto" />
+
+                                <Box>
+                                    <List sx={{ width: '100%', maxWidth: 360, backgroundColor: 'background.paper' }}>
+                                        {selectedProducts?.length ? selectedProducts?.map((product, index) => <ListItem key={index}>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                    <Image src={giftPen} height="auto" width="100%" alt="Title" placeholder="blur" />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText primary={product?.title} about={product?.price} secondary={product?.specifications?.slice(0, 30) + "..."} />
+                                            <Typography component={'strong'} variant="h6" sx={{ color: 'yellowgreen', fontWeight: '700' }}>{"$" + product?.price}</Typography>
+                                        </ListItem>) : <p className="text-center pt-10">No products selected yet.</p>}
+                                    </List>
+                                    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', p: '10px' }}>
+                                        <PurchaseButton products={selectedProducts} />
+                                    </Box>
+                                </Box>
+
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    
-                    <Grid item xs={16} sm={6}>
-                        {/* right column [Cart] */}
-                        <h2 className="text-xl md:text-2xl font-semibold text-center capitalize pb-5">Your Selected Products</h2>
-
-                        <hr className="border-[1.5px] w-11/12 mx-auto" />
-
-                        <Box>
-                            <List sx={{ width: '100%', maxWidth: 360, backgroundColor: 'background.paper' }}>
-                                {selectedProducts?.length ? selectedProducts?.map((product, index) => <ListItem key={index}>
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            <Image src={giftPen} height="auto" width="100%" alt="Title" placeholder="blur" />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText primary={product?.title} about={product?.price} secondary={product?.specifications?.slice(0, 30) + "..."} />
-                                    <Typography component={'strong'} variant="h6" sx={{ color: 'yellowgreen', fontWeight: '700' }}>{"$" + product?.price}</Typography>
-                                </ListItem>) : <p className="text-center pt-10">No products selected yet.</p>}
-                            </List>
-                            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', p: '10px' }}>
-                                <PurchaseButton products={selectedProducts} />
-                            </Box>
-                        </Box>
-
-                    </Grid>
-                </Grid>
+                    </TabPanel>
+                    <TabPanel>
+                        <h2>Any content 2</h2>
+                    </TabPanel>
+                </Tabs>
 
 
             </Box>

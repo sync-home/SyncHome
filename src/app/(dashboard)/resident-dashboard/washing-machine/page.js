@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import {
   Button,
   Typography,
@@ -18,8 +17,10 @@ import {
 import useAuthContext from '@/Hooks/useAuthContext';
 import WashingCloth from '@/components/Dashboard/ResidentDashboard/WashingCloth/WashingCloth';
 import { toast } from 'react-toastify';
+import useAxiosPublic from '@/Hooks/useAxiosPublic';
 
 const WashingMachine = () => {
+  const axiosPublic = useAxiosPublic();
   const { user } = useAuthContext();
   const email = user?.email;
   const [status, setStatus] = useState('Idle');
@@ -73,7 +74,7 @@ const WashingMachine = () => {
 
   const sendDataToBackend = () => {
     
-    axios.post('https://synchome-server.vercel.app/api/v1/washing-machine', {
+    axiosPublic.post('/washing-machine', {
       status,
       remainingTime,
       clothType,

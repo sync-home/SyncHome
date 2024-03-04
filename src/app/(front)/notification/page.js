@@ -4,31 +4,30 @@ import useGetRole from '@/Hooks/useGetRole';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Avatar, Grid, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Notification = async () => {
 
     const axiosPublic = useAxiosPublic()
-    const {role} = useGetRole();
+    const { role } = useGetRole();
 
     const { data: posts = [], refetch } = useQuery({
-        queryKey: ['posts'],
+        queryKey: [ 'notifications' ],
         queryFn: async () => {
-            const res = await axios.get('https://synchome-server.vercel.app/api/v1/notifications');
+            const res = await axiosPublic.get('/notifications');
             return res?.data;
         }
     })
 
 
     const handleDelete = async (id) => {
-        const res = await axios.delete(`https://synchome-server.vercel.app/api/v1/remove-notification/${id}`)
+        const res = await axiosPublic.delete(`/remove-notification/${id}`)
 
 
         if (res.data.deletedCount > 0) {
             refetch()
             const deletedItem = posts.find(post => post._id === id);
-            
+
             {
                 role === "guest" && axiosPublic.post('/trash', deletedItem)
             }

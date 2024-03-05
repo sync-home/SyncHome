@@ -9,7 +9,12 @@ import Image from "next/image";
 import useAuthContext from "@/Hooks/useAuthContext";
 import PurchaseButton from "@/components/Buttons/PurchaseButton";
 import ProductCard from "@/components/shop/ProductCard/ProductCard";
-
+import { useQuery } from "@tanstack/react-query";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import 'react-tabs/style/react-tabs.css';
+import fetchPublic from "@/components/utils/getFetchedData";
+import { useState } from "react";
+import CategoryPanel from "@/components/shop/CategoryPanel/CategoryPanel";
 const title = 'Smart Shopping'
 
 const featuredTypeWriterHeadings = [
@@ -21,36 +26,128 @@ const featuredTypeWriterHeadings = [
 
 export default function Shop() {
     const { selectedProducts } = useAuthContext()
+    const [ category, setCategory ] = useState('');
 
-    const demo = {
-        title: 'Gift pen 2 pics',
-        price: 10,
-        specifications: 'Our new brand for pen, each pan has 3ml ink and 0.02mm nip radius. You can write 1000m.'
+    /* All categories */
+    const { data: categories = [], isLoading: isLoadingCategories } = useQuery({
+        queryKey: [ 'categories' ],
+        queryFn: async () => {
+            try {
+                const result = await fetchPublic('/products-categories', {
+                    cache: 'force-cache'
+                });
+
+                const categories = [ ...result?.categories ];
+                // console.log(categories);
+                return categories
+            } catch (error) {
+                console.log(error?.message);
+                return []
+            }
+        }
+    })
+
+    /* All products */
+    const { data: products = [], isLoading } = useQuery({
+        queryKey: [ 'products' ],
+        queryFn: async () => {
+            try {
+                const productFetched = await fetchPublic('/products', {
+                    cache: 'force-cache'
+                });
+                // console.log(productFetched);
+                return productFetched
+            } catch (error) {
+                console.log(error?.message);
+                return []
+            }
+        }
+    })
+
+
+    /* Get products by categories */
+    const { data: productsByCategory = [], isLoading: isLoadingCategory, isPending: isPendingCategory } = useQuery({
+        enabled: !!category,
+        queryKey: [ category ],
+        queryFn: async () => {
+            try {
+                const productFetched = await fetchPublic(`/products-by-category/${category}`, {
+                    cache: 'force-cache'
+                });
+                // console.log(productFetched);
+                return productFetched
+            } catch (error) {
+                console.log(error?.message);
+                return []
+            }
+        }
+    })
+
+    /* Tab controlled function */
+    const handleCategoryTab = (index) => {
+        if (index) {
+            setCategory(categories[ index - 1 ])
+            console.log(index, category, productsByCategory);
+        }
     }
 
     return (
         <>
             <FeaturedBanner headings={featuredTypeWriterHeadings} bannerBg={bannerBg} featureImg={featureImg} title={title} />
             <Box className="py-10">
-                {/* main product box-container */}
                 <Grid container spacing={2} columns={16} className="px-5">
                     {/* row */}
                     <Grid item xs={16} sm={10}>
-                        {/* left column [products card] */}
-                        <h2 className="text-xl md:text-2xl font-semibold capitalize mb-5">Pen - Grocery products</h2>
-                        <Grid container spacing={{ xs: 2, md: 3 }}>
-                            {/* product grid container */}
-                            {Array.from(Array(6).fill(demo)).map((product, index) => {
-                                return (
-                                    <Grid item xs={16} sm={6} lg={4} key={index}>
-                                        {/* Product grid */}
-                                        <ProductCard product={product} />
-                                    </Grid>
-                                )
-                            })}
-                        </Grid>
+                        {/* main product box-container */}
+                        <Tabs defaultIndex={0} onSelect={(index) => handleCategoryTab(index)} >
+                            <TabList>
+                                <Tab>All</Tab>
+                                {!isLoadingCategories ? categories?.length > 0 ? categories.map((category, idx) => <Tab key={idx}>{category}</Tab>) : '' : ''}
+                            </TabList>
+
+                            <TabPanel>
+                                {/* left column [products card] */}
+                                <h2 className="text-xl md:text-2xl font-semibold capitalize mb-5">All products</h2>
+                                <Grid container spacing={{ xs: 2, md: 3 }}>
+                                    {/* product grid container */}
+                                    {!isLoading ?
+                                        products?.length > 0 ?
+                                            products.map((product, index) => {
+                                                // console.log(product);
+                                                return (
+                                                    <Grid item xs={16} sm={6} lg={4} key={index}>
+                                                        {/* Product grid */}
+                                                        <ProductCard product={product} />
+                                                    </Grid>
+                                                )
+                                            }) : 'No data found'
+                                        : 'Loading...'}
+                                </Grid>
+                            </TabPanel>
+
+                            <Grid container spacing={2} columns={16} className="px-5">
+                                {/* row */}
+                                {
+                                    !isLoadingCategories ?
+                                        categories?.length > 0 ?
+                                            categories.map((category, idx) => <TabPanel key={idx}>
+                                                {
+                                                    !isPendingCategory && !isLoadingCategory ?
+                                                        <CategoryPanel products={productsByCategory} category={category} />
+                                                        : 'Loading...'
+                                                }
+                                            </TabPanel>)
+                                            : 'No Categories'
+                                        : 'Loading...'
+                                }
+                            </Grid>
+
+
+                        </Tabs>
+
                     </Grid>
-                    
+
+
                     <Grid item xs={16} sm={6}>
                         {/* right column [Cart] */}
                         <h2 className="text-xl md:text-2xl font-semibold text-center capitalize pb-5">Your Selected Products</h2>
@@ -76,9 +173,7 @@ export default function Shop() {
 
                     </Grid>
                 </Grid>
-
-
-            </Box>
+            </Box >
         </>
     )
 }

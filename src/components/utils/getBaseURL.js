@@ -1,0 +1,1 @@
+export const baseURL = process.env.NODE_ENV === 'development' ? "http://localhost:5000/api/v1" : "https://synchome-server.vercel.app/api/v1"

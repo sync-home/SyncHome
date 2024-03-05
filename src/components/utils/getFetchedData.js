@@ -2,9 +2,9 @@
 
 import { baseURL } from "@/components/utils/getBaseURL";
 
-const fetchPublic = async (endpoint, options = {}) => {
-    console.log(baseURL);
+const fetchPublic = async (endpoint = '/', options = {}) => {
     const url = `${baseURL}${endpoint}`;
+    console.log(url);
 
     try {
         const response = await fetch(url, options);

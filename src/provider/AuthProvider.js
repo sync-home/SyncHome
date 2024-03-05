@@ -1,5 +1,7 @@
 'use client'
 import useAxiosSecure from "@/Hooks/useAxiosSecure";
+import useLoadAllProducts from "@/Hooks/useLoadAllProducts";
+import { getCart, getSelectedProducts } from "@/components/utils/getCart";
 import auth from "@/config/firebase.config";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateEmail, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
@@ -13,16 +15,57 @@ const AuthProvider = ({ children }) => {
 
     const axiosSecure = useAxiosSecure();
     const [ user, setUser ] = useState(null)
-    const [ selectedProducts, setSelectedProducts ] = useState([ {
-        "title": "Gift pen 2 pics",
-        "price": 10,
-        "specifications": "Our new brand for pen, each pan has 3ml ink and 0.02mm nip radius. You can write 1000m."
-    }, {
-        "title": "Gift pen 6 pics",
-        "price": 12,
-        "specifications": "Our new brand for pen, each pan has 3ml ink and 0.02mm nip radius. You can write 1000m."
-    } ])
     const [ loading, setLoading ] = useState(true);
+    const [ selectedProducts, setSelectedProducts ] = useState([])
+    const [ products, setProducts ] = useState([])
+
+
+    /* Get save products in cart */
+    // const [ cart, setCart ] = useState([])
+    const { cart, isLoading: isLoadingCart, isPending: isPendingCart, refetch: refetchCart } = getCart(user?.email)
+
+    /* Load all products */
+    const { products: AllProducts, isLoading } = useLoadAllProducts();
+
+    useEffect(() => {
+        if (!isLoading && AllProducts?.length) {
+            setProducts(AllProducts);
+
+            const selectedProductsOnLocalStorage = getSelectedProducts(AllProducts);
+
+            console.log('AllProducts: ', AllProducts);
+            console.log('All selected products: ', selectedProductsOnLocalStorage);
+
+            /* Update selected products in state */
+            selectedProductsOnLocalStorage?.length && setSelectedProducts(selectedProductsOnLocalStorage)
+        }
+    }, [ isLoading, AllProducts ])
+
+    /* Set selected Products in state */
+    // useEffect(() => {
+    //     if (!isLoading) {/* get selected products */
+
+    //     }
+    // }, [ isLoading, AllProducts ])
+
+    /* Set cart to state */
+    useEffect(() => {
+        if (user?.email) {
+            if (!isPendingCart && !isLoadingCart) {
+                /* check updates of cart */
+                // if (selectedProducts?.length !== cart?.length) refetchCart()
+
+                const { cartProducts, unAvailableProducts, isLoading: isLoadingProducts, isPendingProducts, refetch: refetchProducts } = getProductsOfCart(cart)
+
+                if (unAvailableProducts?.length) {
+                    /* TODO: Request to remove and change color of the products in cart */
+                    console.log('Unavailable products in cart: ', unAvailableProducts);
+                }
+
+                // if (!isPendingProducts && !isLoadingProducts) setSelectedProducts(cartProducts)
+            }
+        }
+    }, [ user?.email ])
 
     // google sign up
     const googleLogin = () => {
@@ -119,15 +162,11 @@ const AuthProvider = ({ children }) => {
     }, [])
 
 
-    /* Shop */
-    const handleSelect = (product) => {
-        const newSelection = [ ...selectedProducts, product ]
-        setSelectedProducts(newSelection)
-    }
-
     const authInfo = {
-        handleSelect,
+        products,
+        isLoading,
         selectedProducts,
+        setSelectedProducts,
         user,
         loading,
         createUser,

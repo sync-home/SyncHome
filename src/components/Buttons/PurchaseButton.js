@@ -19,7 +19,7 @@ const PurchaseButton = ({ products }) => {
 
     return (
         <Box onClick={() => handlePurchase(products)} sx={{
-            px: '10px', py: '2px', border: '1px solid blue', borderRadius: '5px', cursor: 'pointer', '&:hover': {
+            px: '10px', py: '5px', fontSize: '1rem', border: '1px solid blue', borderRadius: '5px', cursor: 'pointer', '&:hover': {
                 opacity: '0.7',
             }
         }}  >

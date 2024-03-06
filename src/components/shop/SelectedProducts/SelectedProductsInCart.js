@@ -4,7 +4,6 @@ import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, Typography }
 import Image from "next/image";
 import giftPen from '@/assets/shop/products/grocery/pen/gift-pen.jpg';
 
-
 const SelectedProductsInCart = () => {
     const { selectedProducts } = useAuthContext()
 
@@ -28,7 +27,7 @@ const SelectedProductsInCart = () => {
                     </ListItem>) : <p className="text-center pt-10">No products selected yet.</p>}
                 </List>
                 <Box sx={{ width: '100%', display: selectedProducts?.length ? 'flex' : 'none', justifyContent: 'flex-end', }}>
-                    <PurchaseButton products={selectedProducts} />
+                    <PurchaseButton />
                 </Box>
             </Box>
 

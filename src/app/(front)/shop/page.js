@@ -123,10 +123,7 @@ export default function Shop() {
                                         : 'Loading...'
                                 }
                             </Grid>
-
-
                         </Tabs>
-
                     </Grid>
 
 

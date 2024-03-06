@@ -14,7 +14,7 @@ const useLoadAllProducts = () => {
                 // console.log(productFetched);
                 return productFetched
             } catch (error) {
-                console.log(error?.message);
+                console.error(error?.message);
                 return []
             }
         }

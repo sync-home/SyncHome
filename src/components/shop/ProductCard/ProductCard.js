@@ -11,7 +11,7 @@ const ProductCard = ({ product }) => {
     const { selectedProducts } = useAuthContext()
 
     const isSelected = getFilteredProducts(selectedProducts, product, true);
-
+    
     return (
         <Card>
             <CardActionArea title="See details">

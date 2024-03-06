@@ -13,61 +13,77 @@ export const getSum = (products) => {
     return sum
 }
 
-/* Get selected products info from local storage */
+/**
+ *  Get selected products info from local storage 
+ * @returns Array of selected products info like menuId, selected date useEffect
+ */
 export const getSelectedProductsInfo = () => {
-    const existingProducts = JSON.parse(localStorage.getItem('selected-products')) || [];
+    const productsInLS = localStorage.getItem('selected-products');
+    const existingProducts = JSON.parse(productsInLS) || [];
 
+    // console.log(existingProducts)
     return existingProducts
 }
 
-/* Get selected products */
+/**
+ * Get all selected products
+ * @param {Array} products All products
+ * @returns selected products among all products
+ */
 export const getSelectedProducts = (products) => {
 
     const existingProductsInfo = getSelectedProductsInfo();
 
-    const existingProducts = products?.filter(product => {
-        /* Check the product on the LS */
-        const isExists = getFilteredProducts(existingProductsInfo, product, true)
-        // const isExists = existingProductsInfo.filter(productOnLS => productOnLS?.menuId === product?._id);
+    if (!existingProductsInfo?.length) return [];
 
-        /* If exist then the product filtered */
-        if (isExists) return product
-    })
-
-    console.log('Selected Products: ', existingProducts);
+    const existingProducts = products?.filter(product => getFilteredProducts(existingProductsInfo, product, true))
 
     return existingProducts
 }
 
-/* Select a product */
-export const selectProduct = (product) => {
+/**
+ * Select the `product` and save info to LS
+ * @param {Object} product The product requested to select by user
+ * @param {Number} quantity quantity of the product
+ * @returns Boolean 
+ */
+export const selectProduct = ({ product, quantity = 1 }) => {
 
     if (product?._id) {
+        /* Previous selection */
+        let existingProductsInfo = getSelectedProductsInfo()
+
+        /* Check already exists or not */
+        const isExists = getFilteredProducts(existingProductsInfo, product, true)
+
+        console.log(isExists);
+        /* is already exist */
+        if (isExists && quantity === 1) return true
+
+        /* save the product */
         const productInfo = {
             menuId: product?._id,
+            quantity,
             selectedOn: new Date().toString(),
+            status: 'selected'
         }
 
-        const existingProductsInfo = getSelectedProductsInfo()
-
-        // Add the new product to the array
-        existingProductsInfo.push(productInfo);
-
         // Store the updated array back in localStorage
-        localStorage.setItem('selected-products', JSON.stringify(existingProductsInfo));
+        localStorage.setItem('selected-products', JSON.stringify([ ...existingProductsInfo, productInfo ]));
 
-        console.log('Product added to localStorage:', product);
         return true
     }
     return false
 }
 
-/* deselect a product of given id from local storage */
+/**
+ * Remove the product info from LS
+ * @param {String} id Deselect the product varying the id
+ * @returns Boolean
+ */
 export const deselectProduct = (id) => {
     if (id) {
-        const existingProductsInfo = getSelectedProductsInfo()
-
-        console.log('Selected products', existingProductsInfo);
+        const existingProductsInfo = getSelectedProductsInfo();
 
         // Add the new product to the array
         const newSelections = existingProductsInfo.filter(product => product?.menuId !== id);
@@ -79,28 +95,6 @@ export const deselectProduct = (id) => {
     }
 
     return false
-}
-
-/* Get Cart from db */
-export const getCart = (email) => {
-    // const axiosSecure = useAxiosPublic();
-    console.log('email on getCart: ', email);
-
-    if (!email) return []
-
-    // const { data: cart = [], isLoading, isPending, refetch } = useQuery({
-    //     enabled: !!email,
-    //     queryKey: [ 'cart', email ],
-    //     queryFn: async () => {
-    //         const cart = await axiosSecure.get('/cart', { email });
-
-    //         console.log(cart);
-    //         return cart?.data
-    //     }
-    // })
-
-    // return { cart, isLoading, isPending, refetch }
-    return []
 }
 
 /* Add product to the Cart */

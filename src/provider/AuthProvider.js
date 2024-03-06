@@ -1,7 +1,8 @@
 'use client'
 import useAxiosSecure from "@/Hooks/useAxiosSecure";
 import useLoadAllProducts from "@/Hooks/useLoadAllProducts";
-import { getCart, getSelectedProducts } from "@/components/utils/getCart";
+import useLoadCart from "@/Hooks/useLoadCart";
+import { getCart, getSelectedProducts } from "@/components/utils/getReadyCartLS";
 import auth from "@/config/firebase.config";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateEmail, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
@@ -19,34 +20,30 @@ const AuthProvider = ({ children }) => {
     const [ selectedProducts, setSelectedProducts ] = useState([])
     const [ products, setProducts ] = useState([])
 
+    const { products: AllProducts, isLoading } = useLoadAllProducts();
 
     /* Get save products in cart */
     // const [ cart, setCart ] = useState([])
-    const { cart, isLoading: isLoadingCart, isPending: isPendingCart, refetch: refetchCart } = getCart(user?.email)
+    const { cart, isLoadingCart, isPendingCart, refetchCart } = useLoadCart()
+
+    // console.log('Product in cart: ', cart);
 
     /* Load all products */
-    const { products: AllProducts, isLoading } = useLoadAllProducts();
-
     useEffect(() => {
         if (!isLoading && AllProducts?.length) {
             setProducts(AllProducts);
-
-            const selectedProductsOnLocalStorage = getSelectedProducts(AllProducts);
-
-            console.log('AllProducts: ', AllProducts);
-            console.log('All selected products: ', selectedProductsOnLocalStorage);
-
-            /* Update selected products in state */
-            selectedProductsOnLocalStorage?.length && setSelectedProducts(selectedProductsOnLocalStorage)
         }
     }, [ isLoading, AllProducts ])
 
     /* Set selected Products in state */
-    // useEffect(() => {
-    //     if (!isLoading) {/* get selected products */
+    useEffect(() => {
+        if (!isLoading && AllProducts?.length) {
+            const selectedProductsOnLocalStorage = getSelectedProducts(AllProducts);
 
-    //     }
-    // }, [ isLoading, AllProducts ])
+            /* Update selected products in state */
+            setSelectedProducts(selectedProductsOnLocalStorage)
+        }
+    }, [ isLoading, AllProducts ])
 
     /* Set cart to state */
     useEffect(() => {
@@ -137,7 +134,7 @@ const AuthProvider = ({ children }) => {
 
                 try {
                     axiosSecure.post("/auth/jwt", userInfo).then((res) => {
-                        console.log('cookie set', res?.data?.error);
+                        console.log('cookie setting error: ', res?.data?.error);
                         return !res?.data?.error && setLoading(false);
                     });
                 } catch (error) {
@@ -149,7 +146,7 @@ const AuthProvider = ({ children }) => {
             } else {
                 // remove token
                 axiosSecure.post("/auth/logout", currentUser).then((res) => {
-                    console.log('cookie reset', res?.data?.error);
+                    console.log('cookie resetting error: ', res?.data?.error);
                     return !res?.data?.error && setLoading(false);
                 });
             }

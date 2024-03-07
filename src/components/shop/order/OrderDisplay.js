@@ -23,12 +23,49 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import useAuthContext from '@/Hooks/useAuthContext';
+import getUpdateSelectedProductsState from '@/components/utils/getUpdateSelectedProductsState';
+import { Button } from '@mui/material';
+import { deselectProduct } from '@/components/utils/getReadyCartLS';
+import Link from 'next/link';
 
-function createData(id, title, quantity = 1, price) {
+let rows = [];
+
+const headCells = [
+    {
+        id: 'title',
+        numeric: false,
+        disablePadding: true,
+        label: 'Product Title',
+    },
+    {
+        id: 'quantity',
+        numeric: true,
+        disablePadding: false,
+        label: 'Quantity',
+    },
+    {
+        id: 'price',
+        numeric: true,
+        disablePadding: false,
+        label: 'Unit Price',
+    },
+    {
+        id: 'subtotal',
+        numeric: true,
+        disablePadding: false,
+        label: 'Price',
+    },
+];
+
+const handleOrder = () => {
+    console.log('Order proceed.');
+}
+
+function createData(id, menuId, title, quantity = 1, price) {
     const subtotal = quantity * price
 
     return {
-        id,
+        id, menuId,
         title,
         quantity,
         price,
@@ -65,33 +102,7 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[ 0 ]);
 }
 
-const headCells = [
-    {
-        id: 'title',
-        numeric: false,
-        disablePadding: true,
-        label: 'Product Title',
-    },
-    {
-        id: 'quantity',
-        numeric: true,
-        disablePadding: false,
-        label: 'Quantity',
-    },
-    {
-        id: 'price',
-        numeric: true,
-        disablePadding: false,
-        label: 'Unit Price',
-    },
-    {
-        id: 'subtotal',
-        numeric: true,
-        disablePadding: false,
-        label: 'Price',
-    },
-];
-
+/* Header Creator component */
 function EnhancedTableHead(props) {
     const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
         props;
@@ -139,17 +150,50 @@ function EnhancedTableHead(props) {
     );
 }
 
-EnhancedTableHead.propTypes = {
-    numSelected: PropTypes.number.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
-    order: PropTypes.oneOf([ 'asc', 'desc' ]).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
-};
-
+/* Toolbar creator component */
 function EnhancedTableToolbar(props) {
-    const { numSelected } = props;
+
+    const { selected, setSelected } = props;
+    const { selectedProducts, setSelectedProducts } = useAuthContext()
+    const numSelected = selected?.length;
+
+    // console.log(numSelected, 'data in rows: ', rows, 'selected products: ', selectedProducts);
+    const handleDelete = () => {
+        let i = numSelected;
+
+        /* remove selected products */
+        while (i--) {
+            console.log(i);
+            /* Find the product in rows of which id is selected[ i - 1 ] */
+            const [ productInRows ] = rows.filter(row => {
+                if (row?.id === selected[ i ]) {
+                    /* Index of the product in rows */
+                    const indexInRows = rows?.indexOf(row);
+
+                    /* Remove form LS */
+                    deselectProduct(row?.menuId)
+
+                    /* Remove from local rows array */
+                    // rows.slice(indexInRows - 1, 1)
+                    return true
+                }
+
+                return false
+            })
+
+            /* Find the product in selectedProducts of which menuId is same of the productInRows */
+            const [ product ] = selectedProducts.filter(theProduct => theProduct?._id === productInRows?.menuId)
+
+            const isUpdated = getUpdateSelectedProductsState({ selectedProducts, setSelectedProducts, product, add: false })
+
+            console.log(isUpdated && `${product?._id} is deleted`);
+
+            rows.slice(selected[ i ] - 2, 1)
+        }
+
+        /* remove selection */
+        setSelected([])
+    }
 
     return (
         <Toolbar
@@ -184,34 +228,24 @@ function EnhancedTableToolbar(props) {
 
             {numSelected > 0 ? (
                 <Tooltip title="Delete">
-                    <IconButton>
+                    <IconButton onClick={handleDelete}>
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
-            ) : (
-                <Tooltip title="Filter list">
-                    <IconButton>
-                        <FilterListIcon />
-                    </IconButton>
-                </Tooltip>
-            )}
+            ) : ''}
         </Toolbar>
     );
 }
 
-EnhancedTableToolbar.propTypes = {
-    numSelected: PropTypes.number.isRequired,
-};
-
+/* Main function */
 export default function OrderDisplay() {
-    const { selectedProducts } = useAuthContext()
+    const { selectedProducts, setSelectedProducts } = useAuthContext()
     const [ order, setOrder ] = React.useState('asc');
     const [ orderBy, setOrderBy ] = React.useState('calories');
     const [ selected, setSelected ] = React.useState([]);
     const [ page, setPage ] = React.useState(0);
     const [ dense, setDense ] = React.useState(false);
     const [ rowsPerPage, setRowsPerPage ] = React.useState(5);
-    const rows = [];
 
     const handleRequestSort = (_event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -228,6 +262,7 @@ export default function OrderDisplay() {
         setPage(0);
     };
 
+    /* Change size of rows */
     const handleChangeDense = (event) => {
         setDense(event.target.checked);
     };
@@ -257,13 +292,14 @@ export default function OrderDisplay() {
 
     /* Get the products to make shopping cart */
     if (selectedProducts?.length) {
+        const newRows = [];
         selectedProducts?.forEach((product, idx) => {
-            const row = createData(idx + 1, product?.title, product?.quantity, product?.price);
+            const row = createData(idx + 1, product?._id, product?.title, product?.quantity, product?.price);
             // console.log(row);
-            rows?.push(row)
+            newRows?.push(row)
         });
-    } else {
-        console.error('Something wrong.');
+
+        rows = newRows;
     }
 
     const handleSelectAllClick = (event) => {
@@ -280,13 +316,14 @@ export default function OrderDisplay() {
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows?.length) : 0;
 
+    /* save the rows */
     const visibleRows = React.useMemo(
         () =>
             stableSort(rows, getComparator(order, orderBy)).slice(
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage,
             ),
-        [ order, orderBy, page, rowsPerPage ],
+        [ selectedProducts, rows, order, orderBy, page, rowsPerPage ],
     );
 
     /* Cost Calculation */
@@ -315,7 +352,7 @@ export default function OrderDisplay() {
     return (
         <Box sx={{ maxWidth: '80%', mx: 'auto', py: '1rem' }}>
             <Paper sx={{ width: '100%', mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} />
+                <EnhancedTableToolbar selectedProducts={selectedProducts} setSelectedProducts={setSelectedProducts} selected={selected} setSelected={setSelected} />
                 <TableContainer>
                     <Table
                         sx={{ minWidth: 750 }}
@@ -331,7 +368,7 @@ export default function OrderDisplay() {
                             rowCount={rows?.length}
                         />
                         <TableBody>
-                            {visibleRows.map((row, index) => {
+                            {visibleRows?.length ? visibleRows.map((row, index) => {
                                 const isItemSelected = isSelected(row?.id);
                                 const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -368,7 +405,10 @@ export default function OrderDisplay() {
                                         <TableCell align="right">{row?.subtotal}</TableCell>
                                     </TableRow>
                                 );
-                            })}
+                            })
+                                : <TableRow>
+                                    <TableCell rowSpan={5} colSpan={5}>No products are selected. Go back <Link href={'/shop'} className='text-blue-600 underline'>Shop</Link> to select product</TableCell>
+                                </TableRow>}
 
                             {emptyRows > 0 && (
                                 <TableRow
@@ -426,6 +466,25 @@ export default function OrderDisplay() {
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            <Box className="flex justify-end py-10">
+                <Button variant='outlined' onClick={handleOrder}>Order now</Button>
+            </Box>
         </Box>
     );
 }
+
+/* Prop validations */
+EnhancedTableHead.propTypes = {
+    numSelected: PropTypes.number.isRequired,
+    onRequestSort: PropTypes.func.isRequired,
+    onSelectAllClick: PropTypes.func.isRequired,
+    order: PropTypes.oneOf([ 'asc', 'desc' ]).isRequired,
+    orderBy: PropTypes.string.isRequired,
+    rowCount: PropTypes.number.isRequired,
+};
+
+
+EnhancedTableToolbar.propTypes = {
+    numSelected: PropTypes.number.isRequired,
+};

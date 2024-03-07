@@ -3,6 +3,8 @@ import { Box } from "@mui/material";
 import { useState } from "react";
 import { deselectProduct, selectProduct } from "../utils/getReadyCartLS";
 import useAuthContext from "@/Hooks/useAuthContext";
+import { getFilteredProducts } from "../utils/getFilteredProducts";
+import getUpdateSelectedProductsState from "../utils/getUpdateSelectedProductsState";
 
 const SelectProductButton = ({ product, selected }) => {
     const [ isSelected, setIsSelected ] = useState(selected)
@@ -19,25 +21,15 @@ const SelectProductButton = ({ product, selected }) => {
                 const res = selectProduct({ product });
 
                 /* Update in state */
-                if (res) {
-                    setSelectedProducts([ ...selectedProducts, product ])
-                    setIsSelected(true)
-                } else {
-                    console.error('Something wrong');
-                }
+                res && getUpdateSelectedProductsState({ selectedProducts, setSelectedProducts, setIsSelected, product, add: true })
+
 
             } else {
                 /* Remove from LS */
                 const res = deselectProduct(product?._id);
 
                 /* Update in state */
-                if (res) {
-                    const remaining = selectedProducts?.filter(theProduct => theProduct?._id !== product?._id);
-                    setSelectedProducts(remaining)
-                    setIsSelected(false)
-                } else {
-                    console.error('Something wrong');
-                }
+                res && getUpdateSelectedProductsState({ selectedProducts, setSelectedProducts, setIsSelected, product })
             }
         } else {
             console.error('Something wrong in handleSelect.', selectedProducts);

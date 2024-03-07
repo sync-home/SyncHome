@@ -15,14 +15,14 @@ const Notification = async () => {
     const { data: posts = [], refetch } = useQuery({
         queryKey: ['posts'],
         queryFn: async () => {
-            const res = await axios.get('https://synchome-server.vercel.app/api/v1/notifications');
+            const res = await axios.get('http://localhost:5000/api/v1/notifications');
             return res?.data;
         }
     })
 
 
     const handleDelete = async (id) => {
-        const res = await axios.delete(`https://synchome-server.vercel.app/api/v1/remove-notification/${id}`)
+        const res = await axios.delete(`http://localhost:5000/api/v1/remove-notification/${id}`)
 
 
         if (res.data.deletedCount > 0) {

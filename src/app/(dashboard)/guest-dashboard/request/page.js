@@ -11,7 +11,7 @@ const GuestRequest = () => {
     const axiosPublic = useAxiosPublic();
 
     // Fetch User data from database
-    const { data: reqData = {}, isLoading, isPending} = useQuery({
+    const { data: reqData = {}, isLoading, isPending, refetch } = useQuery({
         queryKey: ['requests'],
         queryFn: async () => {
             const res = await axiosPublic.get(`/request/${user?.email}`);
@@ -22,34 +22,21 @@ const GuestRequest = () => {
     console.log(reqData);
 
     const handleResident = () => {
-        Swal.fire({
-            text: "Do you want to be a resident?",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes",
-            cancelButtonText: "No",
-        }).then((result) => {
-            const userInfo = {
-                email: user?.email,
-                role: 'resident',
-                status: 'pending'
-            }
 
-            if (result.isConfirmed) {
-                axiosPublic.post('/requests', userInfo)
-                    .then(result => {
-                        console.log(result.data)
-                        Swal.fire({
-                            text: "Your request send to the admin",
-                        });
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
-            }
-        });
-    }
+        const userInfo = {
+            email: user?.email,
+            role: 'resident',
+            status: 'pending'
+        }
+        axiosPublic.post('/requests', userInfo)
+            .then(result => {
+                console.log(result.data)
+                refetch();
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    };
 
     const handleEmployee = () => {
         Swal.fire({

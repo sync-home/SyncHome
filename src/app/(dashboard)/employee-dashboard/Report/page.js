@@ -40,7 +40,7 @@ const ReportPage = () => {
   const { data: rows = [], refetch } = useQuery({
     queryKey: ['rows'],
     queryFn: async () => {
-      const res = await axios.get('https://synchome-server.vercel.app/api/v1/reports');
+      const res = await axios.get('http://localhost:5000/api/v1/reports');
       return res?.data;
     }
   })
@@ -55,7 +55,7 @@ const ReportPage = () => {
 
   // problem solved button
   const handleSolved = book => {
-    const res = axios.patch(`https://synchome-server.vercel.app/api/v1/reports/${book._id}`)
+    const res = axios.patch(`http://localhost:5000/api/v1/reports/${book._id}`)
     refetch()
       .then(res => {
         console.log(res.data);

@@ -12,7 +12,7 @@ const useGetRole = () => {
         enabled: !loading && !!user?.email,
         queryKey: ['user', `${user?.email}`],
         queryFn: async() => {
-            const res = await axiosPublic.get(`/user-by-email/${user?.email}`)
+            const res = await axiosPublic.get(`/users/${user?.email}`)
             return res?.data;
         }
     })

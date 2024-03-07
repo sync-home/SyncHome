@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosPublic = axios.create({
-    baseURL: "https://synchome-server.vercel.app/api/v1"
+    baseURL: "http://localhost:5000/api/v1"
 })
 
 const useAxiosPublic = () => {
@@ -10,4 +10,4 @@ const useAxiosPublic = () => {
 
 export default useAxiosPublic;
 
-// https://synchome-server-pink.vercel.app
+// http://localhost:5000

@@ -23,7 +23,7 @@ const MaintenanceRequests = () => {
     try {
       //const res = await axios.post(`http://localhost:5000/api/v1/report`, maintenanceData);
       const res = await axios.post(
-        `https://synchome-server.vercel.app/api/v1/report`,
+        `http://localhost:5000/api/v1/report`,
         maintenanceData
       );
       if (res.status === 200) {

@@ -226,9 +226,9 @@ function Navbar() {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                { !isPending && !isLoading ? <MenuItem onClick={handleCloseUserMenu}>
+                                <MenuItem onClick={handleCloseUserMenu}>
                                     <Link href={`/${role}-dashboard/profile`}>Dashboard</Link>
-                                </MenuItem> : ""}
+                                </MenuItem>
                                 <MenuItem>
                                     <Link href={'/notification'}>Notifications</Link>
                                 </MenuItem>

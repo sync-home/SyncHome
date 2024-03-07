@@ -57,9 +57,6 @@ const DashboardLayout = ({ children }) => {
         ];
     };
 
-
-
-    console.log(role);
     // console.log(user?.email);
 
     return (

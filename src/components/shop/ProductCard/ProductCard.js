@@ -5,13 +5,13 @@ import giftPen from '@/assets/shop/products/grocery/pen/gift-pen.jpg';
 import Image from 'next/image';
 import React from 'react';
 import useAuthContext from '@/Hooks/useAuthContext';
+import { getFilteredProducts } from '@/components/utils/getFilteredProducts';
 
 const ProductCard = ({ product }) => {
     const { selectedProducts } = useAuthContext()
 
-    const isExists = selectedProducts.filter(theProduct => theProduct?.title === product?.title);
-    const isSelected = isExists?.length > 0 ? true : false;
-
+    const isSelected = getFilteredProducts(selectedProducts, product, true);
+    
     return (
         <Card>
             <CardActionArea title="See details">
@@ -21,12 +21,12 @@ const ProductCard = ({ product }) => {
                         <span className="font-semibold">{product?.title}</span> <span className="text-blue-800 font-semibold">${product?.price}</span>
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {product?.specifications}
+                        {product?.description?.length > 150 ? product?.description?.slice(0, 150) + '...' : product?.description}
                     </Typography>
                 </CardContent>
             </CardActionArea>
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end', p: '10px' }}>
-                <SelectProductButton product={product} isSelected={isSelected} />
+                <SelectProductButton product={product} selected={isSelected} />
             </Box>
         </Card>
     );

@@ -1,5 +1,8 @@
 'use client'
 import useAxiosSecure from "@/Hooks/useAxiosSecure";
+import useLoadAllProducts from "@/Hooks/useLoadAllProducts";
+import useLoadCart from "@/Hooks/useLoadCart";
+import { getCart, getSelectedProducts } from "@/components/utils/getReadyCartLS";
 import auth from "@/config/firebase.config";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateEmail, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
@@ -13,16 +16,53 @@ const AuthProvider = ({ children }) => {
 
     const axiosSecure = useAxiosSecure();
     const [ user, setUser ] = useState(null)
-    const [ selectedProducts, setSelectedProducts ] = useState([ {
-        "title": "Gift pen 2 pics",
-        "price": 10,
-        "specifications": "Our new brand for pen, each pan has 3ml ink and 0.02mm nip radius. You can write 1000m."
-    }, {
-        "title": "Gift pen 6 pics",
-        "price": 12,
-        "specifications": "Our new brand for pen, each pan has 3ml ink and 0.02mm nip radius. You can write 1000m."
-    } ])
     const [ loading, setLoading ] = useState(true);
+    const [ selectedProducts, setSelectedProducts ] = useState([])
+    const [ products, setProducts ] = useState([])
+
+    const { products: AllProducts, isLoading } = useLoadAllProducts();
+
+    /* Get save products in cart */
+    // const [ cart, setCart ] = useState([])
+    const { cart, isLoadingCart, isPendingCart, refetchCart } = useLoadCart()
+
+    // console.log('Product in cart: ', cart);
+
+    /* Load all products */
+    useEffect(() => {
+        if (!isLoading && AllProducts?.length) {
+            setProducts(AllProducts);
+        }
+    }, [ isLoading, AllProducts ])
+
+    /* Set selected Products in state */
+    useEffect(() => {
+        if (!isLoading && AllProducts?.length) {
+            const selectedProductsOnLocalStorage = getSelectedProducts(AllProducts);
+
+            /* Update selected products in state */
+            setSelectedProducts(selectedProductsOnLocalStorage)
+        }
+    }, [ isLoading, AllProducts ])
+
+    /* Set cart to state */
+    useEffect(() => {
+        if (user?.email) {
+            if (!isPendingCart && !isLoadingCart) {
+                /* check updates of cart */
+                // if (selectedProducts?.length !== cart?.length) refetchCart()
+
+                const { cartProducts, unAvailableProducts, isLoading: isLoadingProducts, isPendingProducts, refetch: refetchProducts } = getProductsOfCart(cart)
+
+                if (unAvailableProducts?.length) {
+                    /* TODO: Request to remove and change color of the products in cart */
+                    console.log('Unavailable products in cart: ', unAvailableProducts);
+                }
+
+                // if (!isPendingProducts && !isLoadingProducts) setSelectedProducts(cartProducts)
+            }
+        }
+    }, [ user?.email ])
 
     // google sign up
     const googleLogin = () => {
@@ -94,7 +134,7 @@ const AuthProvider = ({ children }) => {
 
                 try {
                     axiosSecure.post("/auth/jwt", userInfo).then((res) => {
-                        console.log('cookie set', res?.data?.error);
+                        console.log('cookie setting error: ', res?.data?.error);
                         return !res?.data?.error && setLoading(false);
                     });
                 } catch (error) {
@@ -106,7 +146,7 @@ const AuthProvider = ({ children }) => {
             } else {
                 // remove token
                 axiosSecure.post("/auth/logout", currentUser).then((res) => {
-                    console.log('cookie reset', res?.data?.error);
+                    console.log('cookie resetting error: ', res?.data?.error);
                     return !res?.data?.error && setLoading(false);
                 });
             }
@@ -119,15 +159,11 @@ const AuthProvider = ({ children }) => {
     }, [])
 
 
-    /* Shop */
-    const handleSelect = (product) => {
-        const newSelection = [ ...selectedProducts, product ]
-        setSelectedProducts(newSelection)
-    }
-
     const authInfo = {
-        handleSelect,
+        products,
+        isLoading,
         selectedProducts,
+        setSelectedProducts,
         user,
         loading,
         createUser,

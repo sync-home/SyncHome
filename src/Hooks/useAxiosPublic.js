@@ -1,7 +1,8 @@
+import { baseURL } from "@/components/utils/getBaseURL";
 import axios from "axios";
 
 const axiosPublic = axios.create({
-    baseURL: "http://localhost:5000/api/v1"
+    baseURL: baseURL
 })
 
 const useAxiosPublic = () => {
@@ -9,5 +10,3 @@ const useAxiosPublic = () => {
 };
 
 export default useAxiosPublic;
-
-// http://localhost:5000

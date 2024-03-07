@@ -23,30 +23,36 @@ const SignUpPage = () => {
         createUser(data.email, data.password)
             .then(result => {
                 updateUserInfo(data?.name, data?.photo)
-                .then(() => {
-                    const userInfo = {
-                        name: data?.name,
-                        email: data?.email,
-                        photo: data?.photo,
-                        login_activity: [{"date": `${new Date().toUTCString()}`}],
-                        phone: 'N/A',
-                        role: "guest",
-                        status: 'active'
-                    }
-                    axiosPublic.post('/new-user', userInfo)
-                    .then(res => {
-                        if (res.data.insertedId) {
-                            reset()
-                            toast.success('Sign Up Successful', {
-                                position: 'top-center',
-                                autoClose: 1300,
-                            })
-                            router.push('/signin')
+                    .then(() => {
+                        const userInfo = {
+                            name: data?.name,
+                            email: data?.email,
+                            photo: data?.photo,
+                            login_activity: [{ "date": `${new Date().toUTCString()}` }],
+                            phone: 'N/A',
+                            role: "guest",
+                            status: 'active'
                         }
+                        axiosPublic.post('/new-user', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    reset()
+                                    toast.success('Sign Up Successful', {
+                                        position: 'top-center',
+                                        autoClose: 1300,
+                                    })
+                                    router.push('/signin')
+                                }
+                            })
+
+                    }).catch((error) => {
+                        console.log(error);
+
                     })
-                    
-                }).catch((error) => {
-                    console.log(error);
+            }).catch(error => {
+                toast.error('You Are Already Have An Account', {
+                    position: 'top-center',
+                    autoClose: 1300,
                 })
             })
     }
@@ -59,27 +65,30 @@ const SignUpPage = () => {
                     name: result?.user?.displayName,
                     email: result?.user?.email,
                     photo: result?.user?.photoURL,
-                    login_activity: [{"date": `${result?.user?.metadata?.lastSignInTime}`}],
+                    login_activity: [{ "date": `${result?.user?.metadata?.lastSignInTime}` }],
                     phone: 'N/A',
                     role: "guest",
                     status: 'active'
                 }
-                axiosPublic.post('new-user', userInfo)
-                 // toast
-                 toast.success('Sign Up Successful', {
+                axiosPublic.post('/new-user', userInfo)
+                // toast
+                toast.success('Sign Up Successful', {
                     position: 'top-center',
                     autoClose: 1300,
                 })
                 router.push('/signin')
             })
             .catch(error => {
-                console.log(error);
+                toast.error('You Are Already Have An Account', {
+                    position: 'top-center',
+                    autoClose: 1300,
+                })
             })
     }
 
     return (
-        <Grid className='flex justify-center items-center min-h-screen'>
-            <Paper className="py-7 px-5 w-full max-w-md my-5 mx-auto">
+        <Grid className='flex justify-center items-center lg:min-h-screen'>
+            <Paper className="py-7 px-5 w-full max-w-md my-16 lg:mx-auto mx-6">
                 <Grid align="center">
                     <h2 className='my-3 text-4xl font-bold'>Sign Up</h2>
                     <Typography variant="caption" className='text-sm text-gray-400'>Sign up to access your account.</Typography>

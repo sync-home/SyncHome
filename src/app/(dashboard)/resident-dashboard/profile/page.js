@@ -10,7 +10,7 @@ const ResidentProfile = () => {
         "gender": "male",
         "status": "active",
         "role": "resident",
-        "email": "alice.johnson@example.com",
+        "email": "abc1@gmail.com",
         "phone": "+112233445566",
         "region": "Europe",
         "login_activity": [

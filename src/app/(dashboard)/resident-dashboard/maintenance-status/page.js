@@ -1,4 +1,7 @@
-import React from "react";
+'use client'
+
+import axios from "axios";
+import { useQuery } from '@tanstack/react-query';
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -6,114 +9,63 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
-const maintenanceData = [
-  {
-    name: "Frozen yoghurt",
-    place: "New York",
-    date: "2024-02-15",
-    issue: "AC not working",
-    status: "Pending",
-  },
-  {
-    name: "Ice cream sandwich",
-    place: "Los Angeles",
-    date: "2024-02-16",
-    issue: "Leaky faucet",
-    status: "Resolved",
-  },
-  {
-    name: "Eclair",
-    place: "Chicago",
-    date: "2024-02-17",
-    issue: "Broken window",
-    status: "In Progress",
-  },
-  {
-    name: "Cupcake",
-    place: "Seattle",
-    date: "2024-02-18",
-    issue: "Clogged drain",
-    status: "Pending",
-  },
-  {
-    name: "Donut",
-    place: "San Francisco",
-    date: "2023-02-19",
-    issue: "Broken door handle",
-    status: "Resolved",
-  },
-  {
-    name: "Gingerbread",
-    place: "Miami",
-    date: "2023-02-20",
-    issue: "Faulty light fixture",
-    status: "In Progress",
-  },
-  {
-    name: "Brownie",
-    place: "Boston",
-    date: "2023-02-21",
-    issue: "Moldy ceiling",
-    status: "Pending",
-  },
-  {
-    name: "Cheesecake",
-    place: "Dallas",
-    date: "2023-02-22",
-    issue: "Roof leak",
-    status: "Resolved",
-  },
-  {
-    name: "Pudding",
-    place: "Houston",
-    date: "2023-02-23",
-    issue: "Broken stairs",
-    status: "In Progress",
-  },
-  {
-    name: "Tiramisu",
-    place: "Atlanta",
-    date: "2023-02-24",
-    issue: "Flooded basement",
-    status: "Pending",
-  },
-];
+import useAuthContext from "@/Hooks/useAuthContext";
+import { Typography } from '@mui/material';
 
 const MaintenanceStatus = () => {
+  const { user } = useAuthContext();
+  const email = user?.email;
+
+  const { data: rows = [], refetch, isLoading, isError } = useQuery({
+    queryKey: ['rows'],
+    queryFn: async () => {
+      const res = await axios.get(`https://synchome-server.vercel.app/api/v1/report?email=${email}`);
+      return res?.data;
+    }
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error fetching data</div>;
+
   return (
     <>
-      <h1 className="text-xl lg:text-2xl font-bold my-5">
-        Your Maintenance Requests Status
-      </h1>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="caption table">
-          <TableHead>
-            <TableRow>
-              <TableCell>#</TableCell>
-              <TableCell>Apartment</TableCell>
-              <TableCell align="right">Place</TableCell>
-              <TableCell align="right">Date</TableCell>
-              <TableCell align="right">Issue</TableCell>
-              <TableCell align="right">Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {maintenanceData?.map((row, idx) => (
-              <TableRow key={idx}>
-                <TableCell component="th" scope="row">
-                  {idx + 1}
-                </TableCell>
-                <TableCell>{row?.name}</TableCell>
-                <TableCell align="right">{row?.place}</TableCell>
-                <TableCell align="right">{row?.date}</TableCell>
-                <TableCell align="right">{row?.issue}</TableCell>
-                <TableCell align="right">{row?.status}</TableCell>
+      <Typography variant="h5" gutterBottom className='pb-3'>
+        Your Maintenance Status
+      </Typography>
+      {rows?.length === 0 ? (
+        <Typography variant="body1" gutterBottom>
+          No maintenance status available.
+        </Typography>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="caption table">
+            <TableHead>
+              <TableRow>
+                <TableCell>#</TableCell>
+                <TableCell>Apartment</TableCell>
+                <TableCell align="right">Place</TableCell>
+                <TableCell align="right">Date</TableCell>
+                <TableCell align="right">Issue</TableCell>
+                <TableCell align="right">Status</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {rows?.map((row, idx) => (
+                <TableRow key={idx}>
+                  <TableCell component="th" scope="row">
+                    {idx + 1}
+                  </TableCell>
+                  <TableCell>{row?.apartment}</TableCell>
+                  <TableCell align="right">{row?.place}</TableCell>
+                  <TableCell align="right">{row?.date}</TableCell>
+                  <TableCell align="right">{row?.issue}</TableCell>
+                  <TableCell align="right">{row?.status}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </>
   );
 };

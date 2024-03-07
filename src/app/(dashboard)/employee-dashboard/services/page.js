@@ -126,7 +126,7 @@ const ServicesPage = () => {
                                 <div className={`w-full px-2 h-[160px] rounded-3xl border-2 ${isGateVisible ? 'gateOpen' : 'homeOpen'}`}>
                                     <div className="flex items-center justify-between">
                                         <FaHome className="text-2xl"></FaHome>
-                                        <button className="px-3 btn bg-white rounded-full py-2" onClick={toggleGate}>{isGateVisible ? 'Open' : 'Close'}</button>
+                                        <button className="px-3 text-black btn bg-white rounded-full py-2" onClick={toggleGate}>{isGateVisible ? 'Open' : 'Close'}</button>
                                     </div>
                                     <p className="font-medium top-12 relative">Home</p>
                                 </div>
@@ -135,7 +135,7 @@ const ServicesPage = () => {
                                 <div className={`w-full px-2 h-[160px] rounded-3xl border-2 bg-[#F4F1F5] ${isGateVisible2 ? 'gateOpen' : 'homeOpen'}`}>
                                     <div className="flex items-center justify-between">
                                         <FaTv className="text-2xl"></FaTv>
-                                        <button className="px-3 btn bg-white rounded-full py-2" onClick={toggleGate2}>{isGateVisible2 ? 'On' : 'Off'}</button>
+                                        <button className="px-3 text-black btn bg-white rounded-full py-2" onClick={toggleGate2}>{isGateVisible2 ? 'On' : 'Off'}</button>
                                     </div>
                                     <p className="font-medium top-12 relative">Tv</p>
                                 </div>
@@ -144,7 +144,7 @@ const ServicesPage = () => {
                                 <div className={`w-full px-2 h-[160px] rounded-3xl border-2 bg-[#F4F1F5] ${isGateVisible3 ? 'gateOpen' : 'homeOpen'}`}>
                                     <div className="flex items-center justify-between">
                                         <FaWifi className="text-2xl"></FaWifi>
-                                        <button className="px-3 btn bg-white rounded-full py-2" onClick={toggleGate3}>{isGateVisible3 ? 'On' : 'Off'}</button>
+                                        <button className="px-3 text-black btn bg-white rounded-full py-2" onClick={toggleGate3}>{isGateVisible3 ? 'On' : 'Off'}</button>
                                     </div>
                                     <p className="font-medium top-12 relative">Wifi</p>
                                 </div>
@@ -153,7 +153,7 @@ const ServicesPage = () => {
                                 <div className={`w-full px-2 h-[160px] rounded-3xl border-2 bg-[#F4F1F5] ${isGateVisible4 ? 'gateOpen' : 'homeOpen'}`}>
                                     <div className="flex items-center justify-between">
                                         <FaBath className="text-2xl"></FaBath>
-                                        <button className="px-3 btn bg-white rounded-full py-2" onClick={toggleGate4}>{isGateVisible4 ? 'On' : 'Off'}</button>
+                                        <button className="px-3 text-black btn bg-white rounded-full py-2" onClick={toggleGate4}>{isGateVisible4 ? 'On' : 'Off'}</button>
                                     </div>
                                     <p className="font-medium top-12 relative">Bath Tub</p>
                                 </div>

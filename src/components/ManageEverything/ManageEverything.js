@@ -55,7 +55,7 @@ const ManageEverything = () => {
 
     return (
         <Box sx={{ backgroundImage: 'url(https://i.ibb.co/BcqS8Cp/scenarios-management-1.jpg)' }} className="font-catamaran">
-            <Box className="bg-[rgba(10,29,86,0.8)] py-32">
+            <Box className="bg-[rgba(10,29,86,0.8)] lg:py-32 py-16">
                 <Box className="max-w-7xl mx-auto">
                     <Box className="text-center lg:px-32 px-5">
                         <h2 className="font-extrabold text-4xl mb-5 text-[#F2F597]">MANAGE EVERYTHING</h2>
@@ -74,6 +74,10 @@ const ManageEverything = () => {
                             breakpoints={{
                                 240: {
                                     slidesPerView: 1,
+                                    spaceBetween: 20,
+                                },
+                                768: {
+                                    slidesPerView: 2,
                                     spaceBetween: 20,
                                 },
                                 1024: {

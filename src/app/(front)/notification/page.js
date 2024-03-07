@@ -4,31 +4,30 @@ import useGetRole from '@/Hooks/useGetRole';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Avatar, Grid, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Notification = async () => {
 
     const axiosPublic = useAxiosPublic()
-    const {role} = useGetRole();
+    const { role } = useGetRole();
 
     const { data: posts = [], refetch } = useQuery({
-        queryKey: ['posts'],
+        queryKey: [ 'notifications' ],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/api/v1/notifications');
+            const res = await axiosPublic.get('/notifications');
             return res?.data;
         }
     })
 
 
     const handleDelete = async (id) => {
-        const res = await axios.delete(`http://localhost:5000/api/v1/remove-notification/${id}`)
+        const res = await axiosPublic.delete(`/remove-notification/${id}`)
 
 
         if (res.data.deletedCount > 0) {
             refetch()
             const deletedItem = posts.find(post => post._id === id);
-            
+
             {
                 role === "guest" && axiosPublic.post('/trash', deletedItem)
             }
@@ -42,7 +41,7 @@ const Notification = async () => {
     return (
         <Grid className='bg-[#EEF1F6] w-full py-16'>
             <div>
-                <h2 className='text-4xl font-bold text-center mb-8 border-b-4 border-b-[#81EF61] max-w-md mx-auto'>See Your Notifications</h2>
+                <h2 className='text-4xl font-bold text-center mb-16 border-b-4 border-b-[#81EF61] max-w-md mx-auto'>See Your Notifications</h2>
             </div>
             <TableContainer className='max-w-[1200px] mx-auto pt-8  bg-[#fff] rounded-lg'>
                 <Table>

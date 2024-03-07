@@ -8,11 +8,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { Card } from '@mui/material';
 import { FaCheck, FaHourglass } from 'react-icons/fa';
 import { FaTriangleExclamation } from 'react-icons/fa6';
+import useAxiosPublic from '@/Hooks/useAxiosPublic';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -36,11 +36,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 const ReportPage = () => {
+const axiosPublic = useAxiosPublic();
+
+  const currentDate = new Date();
+  const formattedDate = currentDate.toISOString().split('T')[0];
 
   const { data: rows = [], refetch } = useQuery({
-    queryKey: ['rows'],
+    queryKey: ['reports'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:5000/api/v1/reports');
+      const res = await axiosPublic.get('/reports');
       return res?.data;
     }
   })
@@ -55,10 +59,10 @@ const ReportPage = () => {
 
   // problem solved button
   const handleSolved = book => {
-    const res = axios.patch(`http://localhost:5000/api/v1/reports/${book._id}`)
-    refetch()
+    const res = axios.patch(`https://synchome-server.vercel.app/api/v1/reports/${book._id}`)
+    
       .then(res => {
-        console.log(res.data);
+        refetch()
       })
   }
 
@@ -70,7 +74,7 @@ const ReportPage = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-5 mx-5 mb-5 mt-2">
             {/* 1st nested card */}
-            <div className={`w-full px-6 py-4 bg-[#FFE2E6] h-[170px] rounded-2xl`}>
+            <div className={`w-full px-6 py-4 bg-[#FFE2E6] rounded-2xl`}>
               <div>
                 <FaTriangleExclamation className='text-4xl bg-[#FA5A7C] p-2 rounded-full text-white'></FaTriangleExclamation>
                 <h4 className='text-2xl font-bold mt-2'>{rows.length}</h4>
@@ -80,7 +84,7 @@ const ReportPage = () => {
             </div>
 
             {/* 2nd nested card */}
-            <div className={`w-full px-6 py-4 bg-[#DCFCE7] h-[170px] rounded-2xl`}>
+            <div className={`w-full px-6 py-4 bg-[#DCFCE7] rounded-2xl`}>
               <div>
                 <FaCheck className='text-4xl bg-[#3CD755] p-2 rounded-full text-white'></FaCheck>
                 <h4 className='text-2xl font-bold mt-2'>{solvedCount}</h4>
@@ -90,7 +94,7 @@ const ReportPage = () => {
             </div>
 
             {/* 3rd nested card */}
-            <div className={`w-full px-6 py-4 bg-[#FFF4DE] h-[170px] rounded-2xl`}>
+            <div className={`w-full px-6 py-4 bg-[#FFF4DE] rounded-2xl`}>
               <div>
                 <FaHourglass className='text-4xl bg-[#FF947A] p-2 rounded-full text-white'></FaHourglass>
                 <h4 className='text-2xl font-bold mt-2'>{pendingCount}</h4>
@@ -124,11 +128,16 @@ const ReportPage = () => {
                 <StyledTableCell align='center' className='border-2 border-[#F6BCFF]'>{row.apartment}</StyledTableCell>
                 <StyledTableCell align='center' className='border-2 border-[#F6BCFF]'>{row.place}</StyledTableCell>
                 <StyledTableCell align='center' className='border-2 border-[#F6BCFF]'>{row.date}</StyledTableCell>
-                <StyledTableCell align='center' className='border-2 border-[#F6BCFF]'>{row.solved_time}</StyledTableCell>
+                <StyledTableCell align='center' className='border-2 border-[#F6BCFF]'>
+                  {
+                    row.status === 'solved' ? <span>{formattedDate}</span> : ""
+                  }
+                </StyledTableCell>
                 <StyledTableCell align='center' className='border-2 border-[#F6BCFF]'>
                   {
                     row.status === 'solved' ? <span>Solved</span> : <button onClick={() => handleSolved(row)} className='btn'>Pending</button>
                   }
+
                 </StyledTableCell>
               </StyledTableRow>
             ))}

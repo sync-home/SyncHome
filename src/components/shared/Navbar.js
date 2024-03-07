@@ -23,11 +23,11 @@ import useGetRole from '@/Hooks/useGetRole';
 function Navbar() {
 
     const location = usePathname();
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [ anchorElNav, setAnchorElNav ] = React.useState(null);
+    const [ anchorElUser, setAnchorElUser ] = React.useState(null);
     const { user, loading, logOut } = useAuthContext();
-    const {role, isLoading, isPending} = useGetRole();
-    const [activeLink, setActiveLink] = React.useState(location ? location : '/');
+    const { role, isLoading, isPending } = useGetRole();
+    const [ activeLink, setActiveLink ] = React.useState(location ? location : '/');
 
 
     /* Feature pages */
@@ -49,8 +49,8 @@ function Navbar() {
             pathname: '/parking'
         },
         {
-            route: 'Features',
-            pathname: '/features'
+            route: 'Shop',
+            pathname: '/shop'
         },
         {
             route: !loading && user?.email ? 'Monitor' : '',
@@ -62,12 +62,12 @@ function Navbar() {
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
+
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = (event) => {
-        console.log(event.currentTarget);
+    const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
 
@@ -77,6 +77,8 @@ function Navbar() {
 
     const handleSignOut = () => {
         setAnchorElUser(null);
+
+        /* TODO: ask confirmation */
         logOut().then(() => {
             console.log('logout successfully.');
         }).catch((error) => {
@@ -91,7 +93,7 @@ function Navbar() {
     }
 
     return (
-        <AppBar>
+        <AppBar sx={{ backgroundColor: 'rgba(0, 0, 0, 0.7)', color: 'white' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
@@ -200,51 +202,54 @@ function Navbar() {
                         ))}
                     </Box>
 
-                    {/* user image side */}
-                    {!loading ? user?.email
-                        ? <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title={user?.displayName || 'user photo'}>
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt={user?.displayName || 'user photo'} src={user?.photoURL} />
-                                </IconButton>
-                            </Tooltip>
+                    {/* user info side */}
+                    {!loading
+                        ? user?.email
+                            ? <Box sx={{ flexGrow: 0 }}>
+                                <Tooltip title={user?.displayName || 'user photo'}>
+                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                        <Avatar alt={user?.displayName || 'user photo'} src={user?.photoURL} />
+                                    </IconButton>
+                                </Tooltip>
 
-                            {/* dropdown menu */}
-                            <Menu
-                                sx={{ mt: '45px' }}
-                                id="menu-syncHome"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorElUser)}
-                                onClose={handleCloseUserMenu}
-                            >
-                                <MenuItem onClick={handleCloseUserMenu}>
-                                    <Link href={`/${role}-dashboard/profile`}>Dashboard</Link>
-                                </MenuItem>
-                                <MenuItem>
-                                    <Link href={'/notification'}>Notifications</Link>
-                                </MenuItem>
-                                <MenuItem onClick={handleSignOut}>
-                                    Logout
-                                </MenuItem>
-                            </Menu>
-                        </Box> :
-                        <Box sx={{ display: 'flex', gap: 1 }}>
-                            <Button variant="outlined" href={'/signin'} className='uppercase font-mono font-semibold text-white whitespace-nowrap' >
-                                Sign In
-                            </Button>
-                            <Button variant="outlined" href={'/signup'} className='uppercase font-mono font-semibold text-white whitespace-nowrap' >
-                                Sign Up
-                            </Button>
-                        </Box> : ''}
+                                {/* dropdown menu */}
+                                <Menu
+                                    sx={{ mt: '45px' }}
+                                    id="menu-syncHome"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}
+                                >
+                                    {!isLoading && !isPending && role ?
+                                        <MenuItem onClick={handleCloseUserMenu}>
+                                            <Link href={`/${role}-dashboard/profile`}>Dashboard</Link>
+                                        </MenuItem> : ""}
+                                    <MenuItem>
+                                        <Link href={'/notification'}>Notifications</Link>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleSignOut}>
+                                        Logout
+                                    </MenuItem>
+                                </Menu>
+                            </Box> :
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <Button variant="outlined" href={'/signin'} className='uppercase font-mono font-semibold text-white whitespace-nowrap' >
+                                    Sign In
+                                </Button>
+                                <Button variant="outlined" href={'/signup'} className='uppercase font-mono font-semibold text-white whitespace-nowrap' >
+                                    Sign Up
+                                </Button>
+                            </Box> :
+                        ''}
                 </Toolbar>
             </Container>
         </AppBar>

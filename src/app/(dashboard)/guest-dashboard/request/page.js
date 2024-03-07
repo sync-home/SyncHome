@@ -3,7 +3,7 @@ import useAuthContext from '@/Hooks/useAuthContext';
 import useAxiosPublic from '@/Hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 
 const GuestRequest = () => {
 
@@ -11,8 +11,8 @@ const GuestRequest = () => {
     const axiosPublic = useAxiosPublic();
 
     // Fetch User data from database
-    const { data: reqData = {}, isLoading, isPending, refetch } = useQuery({
-        queryKey: ['requests'],
+    const { data: reqData = {}, isLoading, isPending } = useQuery({
+        queryKey: [ 'requests' ],
         queryFn: async () => {
             const res = await axiosPublic.get(`/request/${user?.email}`);
             return res?.data;
@@ -22,49 +22,62 @@ const GuestRequest = () => {
     console.log(reqData);
 
     const handleResident = () => {
-
+        // Swal.fire({
+        //     text: "Do you want to be a resident?",
+        //     showCancelButton: true,
+        //     confirmButtonColor: "#3085d6",
+        //     cancelButtonColor: "#d33",
+        //     confirmButtonText: "Yes",
+        //     cancelButtonText: "No",
+        // }).then((result) => {
         const userInfo = {
             email: user?.email,
             role: 'resident',
             status: 'pending'
         }
+
+        // if (result.isConfirmed) {
         axiosPublic.post('/requests', userInfo)
             .then(result => {
                 console.log(result.data)
-                refetch();
+                // Swal.fire({
+                //     text: "Your request send to the admin",
+                // });
             })
             .catch(error => {
                 console.log(error)
             })
-    };
+        // }
+        // });
+    }
 
     const handleEmployee = () => {
-        Swal.fire({
-            text: "Do you want to be a employee?",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes",
-            cancelButtonText: "No",
-        }).then((result) => {
-            const userInfo = {
-                email: user?.email,
-                role: 'employee',
-                status: 'pending'
-            }
-            if (result.isConfirmed) {
-                axiosPublic.post('/requests', userInfo)
-                    .then(result => {
-                        console.log(result.data)
-                        Swal.fire({
-                            text: "Your request send to the admin",
-                        });
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
-            }
-        });
+        // Swal.fire({
+        //     text: "Do you want to be a employee?",
+        //     showCancelButton: true,
+        //     confirmButtonColor: "#3085d6",
+        //     cancelButtonColor: "#d33",
+        //     confirmButtonText: "Yes",
+        //     cancelButtonText: "No",
+        // }).then((result) => {
+        const userInfo = {
+            email: user?.email,
+            role: 'employee',
+            status: 'pending'
+        }
+        // if (result.isConfirmed) {
+        axiosPublic.post('/requests', userInfo)
+            .then(result => {
+                console.log(result.data)
+                // Swal.fire({
+                //     text: "Your request send to the admin",
+                // });
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        // }
+        // });
     }
 
     return (

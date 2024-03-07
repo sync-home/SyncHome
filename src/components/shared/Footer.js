@@ -43,6 +43,7 @@ const Footer = () => {
                                 <h4 className='text-lg font-medium'>Quick links</h4>
                                 <ul className='text-base font-mono'>
                                     <li><Link href={'/'} className='hover:underline underline-offset-2'>Home</Link></li>
+                                    <li><Link href={'/shop'} className='hover:underline underline-offset-2'>Shop</Link></li>
                                     <li><Link href={'/about'} className='hover:underline underline-offset-2'>About Us</Link></li>
                                     <li><Link href={'/contact'} className='hover:underline underline-offset-2'>Contact Us</Link></li>
                                 </ul>

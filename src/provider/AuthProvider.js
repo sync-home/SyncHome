@@ -2,7 +2,8 @@
 import useAxiosSecure from "@/Hooks/useAxiosSecure";
 import useLoadAllProducts from "@/Hooks/useLoadAllProducts";
 import useLoadCart from "@/Hooks/useLoadCart";
-import { getCart, getSelectedProducts } from "@/components/utils/getReadyCartLS";
+import { getFilteredProducts } from "@/components/utils/getFilteredProducts";
+import { getSelectedProducts } from "@/components/utils/getReadyCartLS";
 import auth from "@/config/firebase.config";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, signOut, updateEmail, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
@@ -14,55 +15,35 @@ const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
 
+    const { products: AllProducts, isLoading, refetch } = useLoadAllProducts();
     const axiosSecure = useAxiosSecure();
     const [ user, setUser ] = useState(null)
     const [ loading, setLoading ] = useState(true);
+
+    /* TODO: use null instead of [] to handle loading and empty state differently */
     const [ selectedProducts, setSelectedProducts ] = useState([])
     const [ products, setProducts ] = useState([])
 
-    const { products: AllProducts, isLoading } = useLoadAllProducts();
-
     /* Get save products in cart */
     // const [ cart, setCart ] = useState([])
-    const { cart, isLoadingCart, isPendingCart, refetchCart } = useLoadCart()
-
-    // console.log('Product in cart: ', cart);
+    const { cart, isLoadingCart, isPendingCart, refetchCart } = useLoadCart(AllProducts, isLoading)
 
     /* Load all products */
     useEffect(() => {
-        if (!isLoading && AllProducts?.length) {
+        if (AllProducts?.length) {
             setProducts(AllProducts);
         }
-    }, [ isLoading, AllProducts ])
+    }, [ AllProducts?.length, setProducts ])
 
     /* Set selected Products in state */
     useEffect(() => {
-        if (!isLoading && AllProducts?.length) {
+        if (AllProducts?.length) {
             const selectedProductsOnLocalStorage = getSelectedProducts(AllProducts);
 
             /* Update selected products in state */
             setSelectedProducts(selectedProductsOnLocalStorage)
         }
-    }, [ isLoading, AllProducts ])
-
-    /* Set cart to state */
-    useEffect(() => {
-        if (user?.email) {
-            if (!isPendingCart && !isLoadingCart) {
-                /* check updates of cart */
-                // if (selectedProducts?.length !== cart?.length) refetchCart()
-
-                const { cartProducts, unAvailableProducts, isLoading: isLoadingProducts, isPendingProducts, refetch: refetchProducts } = getProductsOfCart(cart)
-
-                if (unAvailableProducts?.length) {
-                    /* TODO: Request to remove and change color of the products in cart */
-                    console.log('Unavailable products in cart: ', unAvailableProducts);
-                }
-
-                // if (!isPendingProducts && !isLoadingProducts) setSelectedProducts(cartProducts)
-            }
-        }
-    }, [ user?.email ])
+    }, [ AllProducts?.length, setSelectedProducts ])
 
     // google sign up
     const googleLogin = () => {
@@ -106,11 +87,11 @@ const AuthProvider = ({ children }) => {
         setLoading(true)
         await sendEmailVerification(auth.currentUser)
             .then(() => {
-                console.log('check your email to verify.');
+                // console.log('check your email to verify.');
             });
 
         if (user?.emailVerified) return updateEmail(auth.currentUser, email)
-        console.log('Something wrong. Try again later.');
+        // console.log('Something wrong. Try again later.');
     }
 
     /* Update password */
@@ -118,23 +99,23 @@ const AuthProvider = ({ children }) => {
         setLoading(true)
         await sendEmailVerification(auth.currentUser)
             .then(() => {
-                console.log('check your email to verify.');
+                // console.log('check your email to verify.');
             });
 
         if (user?.emailVerified) return updatePassword(user, newPassword);
-        console.log('Something wrong. Try again later.');
+        // console.log('Something wrong. Try again later.');
     }
 
     // on state change
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
-            console.log('on state change', currentUser)
+            // console.log('on state change', currentUser)
             if (currentUser) {
                 const userInfo = { email: currentUser?.email };
 
                 try {
                     axiosSecure.post("/auth/jwt", userInfo).then((res) => {
-                        console.log('cookie setting error: ', res?.data?.error);
+                        // console.log('cookie setting error: ', res?.data?.error);
                         return !res?.data?.error && setLoading(false);
                     });
                 } catch (error) {
@@ -146,7 +127,7 @@ const AuthProvider = ({ children }) => {
             } else {
                 // remove token
                 axiosSecure.post("/auth/logout", currentUser).then((res) => {
-                    console.log('cookie resetting error: ', res?.data?.error);
+                    // console.log('cookie resetting error: ', res?.data?.error);
                     return !res?.data?.error && setLoading(false);
                 });
             }
@@ -156,7 +137,7 @@ const AuthProvider = ({ children }) => {
         return () => {
             return unSubscribe();
         }
-    }, [])
+    }, [ setUser, setLoading ])
 
 
     const authInfo = {
@@ -164,6 +145,10 @@ const AuthProvider = ({ children }) => {
         isLoading,
         selectedProducts,
         setSelectedProducts,
+        cart,
+        isLoadingCart,
+        isPendingCart,
+        refetchCart,
         user,
         loading,
         createUser,

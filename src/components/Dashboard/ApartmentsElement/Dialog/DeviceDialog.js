@@ -19,15 +19,15 @@ const DeviceDialog = ({ addDeviceOpen:open, setAddDeviceOpen:setOpen, sendId, re
 
     const onSubmit = (data) => {
         data.status = true;
-        console.log(data);
-        console.log(sendId);
+        // console.log(data);
+        // console.log(sendId);
         axiosPublic.put(`/apartments/${sendId}`, {data})
         .then(result => {
-            console.log(result.data)
+            // console.log(result.data)
             refetch();
         })
         .catch(error => {
-            console.log(error)
+            // console.log(error)
         })
     }
 

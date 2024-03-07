@@ -27,6 +27,9 @@ import getUpdateSelectedProductsState from '@/components/utils/getUpdateSelected
 import { Button } from '@mui/material';
 import { deselectProduct } from '@/components/utils/getReadyCartLS';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
+import { ArrowBack } from '@mui/icons-material';
 
 let rows = [];
 
@@ -57,8 +60,11 @@ const headCells = [
     },
 ];
 
-const handleOrder = () => {
-    console.log('Order proceed.');
+const handleOrder = (user) => {
+    // console.log('Order proceed.');
+
+    if (!user) return toast('Please sign in first to order.')
+
 }
 
 function createData(id, menuId, title, quantity = 1, price) {
@@ -103,9 +109,7 @@ function stableSort(array, comparator) {
 }
 
 /* Header Creator component */
-function EnhancedTableHead(props) {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-        props;
+function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort }) {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -151,19 +155,18 @@ function EnhancedTableHead(props) {
 }
 
 /* Toolbar creator component */
-function EnhancedTableToolbar(props) {
-
-    const { selected, setSelected } = props;
+function EnhancedTableToolbar({ selected, setSelected }) {
     const { selectedProducts, setSelectedProducts } = useAuthContext()
     const numSelected = selected?.length;
 
     // console.log(numSelected, 'data in rows: ', rows, 'selected products: ', selectedProducts);
     const handleDelete = () => {
         let i = numSelected;
+        // console.log(i);
 
         /* remove selected products */
         while (i--) {
-            console.log(i);
+            // console.log(i);
             /* Find the product in rows of which id is selected[ i - 1 ] */
             const [ productInRows ] = rows.filter(row => {
                 if (row?.id === selected[ i ]) {
@@ -171,10 +174,11 @@ function EnhancedTableToolbar(props) {
                     const indexInRows = rows?.indexOf(row);
 
                     /* Remove form LS */
-                    deselectProduct(row?.menuId)
+                    const isDeselected = deselectProduct(row?.menuId)
 
                     /* Remove from local rows array */
-                    // rows.slice(indexInRows - 1, 1)
+                    isDeselected && rows.slice(indexInRows - 1, 1);
+
                     return true
                 }
 
@@ -186,13 +190,15 @@ function EnhancedTableToolbar(props) {
 
             const isUpdated = getUpdateSelectedProductsState({ selectedProducts, setSelectedProducts, product, add: false })
 
-            console.log(isUpdated && `${product?._id} is deleted`);
+            // console.log(isUpdated && `${product?._id} is deleted`);
 
             rows.slice(selected[ i ] - 2, 1)
         }
 
+        // console.log('0 expected: ', i);
+
         /* remove selection */
-        setSelected([])
+        !i && setSelected([])
     }
 
     return (
@@ -232,14 +238,14 @@ function EnhancedTableToolbar(props) {
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
-            ) : ''}
+            ) : <Button variant="contained" component={'a'} href='/shop' color='info' startIcon={<ArrowBack />}>Shop</Button>}
         </Toolbar>
     );
 }
 
 /* Main function */
 export default function OrderDisplay() {
-    const { selectedProducts, setSelectedProducts } = useAuthContext()
+    const { selectedProducts, setSelectedProducts, user } = useAuthContext()
     const [ order, setOrder ] = React.useState('asc');
     const [ orderBy, setOrderBy ] = React.useState('calories');
     const [ selected, setSelected ] = React.useState([]);
@@ -407,7 +413,7 @@ export default function OrderDisplay() {
                                 );
                             })
                                 : <TableRow>
-                                    <TableCell rowSpan={5} colSpan={5}>No products are selected. Go back <Link href={'/shop'} className='text-blue-600 underline'>Shop</Link> to select product</TableCell>
+                                    <TableCell className='text-center' rowSpan={5} colSpan={5}>Your data is loading now...</TableCell>
                                 </TableRow>}
 
                             {emptyRows > 0 && (
@@ -467,8 +473,8 @@ export default function OrderDisplay() {
                 </Table>
             </TableContainer>
 
-            <Box className="flex justify-end py-10">
-                <Button variant='outlined' onClick={handleOrder}>Order now</Button>
+            <Box className="flex justify-end py-10" >
+                <Link variant='outlined' href={user ? '/' : '/signin'}>Order now</Link>
             </Box>
         </Box>
     );
@@ -486,5 +492,6 @@ EnhancedTableHead.propTypes = {
 
 
 EnhancedTableToolbar.propTypes = {
-    numSelected: PropTypes.number.isRequired,
+    selected: PropTypes.array.isRequired,
+    setSelected: PropTypes.func.isRequired
 };

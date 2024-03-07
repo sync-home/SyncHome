@@ -19,7 +19,7 @@ const GuestRequest = () => {
         }
     })
 
-    console.log(reqData);
+    // console.log(reqData);
 
     const handleResident = () => {
         // Swal.fire({
@@ -39,13 +39,13 @@ const GuestRequest = () => {
         // if (result.isConfirmed) {
         axiosPublic.post('/requests', userInfo)
             .then(result => {
-                console.log(result.data)
+                // console.log(result.data)
                 // Swal.fire({
                 //     text: "Your request send to the admin",
                 // });
             })
             .catch(error => {
-                console.log(error)
+                // console.log(error)
             })
         // }
         // });
@@ -68,13 +68,13 @@ const GuestRequest = () => {
         // if (result.isConfirmed) {
         axiosPublic.post('/requests', userInfo)
             .then(result => {
-                console.log(result.data)
+                // console.log(result.data)
                 // Swal.fire({
                 //     text: "Your request send to the admin",
                 // });
             })
             .catch(error => {
-                console.log(error)
+                // console.log(error)
             })
         // }
         // });

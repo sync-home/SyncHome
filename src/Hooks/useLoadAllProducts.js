@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import fetchPublic from "../components/utils/getFetchedData";
 
 const useLoadAllProducts = () => {
-    const { data: products = [], isLoading } = useQuery({
+    const { data: products = [], isLoading, refetch } = useQuery({
         queryKey: [ 'products' ],
         refetchOnWindowFocus: false,
         queryFn: async () => {
@@ -14,13 +14,13 @@ const useLoadAllProducts = () => {
                 // console.log(productFetched);
                 return productFetched
             } catch (error) {
-                console.error(error?.message);
+                // console.error(error?.message);
                 return []
             }
         }
     })
 
-    return { products, isLoading }
+    return { products, isLoading, refetch }
 }
 
 export default useLoadAllProducts

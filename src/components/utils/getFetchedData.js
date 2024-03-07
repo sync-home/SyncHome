@@ -4,7 +4,7 @@ import { baseURL } from "@/components/utils/getBaseURL";
 
 const fetchPublic = async (endpoint = '/', options = {}) => {
     const url = `${baseURL}${endpoint}`;
-    console.log(url);
+    // console.log(url);
 
     try {
         const response = await fetch(url, options);
@@ -16,7 +16,7 @@ const fetchPublic = async (endpoint = '/', options = {}) => {
 
         return response.json();
     } catch (error) {
-        console.error('Error fetching data:', error.message);
+        // console.error('Error fetching data:', error.message);
         throw error;
     }
 };

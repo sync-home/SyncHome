@@ -18,14 +18,14 @@ const TotalEnergyDialog = ({ totalEnergyOpen: open, setTotalEnergyOpen: setOpen,
     const axiosPublic = useAxiosPublic();
 
     const onSubmit = (data) => {
-        console.log(data);
-        console.log(sendId);
+        // console.log(data);
+        // console.log(sendId);
         axiosPublic.put(`/apartments/total/${sendId}`, {data})
         .then(result => {
-            console.log(result.data)
+            // console.log(result.data)
         })
         .catch(error => {
-            console.log(error)
+            // console.log(error)
         })
     }
 

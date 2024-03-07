@@ -56,7 +56,7 @@ export const selectProduct = ({ product, quantity = 1 }) => {
         /* Check already exists or not */
         const isExists = getFilteredProducts(existingProductsInfo, product, true)
 
-        console.log(isExists);
+        // console.log(isExists);
         /* is already exist */
         if (isExists && quantity === 1) return true
 
@@ -84,6 +84,7 @@ export const selectProduct = ({ product, quantity = 1 }) => {
 export const deselectProduct = (id) => {
     if (id) {
         const existingProductsInfo = getSelectedProductsInfo();
+        // console.log('LS Info: ', existingProductsInfo)
 
         // Add the new product to the array
         const newSelections = existingProductsInfo.filter(product => product?.menuId !== id);
@@ -100,7 +101,7 @@ export const deselectProduct = (id) => {
 /* Add product to the Cart */
 export const saveToCart = ({ email, product }) => {
     const axiosSecure = useAxiosPublic();
-    console.log('email and Id on addToCart: ', email, product?._id);
+    // console.log('email and Id on addToCart: ', email, product?._id);
 
     if (!email || product?._id) return null
 
@@ -115,9 +116,9 @@ export const saveToCart = ({ email, product }) => {
 
     /* Testing purpose */
     if (res?.data?.insertedId) {
-        console.log(res?.data);
+        // console.log(res?.data);
     } else {
-        console.log('Something error.')
+        // console.log('Something error.')
     }
 
     return res?.data
@@ -125,7 +126,7 @@ export const saveToCart = ({ email, product }) => {
 
 /* Get products of cart */
 export const getProductsOfCart = (cart) => {
-    console.log('Products info in cart: ', cart);
+    // console.log('Products info in cart: ', cart);
     const unAvailableProducts = [];
 
     const { data: cartProducts = [], isLoading, isPending, refetch } = useQuery({

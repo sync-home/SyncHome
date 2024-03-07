@@ -35,7 +35,7 @@ const DashboardProfile = () => {
             return res?.data;
         }
     })
-    console.log(profileData);
+    // console.log(profileData);
 
     if (isLoading || isPending) {
         return <p>Data is coming...</p>;
@@ -51,14 +51,14 @@ const DashboardProfile = () => {
     };
 
     const onSubmit = (data) => {
-        console.log(data)
+        // console.log(data)
         axiosPublic.put(`/update-profile/${data?.email}`, { data })
             .then(result => {
-                console.log(result.data)
+                // console.log(result.data)
                 refetch();
             })
             .catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }
 

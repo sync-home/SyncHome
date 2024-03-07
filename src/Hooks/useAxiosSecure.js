@@ -9,11 +9,11 @@ const axiosSecureInstance = axios.create({
 axiosSecureInstance.interceptors.request.use(
     (config) => {
         // You can modify the request config here
-        console.log('Request interceptor:', config);
+        // console.log('Request interceptor:', config);
         return config;
     },
     (error) => {
-        console.error('Request interceptor error:', error);
+        // console.error('Request interceptor error:', error);
         return Promise.reject(error);
     }
 );

@@ -11,9 +11,9 @@ const ProductCard = ({ product }) => {
     const { selectedProducts } = useAuthContext()
 
     const isSelected = getFilteredProducts(selectedProducts, product, true);
-    
+
     return (
-        <Card>
+        <Card className='h-full flex flex-col justify-between'>
             <CardActionArea title="See details">
                 <Image src={giftPen} height="auto" width="100%" alt="Title" placeholder="blur" />
                 <CardContent>

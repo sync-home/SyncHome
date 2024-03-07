@@ -32,7 +32,7 @@ const SelectProductButton = ({ product, selected }) => {
                 res && getUpdateSelectedProductsState({ selectedProducts, setSelectedProducts, setIsSelected, product })
             }
         } else {
-            console.error('Something wrong in handleSelect.', selectedProducts);
+            // console.error('Something wrong in handleSelect.', selectedProducts);
         }
 
     }

@@ -18,15 +18,15 @@ const CctvDialog = ({ cctvOpen:open, setCctvOpen:setOpen, sendId, refetch }) => 
     const axiosPublic = useAxiosPublic();
 
     const onSubmit = (data) => {
-        console.log(data)
-        console.log(sendId);
+        // console.log(data)
+        // console.log(sendId);
         axiosPublic.put(`/apartments/cctv/${sendId}`, {data})
         .then(result => {
-            console.log(result.data)
+            // console.log(result.data)
             refetch();
         })
         .catch(error => {
-            console.log(error)
+            // console.log(error)
         })
     }
 

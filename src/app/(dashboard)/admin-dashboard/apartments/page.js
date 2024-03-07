@@ -46,11 +46,11 @@ const Apartments = () => {
         if (newMode !== null) {
             axiosPublic.patch(`apartments/acmode/${id}`, {newMode})
             .then(result => {
-                console.log(result.data)
+                // console.log(result.data)
                 refetch();
             })
             .catch(error => {
-                console.log(error)
+                // console.log(error)
             })
         }
     };
@@ -59,11 +59,11 @@ const Apartments = () => {
     useEffect(() => {
         axiosPublic.patch(`/apartments/actemp/${tempId}`, { tempControl })
             .then(result => {
-                console.log(result.data)
+                // console.log(result.data)
                 refetch();
             })
             .catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }, [tempControl])
 
@@ -174,41 +174,41 @@ const Apartments = () => {
 
     // Device Delete
     const handleDeleteDevice = (id, index) => {
-        console.log(id, index)
+        // console.log(id, index)
         axiosPublic.put(`/apartments/del-device/${id}`, { index })
             .then(result => {
-                console.log(result.data)
+                // console.log(result.data)
                 refetch();
             })
             .catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }
 
     // Update Switch
     const handleDeviceSwitch = (id, index, value) => {
         value = !value;
-        console.log(id, index, value)
+        // console.log(id, index, value)
         axiosPublic.put(`/apartments/device-switch/${id}`, { index, value })
             .then(result => {
-                console.log(result)
+                // console.log(result)
                 refetch();
             })
             .catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }
 
     const handleSimpleSwitch = (id, name, value) => {
         value = !value;
-        console.log(id, name, value)
+        // console.log(id, name, value)
         axiosPublic.put(`/apartments/simple-switch/${id}`, { name, value })
             .then(result => {
-                console.log(result)
+                // console.log(result)
                 refetch();
             })
             .catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }
 

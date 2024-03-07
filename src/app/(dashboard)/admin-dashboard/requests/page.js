@@ -48,15 +48,15 @@ const AdminRequest = () => {
         }
     })
 
-    console.log(reqData);
+    // console.log(reqData);
     const handleRequest = (event, id) => {
         axiosPublic.patch(`/requests/${id}`, { req: event })
             .then(result => {
-                console.log(result.data)
+                // console.log(result.data)
                 refetch();
             })
             .catch(error => {
-                console.log(error)
+                // console.log(error)
             })
     }
 

@@ -18,7 +18,7 @@ const CategoryPanel = ({ products, category }) => {
                                 <ProductCard product={product} />
                             </Grid>
                         )
-                    }) : 'No data found'
+                    }) : ''
                 }
             </Grid>
         </>

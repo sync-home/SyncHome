@@ -24,13 +24,13 @@ const SignInPage = () => {
         logIn(data.email, data.password)
             .then(result => {
                 reset()
-                console.log(result.user);
+                // console.log(result.user);
                 axiosPublic.put(`/userLoginActivity/${result?.user?.email}`, { data: result?.user?.metadata?.lastSignInTime })
                     .then(result => {
-                        console.log(result)
+                        // console.log(result)
                     })
                     .catch(error => {
-                        console.log(error)
+                        // console.log(error)
                     })
 
                 // toast
@@ -42,7 +42,7 @@ const SignInPage = () => {
                 router.push('/')
             })
             .catch(error => {
-                console.log(error);
+                // console.log(error);
                 toast.error('Please Provide an Current email/password', {
                     position: 'top-center',
                     autoClose: 1300,
@@ -54,14 +54,14 @@ const SignInPage = () => {
     const handleGoogle = () => {
         googleLogin()
             .then(result => {
-                console.log(result.user);
+                // console.log(result.user);
 
                 axiosPublic.put(`/userLoginActivity/${result?.user?.email}`, { data: result?.user?.metadata?.lastSignInTime })
                     .then(result => {
-                        console.log(result)
+                        // console.log(result)
                     })
                     .catch(error => {
-                        console.log(error)
+                        // console.log(error)
                     })
 
                 // toast
@@ -73,7 +73,7 @@ const SignInPage = () => {
                 router.push('/')
             })
             .catch(error => {
-                console.log(error);
+                // console.log(error);
                 toast.error('Please Provide an Current email/password', {
                     position: 'top-center',
                     autoClose: 1300,

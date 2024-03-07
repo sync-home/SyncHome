@@ -19,15 +19,15 @@ const WifiDialog = ({ wifiOpen: open, setWifiOpen: setOpen, sendId, refetch }) =
 
     const onSubmit = (data) => {
         data.status = true;
-        console.log(data)
-        console.log(sendId);
+        // console.log(data)
+        // console.log(sendId);
         axiosPublic.put(`/apartments/wifi/${sendId}`, {data})
         .then(result => {
-            console.log(result.data);
+            // console.log(result.data);
             refetch();
         })
         .catch(error => {
-            console.log(error)
+            // console.log(error)
         })
     }
 

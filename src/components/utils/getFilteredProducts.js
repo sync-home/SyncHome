@@ -32,5 +32,5 @@ export const getFilteredProducts = (products, product = {}, isExistTesting = fal
         }
     }
 
-    console.error('Something wrong. Check your provided arguments in `getFilteredProducts`');
+    // console.error('Something wrong. Check your provided arguments in `getFilteredProducts`');
 }

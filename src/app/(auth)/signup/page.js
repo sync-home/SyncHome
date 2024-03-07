@@ -46,11 +46,11 @@ const SignUpPage = () => {
                             })
 
                     }).catch((error) => {
-                        console.log(error);
+                        // console.log(error);
 
                     })
             }).catch(error => {
-                toast.error('You Are Already Have An Account', {
+                toast.error('You Already Have An Account', {
                     position: 'top-center',
                     autoClose: 1300,
                 })

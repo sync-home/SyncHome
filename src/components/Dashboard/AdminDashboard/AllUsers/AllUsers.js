@@ -81,15 +81,15 @@ const AllUsers = () => {
 
 
   const onSubmit = (data) => {
-    console.log(data)
-    console.log(updateData._id)
+    // console.log(data)
+    // console.log(updateData._id)
     axiosSecure.patch(`/update-user/${updateData?._id}`, { data })
       .then(result => {
-        console.log(result.data)
+        // console.log(result.data)
         refetch();
       })
       .catch(error => {
-        console.log(error)
+        // console.log(error)
       })
   }
 
@@ -99,7 +99,7 @@ const AllUsers = () => {
   }
 
   const handleDeleteUser = (id) => {
-    console.log(id);
+    // console.log(id);
     // const swalWithBootstrapButtons = Swal.mixin({
     //   customClass: {
     //     confirmButton: "hover:no-underline bg-[#8338EC] px-5 py-1 text-white rounded-sm mr-1",
@@ -119,7 +119,7 @@ const AllUsers = () => {
 
     axiosSecure.delete(`/delete-user/${id}`)
       .then(result => {
-        console.log(result.data)
+        // console.log(result.data)
         refetch();
         // swalWithBootstrapButtons.fire({
         //   title: "Deleted!",
@@ -127,7 +127,7 @@ const AllUsers = () => {
         // });
       })
       .catch(error => {
-        console.log(error)
+        // console.log(error)
       })
     //   } 
     // });

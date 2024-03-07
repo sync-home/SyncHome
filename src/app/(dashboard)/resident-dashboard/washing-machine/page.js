@@ -92,7 +92,7 @@ const WashingMachine = () => {
       }
     })
     .catch(error => {
-      console.error('Error sending data to backend:', error);
+      // console.error('Error sending data to backend:', error);
       // Handle error if needed
     });
   };

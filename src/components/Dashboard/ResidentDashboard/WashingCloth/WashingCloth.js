@@ -10,9 +10,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import useAuthContext from "@/Hooks/useAuthContext";
 import { Typography } from "@mui/material";
+import useAxiosSecure from "@/Hooks/useAxiosSecure";
 
 const WashingCloth = () => {
   const { user } = useAuthContext();
+  const axiosSecure = useAxiosSecure()
   const email = user?.email;
 
   const [washingData, setWashingData] = useState([]);
@@ -20,8 +22,8 @@ const WashingCloth = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `https://synchome-server.vercel.app/api/v1/washing-machine?email=${email}`
+        const response = await axiosSecure.get(
+          `/washing-machine?email=${email}`
         );
         setWashingData(response.data);
       } catch (error) {

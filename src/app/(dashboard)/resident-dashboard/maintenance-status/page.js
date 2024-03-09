@@ -11,15 +11,17 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import useAuthContext from "@/Hooks/useAuthContext";
 import { Typography } from '@mui/material';
+import useAxiosSecure from "@/Hooks/useAxiosSecure";
 
 const MaintenanceStatus = () => {
   const { user } = useAuthContext();
+  const axiosSecure = useAxiosSecure()
   const email = user?.email;
 
   const { data: rows = [], refetch, isLoading, isError } = useQuery({
     queryKey: ['rows'],
     queryFn: async () => {
-      const res = await axios.get(`https://synchome-server.vercel.app/api/v1/report?email=${email}`);
+      const res = await axiosSecure.get(`/report?email=${email}`);
       return res?.data;
     }
   });

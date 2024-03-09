@@ -11,9 +11,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { toast } from "react-toastify";
+import useAxiosSecure from "@/Hooks/useAxiosSecure";
 
 const MaintenanceRequests = () => {
   const { user } = useAuthContext();
+  const axiosSecure = useAxiosSecure()
   const email = user?.email;
 
   const initialMaintenanceData = {
@@ -33,8 +35,8 @@ const MaintenanceRequests = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        `https://synchome-server.vercel.app/api/v1/report`,
+      const res = await axiosSecure.post(
+        `/report`,
         maintenanceData
       );
 

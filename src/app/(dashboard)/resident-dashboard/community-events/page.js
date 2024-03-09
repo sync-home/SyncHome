@@ -8,12 +8,14 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
+import useAxiosPublic from "@/Hooks/useAxiosPublic";
 
 const CommunityEvents = () => {
+  const axiosPublic = useAxiosPublic()
   const { data: events = [], refetch, isLoading, isError } = useQuery({
     queryKey: ['events'],
     queryFn: async () => {
-      const res = await axios.get(`https://synchome-server.vercel.app/api/v1/events`);
+      const res = await axiosPublic.get(`/events`);
       return res.data;
     }
   });

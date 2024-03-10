@@ -11,6 +11,7 @@ import FamilyDialog from "@/components/Dashboard/ApartmentsElement/Dialog/Family
 import TotalEnergyDialog from "@/components/Dashboard/ApartmentsElement/Dialog/TotalEnergyDialog";
 import WeeklyDialog from "@/components/Dashboard/ApartmentsElement/Dialog/WeeklyDialog";
 import WifiDialog from "@/components/Dashboard/ApartmentsElement/Dialog/WifiDialog";
+import Loader from "@/components/loader/Loader";
 import { Button } from "@mui/joy";
 import Switch from "@mui/joy/Switch";
 import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
@@ -220,7 +221,7 @@ const MyApartment = () => {
   return (
     <div>
       {isPending || isLoading ? (
-        <p>Website is Loading</p>
+        <Loader loaderOpen={isPending || isLoading} />
       ) : apartData ? (
         <>
           <div

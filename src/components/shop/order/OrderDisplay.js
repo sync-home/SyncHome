@@ -155,10 +155,14 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
 }
 
 /* Toolbar creator component */
-function EnhancedTableToolbar({ selected, setSelected }) {
-    const { selectedProducts, setSelectedProducts } = useAuthContext()
-    const numSelected = selected?.length;
+function EnhancedTableToolbar({ selected, setSelected, selectedProducts, setSelectedProducts }) {
+    // const { selectedProducts, setSelectedProducts } = useAuthContext()
+    const [ numSelected, setNumSelected ] = React.useState(selected?.length);
+    console.log(selected);
 
+    React.useEffect(() => {
+        setNumSelected(selected?.length)
+    }, [ selected?.length ])
     // console.log(numSelected, 'data in rows: ', rows, 'selected products: ', selectedProducts);
     const handleDelete = () => {
         let i = numSelected;
@@ -166,7 +170,7 @@ function EnhancedTableToolbar({ selected, setSelected }) {
 
         /* remove selected products */
         while (i--) {
-            // console.log(i);
+            console.log(i);
             /* Find the product in rows of which id is selected[ i - 1 ] */
             const [ productInRows ] = rows.filter(row => {
                 if (row?.id === selected[ i ]) {
@@ -190,15 +194,22 @@ function EnhancedTableToolbar({ selected, setSelected }) {
 
             const isUpdated = getUpdateSelectedProductsState({ selectedProducts, setSelectedProducts, product, add: false })
 
-            // console.log(isUpdated && `${product?._id} is deleted`);
+            console.log(isUpdated);
 
             rows.slice(selected[ i ] - 2, 1)
         }
 
-        // console.log('0 expected: ', i);
+        console.log('-1 expected: ', i);
 
         /* remove selection */
-        !i && setSelected([])
+        if (i !== -1) {
+            console.log('Something wrong.');
+        } else {
+            /* Resent states */
+            setSelected([])
+            setSelectedProducts([])
+            setNumSelected(0)
+        }
     }
 
     return (
@@ -245,7 +256,7 @@ function EnhancedTableToolbar({ selected, setSelected }) {
 
 /* Main function */
 export default function OrderDisplay() {
-    const { selectedProducts, setSelectedProducts, user } = useAuthContext()
+    const { selectedProducts, setSelectedProducts, user, loading } = useAuthContext()
     const [ order, setOrder ] = React.useState('asc');
     const [ orderBy, setOrderBy ] = React.useState('calories');
     const [ selected, setSelected ] = React.useState([]);
@@ -329,7 +340,7 @@ export default function OrderDisplay() {
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage,
             ),
-        [ selectedProducts, rows, order, orderBy, page, rowsPerPage ],
+        [ rows, order, orderBy, page, rowsPerPage ],
     );
 
     /* Cost Calculation */
@@ -374,47 +385,54 @@ export default function OrderDisplay() {
                             rowCount={rows?.length}
                         />
                         <TableBody>
-                            {visibleRows?.length ? visibleRows.map((row, index) => {
-                                const isItemSelected = isSelected(row?.id);
-                                const labelId = `enhanced-table-checkbox-${index}`;
+                            {!loading ?
+                                selectedProducts?.length && visibleRows?.length ?
+                                    visibleRows.map((row, index) => {
+                                        const isItemSelected = isSelected(row?.id);
+                                        const labelId = `enhanced-table-checkbox-${index}`;
 
-                                return (
-                                    <TableRow
-                                        hover
-                                        onClick={(event) => handleClick(event, row?.id)}
-                                        role="checkbox"
-                                        aria-checked={isItemSelected}
-                                        tabIndex={-1}
-                                        key={row?.id}
-                                        selected={isItemSelected}
-                                        sx={{ cursor: 'pointer' }}
-                                    >
-                                        <TableCell padding="checkbox">
-                                            <Checkbox
-                                                color="primary"
-                                                checked={isItemSelected}
-                                                inputProps={{
-                                                    'aria-labelledby': labelId,
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell
-                                            component="th"
-                                            id={labelId}
-                                            scope="row"
-                                            padding="none"
-                                        >
-                                            {row?.title}
-                                        </TableCell>
-                                        <TableCell align="right">{row?.quantity}</TableCell>
-                                        <TableCell align="right">{row?.price}</TableCell>
-                                        <TableCell align="right">{row?.subtotal}</TableCell>
+                                        return (
+                                            <TableRow
+                                                hover
+                                                onClick={(event) => handleClick(event, row?.id)}
+                                                role="checkbox"
+                                                aria-checked={isItemSelected}
+                                                tabIndex={-1}
+                                                key={row?.id}
+                                                selected={isItemSelected}
+                                                sx={{ cursor: 'pointer' }}
+                                            >
+                                                <TableCell padding="checkbox">
+                                                    <Checkbox
+                                                        color="primary"
+                                                        checked={isItemSelected}
+                                                        inputProps={{
+                                                            'aria-labelledby': labelId,
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell
+                                                    component="th"
+                                                    id={labelId}
+                                                    scope="row"
+                                                    padding="none"
+                                                >
+                                                    {row?.title}
+                                                </TableCell>
+                                                <TableCell align="right">{row?.quantity}</TableCell>
+                                                <TableCell align="right">{row?.price}</TableCell>
+                                                <TableCell align="right">{row?.subtotal}</TableCell>
+                                            </TableRow>
+                                        );
+                                    })
+                                    : <TableRow>
+                                        <TableCell className='text-center' rowSpan={5} colSpan={5}>No product selected.</TableCell>
                                     </TableRow>
-                                );
-                            })
                                 : <TableRow>
-                                    <TableCell className='text-center' rowSpan={5} colSpan={5}>Your data is loading now...</TableCell>
-                                </TableRow>}
+                                    <TableCell className='text-center' rowSpan={5} colSpan={5}>Your selected products are loading now...</TableCell>
+                                </TableRow>
+
+                            }
 
                             {emptyRows > 0 && (
                                 <TableRow

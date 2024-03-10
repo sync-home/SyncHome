@@ -2,7 +2,7 @@ import { baseURL } from "@/components/utils/getBaseURL";
 import axios from "axios";
 
 const axiosPublic = axios.create({
-    baseURL: baseURL
+    baseURL
 })
 
 const useAxiosPublic = () => {

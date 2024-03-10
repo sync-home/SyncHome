@@ -4,9 +4,10 @@ import Link from 'next/link';
 
 const Features = ({ contents }) => {
     return (
-        <Box sx={{ py: 5 }}>
+        <Box sx={{ py: 10, maxWidth: { lg: '80%' }, mx: 'auto' }}>
+            
             {contents?.length && contents?.map((feature, idx) => (
-                <Card key={idx} className={`md:h-64 rounded-none hover:bg-gray-100 max-md:px-2 my-10 flex max-md:flex-col ${idx % 2 ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
+                <Card key={idx} className={`md:max-h-96 rounded-none hover:bg-gray-100 max-md:px-2 my-10 flex max-md:flex-col ${idx % 2 ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
                     {/* feature image */}
                     <aside className='flex-1 md:w-full'>
                         <Image src={feature?.img} width={"100%"} height={"100%"} className='md:h-full w-full mx-auto my-auto' alt={feature?.img} />

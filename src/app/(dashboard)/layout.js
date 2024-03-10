@@ -1,18 +1,20 @@
 "use client";
 import useGetRole from '@/Hooks/useGetRole';
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar/DashboardSidebar';
+import Loader from '@/components/loader/Loader';
 import { faHouse, faUser, faUsers, faChartLine, faVideo, faGears, faGear, faCalendar, faTriangleExclamation, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 
 
 const DashboardLayout = ({ children }) => {
 
-    const {role, isLoading, isPending} = useGetRole();
+    const { role, isLoading, isPending } = useGetRole();
 
 
     if (isPending || isLoading) {
-        return <p>Role is coming...</p>
+        return <Loader loaderOpen={isPending || isLoading} />
     }
-    if(!role){
+
+    if (!role) {
         return
     }
 
@@ -43,8 +45,8 @@ const DashboardLayout = ({ children }) => {
     } else if (role == 'employee') {
         sidebarData = [
             { 'name': 'Employee Profile', 'path': '/employee-dashboard/profile', 'icon': faUser },
-            {'name': 'Control Room', 'path': '/employee-dashboard/services', 'icon': faHouse},
-            {'name': 'Report', 'path': '/employee-dashboard/Report', 'icon': faTriangleExclamation},
+            { 'name': 'Control Room', 'path': '/employee-dashboard/services', 'icon': faHouse },
+            { 'name': 'Report', 'path': '/employee-dashboard/Report', 'icon': faTriangleExclamation },
             { 'name': 'Employee Back to Home', 'path': '/', 'icon': faHouse },
         ];
     } else if (role == 'guest') {

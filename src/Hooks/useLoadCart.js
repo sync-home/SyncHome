@@ -13,14 +13,16 @@ const useLoadCart = (AllProducts, isLoading) => {
         queryFn: async () => {
             try {
                 const res = axiosSecure.get('/cart', { email: user?.email })
+                const cartInfo = res?.data;
 
-                // console.log('useLoadCart: /cart', res?.data);
-                if (Array.isArray(res?.data)) {
-                    const existingProducts = AllProducts?.filter(product => getFilteredProducts(res?.data, product, true))
+                // console.log('useLoadCart: /cart', cart);
+                if (Array.isArray(cartInfo)) {
+                    const cart = AllProducts?.filter(product => getFilteredProducts(cartInfo, product, true))
 
-                    return existingProducts
+                    return cart
                 }
-                return res?.data || []
+
+                return []
             } catch (error) {
                 // console.error(error?.message);
                 return []

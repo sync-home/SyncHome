@@ -55,7 +55,7 @@ const HeroSlider = () => {
                         <div className='absolute top-0 left-0 h-full w-full bg-[rgba(0,0,0,0.5)] flex flex-col justify-center items-center px-10'>
                             <h2 className='md:text-5xl text-3xl uppercase font-bold text-white'>{slide?.heading}</h2>
                             <p className='text-white font-semibold mt-5 mb-10'>{slide?.content}</p>
-                            <LinkRedirect url={'/features'} text={'Explore'} />
+                            <LinkRedirect url={'/shop'} text={'Explore'} />
                         </div>
                     </div>
                 </SwiperSlide>)}

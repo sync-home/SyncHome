@@ -1,10 +1,11 @@
 'use client'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { baseURL } from '../utils/getBaseURL';
 
 const DeleteButton = ({ id }) => {
 
     const handleDelete = async (id) => {
-        const res = await fetch(`https://synchome-server.vercel.app/api/v1/remove-notification/${id}`, {})
+        const res = await fetch(`${baseURL}/remove-notification/${id}`, {})
         return res.json();
     }
 

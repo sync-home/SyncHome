@@ -59,7 +59,7 @@ const axiosPublic = useAxiosPublic();
 
   // problem solved button
   const handleSolved = book => {
-    const res = axios.patch(`https://synchome-server.vercel.app/api/v1/reports/${book._id}`)
+    const res = axiosPublic.patch(`/reports/${book._id}`)
     
       .then(res => {
         refetch()

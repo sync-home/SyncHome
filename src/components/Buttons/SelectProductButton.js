@@ -3,7 +3,6 @@ import { Box } from "@mui/material";
 import { useState } from "react";
 import { deselectProduct, selectProduct } from "../utils/getReadyCartLS";
 import useAuthContext from "@/Hooks/useAuthContext";
-import { getFilteredProducts } from "../utils/getFilteredProducts";
 import getUpdateSelectedProductsState from "../utils/getUpdateSelectedProductsState";
 
 const SelectProductButton = ({ product, selected }) => {

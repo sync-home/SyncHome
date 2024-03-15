@@ -17,11 +17,12 @@ import useAxiosPublic from '@/Hooks/useAxiosPublic';
 import useAuthContext from '@/Hooks/useAuthContext';
 import { useQuery } from '@tanstack/react-query';
 import { FaEdit } from 'react-icons/fa';
+import Loader from '@/components/loader/Loader';
 
 const DashboardProfile = () => {
 
     const { register, handleSubmit, reset } = useForm();
-    const [open, setOpen] = React.useState(false);
+    const [ open, setOpen ] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const axiosPublic = useAxiosPublic();
@@ -29,7 +30,7 @@ const DashboardProfile = () => {
 
     const { data: profileData = {}, isLoading, isPending, refetch } = useQuery({
         enabled: !loading && !!user,
-        queryKey: ['user'],
+        queryKey: [ 'user' ],
         queryFn: async () => {
             const res = await axiosPublic.get(`/users/${user?.email}`)
             return res?.data;
@@ -38,7 +39,7 @@ const DashboardProfile = () => {
     // console.log(profileData);
 
     if (isLoading || isPending) {
-        return <p>Data is coming...</p>;
+        return <Loader loaderOpen={isLoading || isPending} />;
     }
 
     const handleClickOpen = () => {

@@ -27,7 +27,8 @@ const WifiDialog = ({ wifiOpen: open, setWifiOpen: setOpen, sendId, refetch }) =
             refetch();
         })
         .catch(error => {
-            // console.log(error)
+                                    /* TODO: use toast to each error, to show users whats going on. */
+// console.log(error)
         })
     }
 

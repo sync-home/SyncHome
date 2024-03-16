@@ -11,6 +11,7 @@ import FamilyDialog from '@/components/Dashboard/ApartmentsElement/Dialog/Family
 import TotalEnergyDialog from '@/components/Dashboard/ApartmentsElement/Dialog/TotalEnergyDialog';
 import WeeklyDialog from '@/components/Dashboard/ApartmentsElement/Dialog/WeeklyDialog';
 import WifiDialog from '@/components/Dashboard/ApartmentsElement/Dialog/WifiDialog';
+import Loader from '@/components/loader/Loader';
 import { Button } from '@mui/joy';
 import Switch from '@mui/joy/Switch';
 import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
@@ -22,36 +23,48 @@ import { FaPlus } from 'react-icons/fa6';
 
 
 const Apartments = () => {
+    const { user, loading } = useAuthContext();
 
     const axiosPublic = useAxiosPublic();
-    const { user, loading } = useAuthContext();
-    const [apartSelect, setApartSelect] = useState('Apartment - 101');
-    const [useData, setUseData] = useState('week');
-    const [tempControl, setTmpControl] = useState(0);
-    const [tempId, setTempId] = useState('');
- 
+    const [ apartSelect, setApartSelect ] = useState('Apartment - 101');
+    const [ useData, setUseData ] = useState('week');
+    const [ tempControl, setTmpControl ] = useState(0);
+    const [ tempId, setTempId ] = useState('');
 
+    //dialog
+    const [ addDeviceOpen, setAddDeviceOpen ] = React.useState(false);
+    const [ cctvOpen, setCctvOpen ] = React.useState(false);
+    const [ wifiOpen, setWifiOpen ] = React.useState(false);
+    const [ familyOpen, setFamilyOpen ] = React.useState(false);
+    const [ weeklyOpen, setWeeklyOpen ] = React.useState(false);
+    const [ totalEnergyOpen, setTotalEnergyOpen ] = React.useState(false);
+    const [ acOpen, setAcOpen ] = React.useState(false);
+    const [ sendId, setSendId ] = useState('');
+
+    console.log(user, loading)
     const { data: apartData = [], refetch, isPending, isLoading } = useQuery({
-        enabled: !loading,
-        queryKey: ['apartments', `${user?.email}`],
+        enabled: !loading && !!user?.email,
+        queryKey: [ 'apartments', `${user?.email}` ],
         queryFn: async () => {
-            const res = await axiosPublic.get('/apartments');
+            const res = await axiosPublic.get(`/apartments?${user?.email}`);
+            console.log(res?.data);
             return res?.data;
         }
     });
 
-    
+
 
     const handleModeChange = (newMode, id) => {
         if (newMode !== null) {
-            axiosPublic.patch(`apartments/acmode/${id}`, {newMode})
-            .then(result => {
-                // console.log(result.data)
-                refetch();
-            })
-            .catch(error => {
-                // console.log(error)
-            })
+            axiosPublic.patch(`apartments/acmode/${id}`, { newMode })
+                .then(result => {
+                    // console.log(result.data)
+                    refetch();
+                })
+                .catch(error => {
+                    /* TODO: use toast to each error, to show users whats going on. */
+                    // console.log(error)
+                })
         }
     };
 
@@ -63,9 +76,10 @@ const Apartments = () => {
                 refetch();
             })
             .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
                 // console.log(error)
             })
-    }, [tempControl])
+    }, [ tempControl ])
 
     const handlePlus = (temp, id) => {
         if (temp < 100) {
@@ -127,16 +141,6 @@ const Apartments = () => {
         setUseData(e?.target?.value);
     }
 
-    //dialog
-    const [addDeviceOpen, setAddDeviceOpen] = React.useState(false);
-    const [cctvOpen, setCctvOpen] = React.useState(false);
-    const [wifiOpen, setWifiOpen] = React.useState(false);
-    const [familyOpen, setFamilyOpen] = React.useState(false);
-    const [weeklyOpen, setWeeklyOpen] = React.useState(false);
-    const [totalEnergyOpen, setTotalEnergyOpen] = React.useState(false);
-    const [acOpen, setAcOpen] = React.useState(false);
-    const [sendId, setSendId] = useState('');
-
     const handleAddDeviceOpen = (id) => {
         setAddDeviceOpen(true);
         setSendId(id);
@@ -181,6 +185,7 @@ const Apartments = () => {
                 refetch();
             })
             .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
                 // console.log(error)
             })
     }
@@ -195,6 +200,7 @@ const Apartments = () => {
                 refetch();
             })
             .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
                 // console.log(error)
             })
     }
@@ -208,6 +214,7 @@ const Apartments = () => {
                 refetch();
             })
             .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
                 // console.log(error)
             })
     }
@@ -215,300 +222,304 @@ const Apartments = () => {
     return (
         <div>
             {
-                isPending || isLoading ? <p>Website is Loading</p> : apartData?.length ? <><div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5 flex lg:flex-row flex-col justify-center lg:justify-between'>
-                    <h4 className='font-bold uppercase text-xl text-[#363636]'>Total Apartment : {apartData?.length}</h4>
-                    <select onChange={handleOption} style={{ border: '1px solid #ddd' }} className='px-5 rounded-md py-1 outline-0'>
-                        {
-                            apartData?.map((item, idx) => (
-                                <option
-                                    key={idx}
-                                    value={item?.name}
-                                >{item?.name}</option>
-                            ))
-                        }
-                    </select>
-                </div>
-                    <div>
-                        {
-                            apartData?.filter(items => items?.name == apartSelect).map((item, idx) => (
-                                <div key={idx}>
-                                    <div className='grid lg:grid-cols-3 grid-cols-1 gap-10'>
-                                        <div className='lg:col-span-2'>
-                                            <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
-                                                <div className='flex justify-between items-center mb-5'>
-                                                    <h4 className='font-bold text-[#363636]'>Quick Access</h4>
-                                                    <button onClick={() => handleAddDeviceOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus /> Add Device</button>
-                                                </div>
-                                                <div className='grid md:grid-cols-3 grid-cols-1 gap-2'>
+                isPending || isLoading ? <Loader loaderOpen={isPending || isLoading} />
+                    : apartData?.length ?
+                        <>
+                            <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5 flex lg:flex-row flex-col justify-center lg:justify-between'>
+                                <h4 className='font-bold uppercase text-xl text-[#363636]'>Total Apartment : {apartData?.length}</h4>
+                                <select onChange={handleOption} style={{ border: '1px solid #ddd' }} className='px-5 rounded-md py-1 outline-0'>
+                                    {
+                                        apartData?.map((item, idx) => (
+                                            <option
+                                                key={idx}
+                                                value={item?.name}
+                                            >{item?.name}</option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                {
+                                    apartData?.filter(items => items?.name == apartSelect).map((item, idx) => (
+                                        <div key={idx}>
+                                            <div className='grid lg:grid-cols-3 grid-cols-1 gap-10'>
+                                                <div className='lg:col-span-2'>
+                                                    <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
+                                                        <div className='flex justify-between items-center mb-5'>
+                                                            <h4 className='font-bold text-[#363636]'>Quick Access</h4>
+                                                            <button onClick={() => handleAddDeviceOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus /> Add Device</button>
+                                                        </div>
+                                                        <div className='grid md:grid-cols-3 grid-cols-1 gap-2'>
 
+                                                            {
+                                                                item?.devices?.map((device, idx) => (
+                                                                    <div
+                                                                        key={idx}
+                                                                        style={{ border: '1px solid #ddd' }}
+                                                                        className='grid grid-cols-3 gap-2 items-center shadow-md rounded-md px-5 py-3 relative'>
+                                                                        <div className='col-span-2'>
+                                                                            <h4 className='font-semibold text-[#363636] text-sm'>{device?.name}</h4>
+                                                                            <p className='text-xs text-gray-600 mb-5'>{device?.brand}</p>
+                                                                            <span>
+                                                                                <Switch sx={device?.status && {
+                                                                                    '& .MuiSwitch-thumb': { backgroundColor: '#fff', border: '1px solid #fff' }, '& .MuiSwitch-track': { backgroundColor: '#8338ec' }
+                                                                                }}
+                                                                                    variant="solid"
+                                                                                    size="lg"
+                                                                                    checked={device?.status}
+                                                                                    onChange={() => handleDeviceSwitch(item?._id, idx, device?.status)}
+                                                                                />
+                                                                            </span>
+                                                                        </div>
+                                                                        <div>
+                                                                            <span onClick={() => handleDeleteDevice(item?._id, idx)} style={{ boxShadow: '0px 0px 2px #363636' }} className='absolute top-2 text-[#aaa] cursor-pointer hover:bg-[#8338EC] hover:text-white p-1 text-sm rounded-full right-2'><FaTrashAlt /></span>
+                                                                            <Image height={100} width={100} src={`${device?.img ? device?.img : 'https://i.ibb.co/17HHBsG/tailwind.png'}`} alt={`${device?.name}`} />
+                                                                        </div>
+                                                                    </div>
+                                                                ))
+                                                            }
+                                                        </div>
+                                                    </div>
+
+                                                    <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md grid lg:grid-cols-3 grid-cols-1 gap-5'>
+                                                        <div className='lg:col-span-2'>
+                                                            <div className='flex justify-between items-center mb-5'>
+                                                                <h4 className='font-bold text-[#363636]'>CCTV Camera</h4>
+                                                                <button onClick={() => handleCctvOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus />CCTV</button>
+                                                            </div>
+                                                            <div>
+                                                                <CctvCamera cameraInfo={item?.cctv} />
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div>
+                                                                <div className='flex justify-between items-center mb-5'>
+                                                                    <h4 className='font-bold text-[#363636]'>WiFi Control</h4>
+                                                                    <button onClick={() => handleWifiOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
+                                                                </div>
+                                                                <div style={{ border: '1px solid #ddd' }} className='grid grid-cols-3 gap-2 items-center shadow-md rounded-md px-5 py-3'>
+                                                                    <div className='col-span-2'>
+                                                                        <h4 className='font-semibold text-[#363636] text-sm'>{item?.router?.name}</h4>
+                                                                        <p className='text-xs text-gray-500 mb-5'>{item?.router?.brand}</p>
+                                                                        <span>
+                                                                            <Switch sx={item?.router?.status && {
+                                                                                '& .MuiSwitch-thumb': { backgroundColor: '#fff', border: '1px solid #fff' }, '& .MuiSwitch-track': { backgroundColor: '#8338ec' }
+                                                                            }}
+                                                                                variant="solid"
+                                                                                size="lg"
+                                                                                checked={item?.router?.status}
+                                                                                onChange={() => handleSimpleSwitch(item?._id, 'router', item?.router?.status)}
+                                                                            />
+                                                                        </span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <Image height={100} width={100} src={`${item?.router?.img}`} alt={`${item?.router?.name}`} />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className='mt-10'>
+                                                                <h4 className='font-bold text-[#363636] mb-5'>Weekly WiFi Usage</h4>
+                                                                <div style={{ border: '1px solid #ddd' }} className='shadow-md rounded-md px-5 py-3'>
+                                                                    <div className='text-center'>
+                                                                        <h4 className='font-semibold text-[#363636] text-sm'>Total Devices : 4</h4>
+                                                                        <p className='text-gray-500 mt-2'>Total Usage</p>
+                                                                        <p className='text-xl font-bold text-[#363636]'>{item?.wifi} GB</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
+                                                        <div className='flex justify-between items-center mb-5'>
+                                                            <h4 className='font-bold text-[#363636]'>Temperature Control</h4>
+                                                            <button onClick={() => handleAcOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
+                                                        </div>
+
+                                                        <div>
+                                                            <div>
+                                                                <div style={{ boxShadow: '0px 0px 8px #ccc' }} className="h-40 w-40 flex mb-5 items-center justify-center text-2xl font-bold rounded-full mx-auto">
+                                                                    <div className='h-32 w-32 rounded-full bg-gray-200 flex items-center justify-center'>
+                                                                        <p>{item?.ac?.temp}°C</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <Box sx={{ width: 250, marginX: 'auto' }}>
+                                                                <div className="flex justify-center gap-10">
+                                                                    <div>
+                                                                        <Button onClick={() => handlePlus(item?.ac?.temp, item?._id)} sx={{ backgroundColor: '#8338EC' }}><FaPlus /></Button>
+                                                                    </div>
+                                                                    <div>
+                                                                        <Button onClick={() => handleMinus(item?.ac?.temp, item?._id)} sx={{ backgroundColor: '#8338EC' }}><FaMinus /></Button>
+                                                                    </div>
+                                                                </div>
+                                                            </Box>
+                                                        </div>
+                                                        <div className='flex justify-between mt-5'>
+                                                            <div>
+                                                                <h4 className='font-semibold text-[#363636] text-sm'>{item?.ac?.name}</h4>
+                                                                <p className='text-xs text-gray-500 mb-5'>{item?.ac?.brand}</p>
+                                                            </div>
+                                                            <div>
+                                                                <span>
+                                                                    <Switch sx={item?.ac?.status && {
+                                                                        '& .MuiSwitch-thumb': { backgroundColor: '#fff', border: '1px solid #fff' }, '& .MuiSwitch-track': { backgroundColor: '#8338ec' }
+                                                                    }}
+                                                                        variant="solid"
+                                                                        size="lg"
+                                                                        checked={item?.ac?.status}
+                                                                        onChange={() => handleSimpleSwitch(item?._id, 'ac', item?.ac?.status)}
+                                                                    />
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <h4 className='font-semibold text-[#363636] text-sm mb-5'>Modes</h4>
+
+                                                            <div>
+                                                                <ToggleButtonGroup
+                                                                    value={item?.ac?.mode}
+                                                                    exclusive
+                                                                    onChange={(e) => handleModeChange(e.target.value, item?._id)}
+                                                                    aria-label="text alignment"
+                                                                >
+                                                                    <ToggleButton
+                                                                        value="auto"
+                                                                        aria-label="auto"
+                                                                        sx={{
+                                                                            borderRadius: '20px',
+                                                                            marginRight: '8px',
+                                                                            color: '#363636',
+                                                                            backgroundColor: item?.ac?.mode === 'auto' ? '#3f51b5' : '#cccccc',
+                                                                            '&:hover': {
+                                                                                backgroundColor: item?.ac?.mode === 'auto' ? '#303f9f' : '#aaaaaa',
+                                                                            },
+                                                                            '&.Mui-selected': {
+                                                                                backgroundColor: '#8338ec',
+                                                                                color: '#fff'
+                                                                            },
+                                                                        }}
+                                                                    >
+                                                                        <FaSun className='mr-1' />
+                                                                        Auto
+                                                                    </ToggleButton>
+                                                                    <ToggleButton
+                                                                        value="wind"
+                                                                        aria-label="wind"
+                                                                        sx={{
+                                                                            borderRadius: '20px',
+                                                                            marginRight: '8px',
+                                                                            color: '#363636',
+                                                                            backgroundColor: item?.ac?.mode === 'wind' ? '#3f51b5' : '#cccccc',
+                                                                            '&:hover': {
+                                                                                backgroundColor: item?.ac?.mode === 'wind' ? '#303f9f' : '#aaaaaa',
+                                                                            },
+                                                                            '&.Mui-selected': {
+                                                                                backgroundColor: '#8338ec',
+                                                                                color: '#fff'
+                                                                            },
+                                                                        }}
+                                                                    >
+                                                                        <FaWind className='mr-1' />
+                                                                        Wind
+                                                                    </ToggleButton>
+                                                                    <ToggleButton
+                                                                        value="swing"
+                                                                        aria-label="swing"
+                                                                        sx={{
+                                                                            borderRadius: '20px',
+                                                                            color: '#363636',
+                                                                            backgroundColor: item?.ac?.mode === 'swing' ? '#3f51b5' : '#cccccc',
+                                                                            '&:hover': {
+                                                                                backgroundColor: item?.ac?.mode === 'swing' ? '#303f9f' : '#aaaaaa',
+                                                                            },
+                                                                            '&.Mui-selected': {
+                                                                                backgroundColor: '#8338ec',
+                                                                                color: '#fff'
+                                                                            },
+                                                                        }}
+                                                                    >
+                                                                        <FaFan className='mr-1' />
+                                                                        Swing
+                                                                    </ToggleButton>
+                                                                </ToggleButtonGroup>
+                                                                {/* <AcMode val={item?.ac?.mode} /> */}
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
+                                                        <div className='flex justify-between items-center mb-5'>
+                                                            <h4 className='font-bold text-[#363636]'>Total Family Members</h4>
+                                                            <button onClick={() => handleFamilyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
+                                                        </div>
+                                                        <div>
+                                                            <div>
+                                                                <div style={{ border: '1px solid #ddd' }} className='rounded-md p-2 font-semibold text-sm flex items-center gap-2 text-[#21b0fe]'>
+                                                                    <FaMale />
+                                                                    Male : {item?.members?.male}
+                                                                </div>
+                                                                <div style={{ border: '1px solid #ddd' }} className='rounded-md p-2 my-2 font-semibold text-[#fe218b] text-sm flex items-center gap-2'>
+                                                                    <FaFemale />
+                                                                    Female : {item?.members?.female}
+                                                                </div>
+                                                                <div style={{ border: '1px solid #ddd' }} className='rounded-md p-2 font-semibold text-[#0d3b66] text-sm flex items-center gap-2'>
+                                                                    <FaChild />
+                                                                    Child : {item?.members?.child}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mt-5'>
+                                                <div className=''>
+                                                    <div className='flex justify-between items-center mb-5'>
+                                                        <h4 className='font-bold text-[#363636]'>Total Energy Usage</h4>
+                                                        <button onClick={() => handleTotalEnergyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Total Usage</span></button>
+                                                    </div>
+                                                    <select onChange={handleUsageData} style={{ border: '1px solid #ddd' }} className='rounded-full text-sm px-5 outline-0'>
+                                                        <option value="week">Last 7 Days</option>
+                                                        <option value="month">Last 30 Days</option>
+                                                        <option value="year">Current Year</option>
+                                                    </select>
+                                                </div>
+                                                <div>
                                                     {
-                                                        item?.devices?.map((device, idx) => (
+                                                        item?.energy_usage?.filter(data => data?.duration == useData).map((erergyData, idx) => (
                                                             <div
                                                                 key={idx}
-                                                                style={{ border: '1px solid #ddd' }}
-                                                                className='grid grid-cols-3 gap-2 items-center shadow-md rounded-md px-5 py-3 relative'>
-                                                                <div className='col-span-2'>
-                                                                    <h4 className='font-semibold text-[#363636] text-sm'>{device?.name}</h4>
-                                                                    <p className='text-xs text-gray-600 mb-5'>{device?.brand}</p>
-                                                                    <span>
-                                                                        <Switch sx={device?.status && {
-                                                                            '& .MuiSwitch-thumb': { backgroundColor: '#fff', border: '1px solid #fff' }, '& .MuiSwitch-track': { backgroundColor: '#8338ec' }
-                                                                        }}
-                                                                            variant="solid"
-                                                                            size="lg"
-                                                                            checked={device?.status}
-                                                                            onChange={() => handleDeviceSwitch(item?._id, idx, device?.status)}
-                                                                        />
-                                                                    </span>
+                                                                className='flex justify-center flex-wrap my-5 gap-10'>
+                                                                <div style={{ border: '1px solid #ddd' }} className='items-center shadow-md rounded-md px-5 py-3'>
+                                                                    <h4 className='font-semibold text-[#363636]'>Total Electricity Usage</h4>
+                                                                    <p className='font-bold text-center text-2xl text-[#363636]'>{erergyData?.electricity} kWh</p>
                                                                 </div>
-                                                                <div>
-                                                                    <span onClick={() => handleDeleteDevice(item?._id, idx)} style={{ boxShadow: '0px 0px 2px #363636' }} className='absolute top-2 text-[#aaa] cursor-pointer hover:bg-[#8338EC] hover:text-white p-1 text-sm rounded-full right-2'><FaTrashAlt /></span>
-                                                                    <Image height={100} width={100} src={`${device?.img ? device?.img : 'https://i.ibb.co/17HHBsG/tailwind.png'}`} alt={`${device?.name}`} />
+                                                                <div style={{ border: '1px solid #ddd' }} className='items-center shadow-md rounded-md px-5 py-3'>
+                                                                    <h4 className='font-semibold text-[#363636]'>Total Water Usage</h4>
+                                                                    <p className='font-bold text-center text-2xl text-[#363636]'>{erergyData?.water} Liters</p>
+                                                                </div>
+                                                                <div style={{ border: '1px solid #ddd' }} className='items-center shadow-md rounded-md px-5 py-3'>
+                                                                    <h4 className='font-semibold text-[#363636]'>Total Gas Usage</h4>
+                                                                    <p className='font-bold text-center text-2xl text-[#363636]'>{erergyData?.gas} MMBtu</p>
                                                                 </div>
                                                             </div>
                                                         ))
                                                     }
                                                 </div>
-                                            </div>
-
-                                            <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md grid lg:grid-cols-3 grid-cols-1 gap-5'>
-                                                <div className='lg:col-span-2'>
+                                                <div className='mt-10'>
                                                     <div className='flex justify-between items-center mb-5'>
-                                                        <h4 className='font-bold text-[#363636]'>CCTV Camera</h4>
-                                                        <button onClick={() => handleCctvOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm px-3 hover:bg-sky-400 transition-all ease-linear py-1 rounded-full text-white'><FaPlus />CCTV</button>
+                                                        <h4 className='font-bold text-[#363636]'>Weekly Energy Usage Analytics</h4>
+                                                        <button onClick={() => handleWeeklyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Weekly Data</span></button>
                                                     </div>
-                                                    <div>
-                                                       <CctvCamera cameraInfo={item?.cctv} />
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div>
-                                                        <div className='flex justify-between items-center mb-5'>
-                                                            <h4 className='font-bold text-[#363636]'>WiFi Control</h4>
-                                                            <button onClick={() => handleWifiOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
-                                                        </div>
-                                                        <div style={{ border: '1px solid #ddd' }} className='grid grid-cols-3 gap-2 items-center shadow-md rounded-md px-5 py-3'>
-                                                            <div className='col-span-2'>
-                                                                <h4 className='font-semibold text-[#363636] text-sm'>{item?.router?.name}</h4>
-                                                                <p className='text-xs text-gray-500 mb-5'>{item?.router?.brand}</p>
-                                                                <span>
-                                                                    <Switch sx={item?.router?.status && {
-                                                                        '& .MuiSwitch-thumb': { backgroundColor: '#fff', border: '1px solid #fff' }, '& .MuiSwitch-track': { backgroundColor: '#8338ec' }
-                                                                    }}
-                                                                        variant="solid"
-                                                                        size="lg"
-                                                                        checked={item?.router?.status}
-                                                                        onChange={() => handleSimpleSwitch(item?._id, 'router', item?.router?.status)}
-                                                                    />
-                                                                </span>
-                                                            </div>
-                                                            <div>
-                                                                <Image height={100} width={100} src={`${item?.router?.img}`} alt={`${item?.router?.name}`} />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className='mt-10'>
-                                                        <h4 className='font-bold text-[#363636] mb-5'>Weekly WiFi Usage</h4>
-                                                        <div style={{ border: '1px solid #ddd' }} className='shadow-md rounded-md px-5 py-3'>
-                                                            <div className='text-center'>
-                                                                <h4 className='font-semibold text-[#363636] text-sm'>Total Devices : 4</h4>
-                                                                <p className='text-gray-500 mt-2'>Total Usage</p>
-                                                                <p className='text-xl font-bold text-[#363636]'>{item?.wifi} GB</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <ApartEnergyGraph data={item?.usageData} />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div>
-                                            <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
-                                                <div className='flex justify-between items-center mb-5'>
-                                                    <h4 className='font-bold text-[#363636]'>Temperature Control</h4>
-                                                    <button onClick={() => handleAcOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
-                                                </div>
-
-                                                <div>
-                                                    <div>
-                                                        <div style={{ boxShadow: '0px 0px 8px #ccc' }} className="h-40 w-40 flex mb-5 items-center justify-center text-2xl font-bold rounded-full mx-auto">
-                                                            <div className='h-32 w-32 rounded-full bg-gray-200 flex items-center justify-center'>
-                                                                <p>{item?.ac?.temp}°C</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <Box sx={{ width: 250, marginX: 'auto' }}>
-                                                        <div className="flex justify-center gap-10">
-                                                            <div>
-                                                                <Button onClick={() => handlePlus(item?.ac?.temp, item?._id)} sx={{ backgroundColor: '#8338EC' }}><FaPlus /></Button>
-                                                            </div>
-                                                            <div>
-                                                                <Button onClick={() => handleMinus(item?.ac?.temp, item?._id)} sx={{ backgroundColor: '#8338EC' }}><FaMinus /></Button>
-                                                            </div>
-                                                        </div>
-                                                    </Box>
-                                                </div>
-                                                <div className='flex justify-between mt-5'>
-                                                    <div>
-                                                        <h4 className='font-semibold text-[#363636] text-sm'>{item?.ac?.name}</h4>
-                                                        <p className='text-xs text-gray-500 mb-5'>{item?.ac?.brand}</p>
-                                                    </div>
-                                                    <div>
-                                                        <span>
-                                                            <Switch sx={item?.ac?.status && {
-                                                                '& .MuiSwitch-thumb': { backgroundColor: '#fff', border: '1px solid #fff' }, '& .MuiSwitch-track': { backgroundColor: '#8338ec' }
-                                                            }}
-                                                                variant="solid"
-                                                                size="lg"
-                                                                checked={item?.ac?.status}
-                                                                onChange={() => handleSimpleSwitch(item?._id, 'ac', item?.ac?.status)}
-                                                            />
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <h4 className='font-semibold text-[#363636] text-sm mb-5'>Modes</h4>
-
-                                                    <div>
-                                                        <ToggleButtonGroup
-                                                            value={item?.ac?.mode}
-                                                            exclusive
-                                                            onChange={(e)=>handleModeChange(e.target.value, item?._id)}
-                                                            aria-label="text alignment"
-                                                        >
-                                                            <ToggleButton
-                                                                value="auto"
-                                                                aria-label="auto"
-                                                                sx={{
-                                                                    borderRadius: '20px',
-                                                                    marginRight: '8px',
-                                                                    color: '#363636',
-                                                                    backgroundColor: item?.ac?.mode === 'auto' ? '#3f51b5' : '#cccccc',
-                                                                    '&:hover': {
-                                                                        backgroundColor: item?.ac?.mode === 'auto' ? '#303f9f' : '#aaaaaa',
-                                                                    },
-                                                                    '&.Mui-selected': {
-                                                                        backgroundColor: '#8338ec',
-                                                                        color: '#fff'
-                                                                    },
-                                                                }}
-                                                            >
-                                                                <FaSun className='mr-1' />
-                                                                Auto
-                                                            </ToggleButton>
-                                                            <ToggleButton
-                                                                value="wind"
-                                                                aria-label="wind"
-                                                                sx={{
-                                                                    borderRadius: '20px',
-                                                                    marginRight: '8px',
-                                                                    color: '#363636',
-                                                                    backgroundColor: item?.ac?.mode === 'wind' ? '#3f51b5' : '#cccccc',
-                                                                    '&:hover': {
-                                                                        backgroundColor: item?.ac?.mode === 'wind' ? '#303f9f' : '#aaaaaa',
-                                                                    },
-                                                                    '&.Mui-selected': {
-                                                                        backgroundColor: '#8338ec',
-                                                                        color: '#fff'
-                                                                    },
-                                                                }}
-                                                            >
-                                                                <FaWind className='mr-1' />
-                                                                Wind
-                                                            </ToggleButton>
-                                                            <ToggleButton
-                                                                value="swing"
-                                                                aria-label="swing"
-                                                                sx={{
-                                                                    borderRadius: '20px',
-                                                                    color: '#363636',
-                                                                    backgroundColor: item?.ac?.mode === 'swing' ? '#3f51b5' : '#cccccc',
-                                                                    '&:hover': {
-                                                                        backgroundColor: item?.ac?.mode === 'swing' ? '#303f9f' : '#aaaaaa',
-                                                                    },
-                                                                    '&.Mui-selected': {
-                                                                        backgroundColor: '#8338ec',
-                                                                        color: '#fff'
-                                                                    },
-                                                                }}
-                                                            >
-                                                                <FaFan className='mr-1' />
-                                                                Swing
-                                                            </ToggleButton>
-                                                        </ToggleButtonGroup>
-                                                        {/* <AcMode val={item?.ac?.mode} /> */}
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mb-5'>
-                                                <div className='flex justify-between items-center mb-5'>
-                                                    <h4 className='font-bold text-[#363636]'>Total Family Members</h4>
-                                                    <button onClick={() => handleFamilyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /></button>
-                                                </div>
-                                                <div>
-                                                    <div>
-                                                        <div style={{ border: '1px solid #ddd' }} className='rounded-md p-2 font-semibold text-sm flex items-center gap-2 text-[#21b0fe]'>
-                                                            <FaMale />
-                                                            Male : {item?.members?.male}
-                                                        </div>
-                                                        <div style={{ border: '1px solid #ddd' }} className='rounded-md p-2 my-2 font-semibold text-[#fe218b] text-sm flex items-center gap-2'>
-                                                            <FaFemale />
-                                                            Female : {item?.members?.female}
-                                                        </div>
-                                                        <div style={{ border: '1px solid #ddd' }} className='rounded-md p-2 font-semibold text-[#0d3b66] text-sm flex items-center gap-2'>
-                                                            <FaChild />
-                                                            Child : {item?.members?.child}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div style={{ border: '1px solid #ddd' }} className='p-5 rounded-md mt-5'>
-                                        <div className=''>
-                                            <div className='flex justify-between items-center mb-5'>
-                                                <h4 className='font-bold text-[#363636]'>Total Energy Usage</h4>
-                                                <button onClick={() => handleTotalEnergyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Total Usage</span></button>
-                                            </div>
-                                            <select onChange={handleUsageData} style={{ border: '1px solid #ddd' }} className='rounded-full text-sm px-5 outline-0'>
-                                                <option value="week">Last 7 Days</option>
-                                                <option value="month">Last 30 Days</option>
-                                                <option value="year">Current Year</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            {
-                                                item?.energy_usage?.filter(data => data?.duration == useData).map((erergyData, idx) => (
-                                                    <div
-                                                        key={idx}
-                                                        className='flex justify-center flex-wrap my-5 gap-10'>
-                                                        <div style={{ border: '1px solid #ddd' }} className='items-center shadow-md rounded-md px-5 py-3'>
-                                                            <h4 className='font-semibold text-[#363636]'>Total Electricity Usage</h4>
-                                                            <p className='font-bold text-center text-2xl text-[#363636]'>{erergyData?.electricity} kWh</p>
-                                                        </div>
-                                                        <div style={{ border: '1px solid #ddd' }} className='items-center shadow-md rounded-md px-5 py-3'>
-                                                            <h4 className='font-semibold text-[#363636]'>Total Water Usage</h4>
-                                                            <p className='font-bold text-center text-2xl text-[#363636]'>{erergyData?.water} Liters</p>
-                                                        </div>
-                                                        <div style={{ border: '1px solid #ddd' }} className='items-center shadow-md rounded-md px-5 py-3'>
-                                                            <h4 className='font-semibold text-[#363636]'>Total Gas Usage</h4>
-                                                            <p className='font-bold text-center text-2xl text-[#363636]'>{erergyData?.gas} MMBtu</p>
-                                                        </div>
-                                                    </div>
-                                                ))
-                                            }
-                                        </div>
-                                        <div className='mt-10'>
-                                            <div className='flex justify-between items-center mb-5'>
-                                                <h4 className='font-bold text-[#363636]'>Weekly Energy Usage Analytics</h4>
-                                                <button onClick={() => handleWeeklyOpen(item._id)} className='bg-[#8338ec] flex gap-2 items-center text-sm p-2 hover:bg-sky-400 transition-all ease-linear rounded-full text-white'><FaPlus /> <span className='md:flex hidden'>Add Weekly Data</span></button>
-                                            </div>
-                                            <ApartEnergyGraph data={item?.usageData} />
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div></> : <p>Data not found, something wrong in the server</p>
+                                    ))
+                                }
+                            </div>
+                        </> : <p>Data not found, something wrong in the server</p>
             }
 
             {/* Dialog */}

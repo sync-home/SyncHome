@@ -20,13 +20,14 @@ const TotalEnergyDialog = ({ totalEnergyOpen: open, setTotalEnergyOpen: setOpen,
     const onSubmit = (data) => {
         // console.log(data);
         // console.log(sendId);
-        axiosPublic.put(`/apartments/total/${sendId}`, {data})
-        .then(result => {
-            // console.log(result.data)
-        })
-        .catch(error => {
-            // console.log(error)
-        })
+        axiosPublic.put(`/apartments/total/${sendId}`, { data })
+            .then(result => {
+                // console.log(result.data)
+            })
+            .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
+                // console.log(error)
+            })
     }
 
 
@@ -70,7 +71,7 @@ const TotalEnergyDialog = ({ totalEnergyOpen: open, setTotalEnergyOpen: setOpen,
                                 <input className='w-1/4 outline-0 px-1 rounded-md' type="text" placeholder='Water' {...register("water3")} />
                                 <input className='w-1/4 outline-0 px-1 rounded-md' type="text" placeholder='gas' {...register("gas3")} />
                             </div>
-                            
+
                             <input className='w-full text-center border-2 hover:bg-white hover:text-black transition-all ease-in-out cursor-pointer border-white rounded-md mt-5 p-1 text-white' type="submit" value="Add Total Usage" />
                         </form>
                     </DialogContentText>

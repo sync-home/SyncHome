@@ -5,52 +5,19 @@ import ProductCard from '../ProductCard/ProductCard';
 import CategoryPanel from '../CategoryPanel/CategoryPanel';
 import useAuthContext from '@/Hooks/useAuthContext';
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import fetchPublic from '@/components/utils/getFetchedData';
 import Loader from '@/components/loader/Loader';
+import useLoadCategories from '@/Hooks/useLoadCategories';
+import useLoadProductsOfCategory from '@/Hooks/useLoadProductsOfCategory';
 
 const Products = () => {
     const { products, isLoading: isLoadingProducts } = useAuthContext()
     const [ category, setCategory ] = useState('');
 
     /* All categories */
-    const { data: categories = [], isLoading: isLoadingCategories } = useQuery({
-        queryKey: [ 'categories' ],
-        refetchOnWindowFocus: false,
-        queryFn: async () => {
-            try {
-                const result = await fetchPublic('/product/categories', {
-                    cache: 'force-cache',
-                    method: "GET"
-                });
-
-                const categories = [ ...result?.categories ];
-
-                return categories
-            } catch (error) {
-                // console.log(error?.message);
-                return []
-            }
-        }
-    })
+    const { categories, isLoadingCategories } = useLoadCategories()
 
     /* Get products by categories */
-    const { data: productsByCategory = [], isLoading: isLoadingCategory, isPending: isPendingCategory } = useQuery({
-        enabled: !!category,
-        queryKey: [ category ],
-        queryFn: async () => {
-            try {
-                const productFetched = await fetchPublic(`/products-by-category/${category}`, {
-                    cache: 'force-cache'
-                });
-
-                return productFetched
-            } catch (error) {
-                // console.log(error?.message);
-                return []
-            }
-        }
-    })
+    const { productsByCategory, isLoadingCategory, isPendingCategory } = useLoadProductsOfCategory({ category })
 
     /* Tab controlled function */
     const handleCategoryTab = (index) => {
@@ -63,11 +30,13 @@ const Products = () => {
         <div>
             <Tabs defaultIndex={0} onSelect={(index) => handleCategoryTab(index)} >
                 <TabList className="capitalize text-xl">
+
+                    {/* TODO: Use lazy loader to load all products */}
+
                     <Tab>All</Tab>
                     {!isLoadingCategories ? categories?.length > 0 ? categories.map((category, idx) => <Tab key={idx}>{category}</Tab>) : '' : ''}
                 </TabList>
 
-                {/* TODO: use lazy loader to load all data on a page */}
                 <TabPanel>
                     {/* left column [products card] */}
                     <h2 className="text-xl md:text-2xl font-semibold capitalize mb-5">All products</h2>

@@ -12,7 +12,7 @@ import { useTheme } from '@mui/material/styles';
 import { useForm } from "react-hook-form";
 import useAxiosPublic from '@/Hooks/useAxiosPublic';
 
-const CctvDialog = ({ cctvOpen:open, setCctvOpen:setOpen, sendId, refetch }) => {
+const CctvDialog = ({ cctvOpen: open, setCctvOpen: setOpen, sendId, refetch }) => {
 
     const { register, handleSubmit, watch, formState: { errors }, } = useForm();
     const axiosPublic = useAxiosPublic();
@@ -20,14 +20,15 @@ const CctvDialog = ({ cctvOpen:open, setCctvOpen:setOpen, sendId, refetch }) => 
     const onSubmit = (data) => {
         // console.log(data)
         // console.log(sendId);
-        axiosPublic.put(`/apartments/cctv/${sendId}`, {data})
-        .then(result => {
-            // console.log(result.data)
-            refetch();
-        })
-        .catch(error => {
-            // console.log(error)
-        })
+        axiosPublic.put(`/apartments/cctv/${sendId}`, { data })
+            .then(result => {
+                // console.log(result.data)
+                refetch();
+            })
+            .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
+                // console.log(error)
+            })
     }
 
 
@@ -53,41 +54,41 @@ const CctvDialog = ({ cctvOpen:open, setCctvOpen:setOpen, sendId, refetch }) => 
                 <DialogContent className='bg-[#8338EC]'>
                     <DialogContentText>
                         <form onSubmit={handleSubmit(onSubmit)}>
-                           
+
                             <div className='flex flex-col mb-2'>
                                 <label className='text-white' htmlFor="front">Door Front *</label>
-                                <input 
-                                style={{border: '1px solid #ccc'}} 
-                                className='outline-0 px-2 rounded-md py-1' 
-                                type="text" 
-                                {...register("front", { required: true })} 
-                                placeholder='Link here..' 
-                                id='front'/>
+                                <input
+                                    style={{ border: '1px solid #ccc' }}
+                                    className='outline-0 px-2 rounded-md py-1'
+                                    type="text"
+                                    {...register("front", { required: true })}
+                                    placeholder='Link here..'
+                                    id='front' />
                             </div>
                             <div className='flex flex-col mb-2'>
                                 <label className='text-white' htmlFor="bed">Bedroom *</label>
-                                <input 
-                                style={{border: '1px solid #ccc'}} 
-                                className='outline-0 px-2 rounded-md py-1' 
-                                type="text" 
-                                {...register("bedroom", { required: true })} 
-                                placeholder='Link here..' 
-                                id='bed'/>
+                                <input
+                                    style={{ border: '1px solid #ccc' }}
+                                    className='outline-0 px-2 rounded-md py-1'
+                                    type="text"
+                                    {...register("bedroom", { required: true })}
+                                    placeholder='Link here..'
+                                    id='bed' />
                             </div>
                             <div className='flex flex-col mb-2'>
                                 <label className='text-white' htmlFor="draw">Drawing Room *</label>
-                                <input style={{border: '1px solid #ccc'}} className='outline-0 px-2 rounded-md py-1' type="text" {...register("drawing", { required: true })} placeholder='Link here' id='draw'/>
+                                <input style={{ border: '1px solid #ccc' }} className='outline-0 px-2 rounded-md py-1' type="text" {...register("drawing", { required: true })} placeholder='Link here' id='draw' />
                             </div>
                             <div className='flex flex-col mb-2'>
                                 <label className='text-white' htmlFor="kitchen">Kitchen *</label>
-                                <input style={{border: '1px solid #ccc'}} className='outline-0 px-2 rounded-md py-1' type="text" {...register("kitchen", { required: true })} placeholder='Link here' id='kitchen'/>
+                                <input style={{ border: '1px solid #ccc' }} className='outline-0 px-2 rounded-md py-1' type="text" {...register("kitchen", { required: true })} placeholder='Link here' id='kitchen' />
                             </div>
                             <input className='w-full text-center border-2 hover:bg-white hover:text-black transition-all ease-in-out cursor-pointer border-white rounded-md mt-5 p-1 text-white' type="submit" value="Add Camera Info" />
                         </form>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions className='bg-[#8338EC] '>
-                    <Button style={{color: 'white'}} onClick={handleClose} autoFocus>
+                    <Button style={{ color: 'white' }} onClick={handleClose} autoFocus>
                         Close
                     </Button>
                 </DialogActions>

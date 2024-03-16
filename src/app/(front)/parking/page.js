@@ -48,9 +48,9 @@ const headings = [
 
 export default function Parking() {
     return (
-        <>
+        <div className="bg-gray-100">
             <FeaturedBanner headings={headings} bannerBg={bannerBg} featureImg={featureImg} title={title} />
             <Features contents={featureSection} />
-        </>
+        </div>
     );
 }

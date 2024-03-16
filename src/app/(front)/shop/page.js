@@ -1,4 +1,3 @@
-"use client"
 import { Box, Grid } from "@mui/material";
 import bannerBg from '@/assets/shop/smart-control-2.png';
 import featureImg from '@/assets/shop/smart-control-trolly.jpg';

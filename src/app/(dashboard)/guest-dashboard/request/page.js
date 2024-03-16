@@ -20,7 +20,7 @@ const GuestRequest = () => {
     })
 
     // console.log(reqData);
-
+    /* TODO: Use toast to get confirmation to go further */
     const handleResident = () => {
         // Swal.fire({
         //     text: "Do you want to be a resident?",
@@ -45,12 +45,14 @@ const GuestRequest = () => {
                 // });
             })
             .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
                 // console.log(error)
             })
         // }
         // });
     }
 
+    /* TODO: Use toast to get confirmation to go further */
     const handleEmployee = () => {
         // Swal.fire({
         //     text: "Do you want to be a employee?",
@@ -74,6 +76,8 @@ const GuestRequest = () => {
                 // });
             })
             .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
+
                 // console.log(error)
             })
         // }

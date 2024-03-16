@@ -89,6 +89,8 @@ const AllUsers = () => {
         refetch();
       })
       .catch(error => {
+        /* TODO: use toast to each error, to show users whats going on. */
+
         // console.log(error)
       })
   }
@@ -98,6 +100,7 @@ const AllUsers = () => {
     setSearchVal(e.target.value)
   }
 
+  /* TODO: Use toast to get confirmation to go further */
   const handleDeleteUser = (id) => {
     // console.log(id);
     // const swalWithBootstrapButtons = Swal.mixin({
@@ -127,6 +130,8 @@ const AllUsers = () => {
         // });
       })
       .catch(error => {
+        /* TODO: use toast to each error, to show users whats going on. */
+
         // console.log(error)
       })
     //   } 

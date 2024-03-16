@@ -30,11 +30,13 @@ const Products = () => {
         <div>
             <Tabs defaultIndex={0} onSelect={(index) => handleCategoryTab(index)} >
                 <TabList className="capitalize text-xl">
+
+                    {/* TODO: Use lazy loader to load all products */}
+
                     <Tab>All</Tab>
                     {!isLoadingCategories ? categories?.length > 0 ? categories.map((category, idx) => <Tab key={idx}>{category}</Tab>) : '' : ''}
                 </TabList>
 
-                {/* TODO: use lazy loader to load all data on a page */}
                 <TabPanel>
                     {/* left column [products card] */}
                     <h2 className="text-xl md:text-2xl font-semibold capitalize mb-5">All products</h2>

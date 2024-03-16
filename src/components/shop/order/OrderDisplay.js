@@ -60,10 +60,13 @@ const headCells = [
     },
 ];
 
+/* TODO: Connect to cart and payment gateway to purchase if user already signed in */
 const handleOrder = (user) => {
     // console.log('Order proceed.');
 
-    if (!user) return toast('Please sign in first to order.')
+    if (!user) return toast('Please sign in first to order.');
+
+    /* TODO: Redirect to order pending pages where user can go further or can cancel the order */
 
 }
 

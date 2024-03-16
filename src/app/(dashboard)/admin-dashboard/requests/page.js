@@ -13,12 +13,12 @@ import useAxiosPublic from '@/Hooks/useAxiosPublic';
 import { Button } from '@mui/material';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
+    [ `&.${tableCellClasses.head}` ]: {
         backgroundColor: '#96E9C6',
         color: "#363636",
         textAlign: 'center'
     },
-    [`&.${tableCellClasses.body}`]: {
+    [ `&.${tableCellClasses.body}` ]: {
         fontSize: 14,
         textAlign: 'center'
     },
@@ -41,7 +41,7 @@ const AdminRequest = () => {
 
     // Fetch User data from database
     const { data: reqData = [], isLoading, isPending, refetch } = useQuery({
-        queryKey: ['requests'],
+        queryKey: [ 'requests' ],
         queryFn: async () => {
             const res = await axiosPublic.get('/requests');
             return res?.data;
@@ -56,6 +56,7 @@ const AdminRequest = () => {
                 refetch();
             })
             .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
                 // console.log(error)
             })
     }

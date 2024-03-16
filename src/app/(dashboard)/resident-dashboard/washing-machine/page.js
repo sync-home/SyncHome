@@ -23,12 +23,12 @@ const WashingMachine = () => {
   const axiosPublic = useAxiosPublic();
   const { user } = useAuthContext();
   const email = user?.email;
-  const [status, setStatus] = useState('Idle');
-  const [remainingTime, setRemainingTime] = useState(0);
-  const [selectedCycle, setSelectedCycle] = useState('Normal');
-  const [clothType, setClothType] = useState('');
-  const [clothName, setClothName] = useState('');
-  const [clothQuantity, setClothQuantity] = useState('');
+  const [ status, setStatus ] = useState('Idle');
+  const [ remainingTime, setRemainingTime ] = useState(0);
+  const [ selectedCycle, setSelectedCycle ] = useState('Normal');
+  const [ clothType, setClothType ] = useState('');
+  const [ clothName, setClothName ] = useState('');
+  const [ clothQuantity, setClothQuantity ] = useState('');
 
   useEffect(() => {
     let timer;
@@ -40,7 +40,7 @@ const WashingMachine = () => {
       clearInterval(timer);
     }
     return () => clearInterval(timer);
-  }, [status]);
+  }, [ status ]);
 
   const handleStart = () => {
     setStatus('Running');
@@ -73,7 +73,7 @@ const WashingMachine = () => {
   };
 
   const sendDataToBackend = () => {
-    
+
     axiosPublic.post('/washing-machine', {
       status,
       remainingTime,
@@ -83,18 +83,20 @@ const WashingMachine = () => {
       email
 
     })
-    .then(response => {
-      if(response.data.insertedId){
-        toast("Your cloth washing has been complete!");
-      }
-      else{
-        toast("Something went wrong!");
-      }
-    })
-    .catch(error => {
-      // console.error('Error sending data to backend:', error);
-      // Handle error if needed
-    });
+      .then(response => {
+        if (response.data.insertedId) {
+          toast("Your cloth washing has been complete!");
+        }
+        else {
+          toast("Something went wrong!");
+        }
+      })
+      .catch(error => {
+        /* TODO: use toast to each error, to show users whats going on. */
+
+        // console.error('Error sending data to backend:', error);
+        // Handle error if needed
+      });
   };
 
   return (
@@ -141,7 +143,7 @@ const WashingMachine = () => {
             onChange={handleClothQuantityChange}
           />
         </Grid>
-       
+
         <Grid item xs={12} className='space-x-3'>
           <Button variant="contained" onClick={handleStart} disabled={status !== 'Idle'}>
             Start

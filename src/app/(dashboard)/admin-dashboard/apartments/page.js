@@ -62,6 +62,7 @@ const Apartments = () => {
                     refetch();
                 })
                 .catch(error => {
+                    /* TODO: use toast to each error, to show users whats going on. */
                     // console.log(error)
                 })
         }
@@ -75,6 +76,7 @@ const Apartments = () => {
                 refetch();
             })
             .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
                 // console.log(error)
             })
     }, [ tempControl ])
@@ -183,6 +185,7 @@ const Apartments = () => {
                 refetch();
             })
             .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
                 // console.log(error)
             })
     }
@@ -197,6 +200,7 @@ const Apartments = () => {
                 refetch();
             })
             .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
                 // console.log(error)
             })
     }
@@ -210,6 +214,7 @@ const Apartments = () => {
                 refetch();
             })
             .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
                 // console.log(error)
             })
     }

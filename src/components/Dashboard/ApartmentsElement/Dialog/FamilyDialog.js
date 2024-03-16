@@ -26,7 +26,8 @@ const FamilyDialog = ({ familyOpen: open, setFamilyOpen: setOpen, sendId, refetc
             refetch();
         })
         .catch(error => {
-            // console.log(error)
+                                    /* TODO: use toast to each error, to show users whats going on. */
+// console.log(error)
         })
     }
 

@@ -20,13 +20,14 @@ const WeeklyDialog = ({ weeklyOpen: open, setWeeklyOpen: setOpen, sendId, refetc
     const onSubmit = (data) => {
         // console.log(data);
         // console.log(sendId);
-        axiosPublic.put(`/apartments/weekly/${sendId}`, {data})
-        .then(result => {
-            // console.log(result.data)
-        })
-        .catch(error => {
-            // console.log(error)
-        })
+        axiosPublic.put(`/apartments/weekly/${sendId}`, { data })
+            .then(result => {
+                // console.log(result.data)
+            })
+            .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
+                // console.log(error)
+            })
     }
 
 

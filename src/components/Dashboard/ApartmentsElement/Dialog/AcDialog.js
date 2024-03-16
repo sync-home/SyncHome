@@ -12,7 +12,7 @@ import { useTheme } from '@mui/material/styles';
 import { useForm } from "react-hook-form";
 import useAxiosPublic from '@/Hooks/useAxiosPublic';
 
-const AcDialog = ({ acOpen:open, setAcOpen:setOpen, sendId, refetch }) => {
+const AcDialog = ({ acOpen: open, setAcOpen: setOpen, sendId, refetch }) => {
 
     const { register, handleSubmit, watch, formState: { errors }, } = useForm();
     const axiosPublic = useAxiosPublic();
@@ -21,14 +21,15 @@ const AcDialog = ({ acOpen:open, setAcOpen:setOpen, sendId, refetch }) => {
         data.status = true;
         // console.log(data);
         // console.log(sendId);
-        axiosPublic.put(`/apartments/ac/${sendId}`, {data})
-        .then(result => {
-            // console.log(result.data)
-            refetch();
-        })
-        .catch(error => {
-            // console.log(error)
-        })
+        axiosPublic.put(`/apartments/ac/${sendId}`, { data })
+            .then(result => {
+                // console.log(result.data)
+                refetch();
+            })
+            .catch(error => {
+                /* TODO: use toast to each error, to show users whats going on. */
+                // console.log(error)
+            })
     }
 
 
@@ -54,28 +55,28 @@ const AcDialog = ({ acOpen:open, setAcOpen:setOpen, sendId, refetch }) => {
                 <DialogContent className='bg-[#8338EC]'>
                     <DialogContentText>
                         <form onSubmit={handleSubmit(onSubmit)}>
-                           
+
                             <div className='flex flex-col mb-2'>
                                 <label className='text-white' htmlFor="name">Device Name *</label>
-                                <input 
-                                style={{border: '1px solid #ccc'}} 
-                                className='outline-0 px-2 rounded-md py-1' 
-                                type="text" 
-                                {...register("name", { required: true })} 
-                                placeholder='Ex: Airconditionar' 
-                                id='name'/>
+                                <input
+                                    style={{ border: '1px solid #ccc' }}
+                                    className='outline-0 px-2 rounded-md py-1'
+                                    type="text"
+                                    {...register("name", { required: true })}
+                                    placeholder='Ex: Airconditionar'
+                                    id='name' />
                             </div>
                             <div className='flex flex-col mb-2'>
                                 <label className='text-white' htmlFor="brand">Brand Name *</label>
-                                <input style={{border: '1px solid #ccc'}} className='outline-0 px-2 rounded-md py-1' type="text" {...register("brand", { required: true })} placeholder='Ex: LG Dualcool Inverter' id='brand'/>
+                                <input style={{ border: '1px solid #ccc' }} className='outline-0 px-2 rounded-md py-1' type="text" {...register("brand", { required: true })} placeholder='Ex: LG Dualcool Inverter' id='brand' />
                             </div>
                             <div className='flex flex-col mb-2'>
                                 <label className='text-white' htmlFor="temp">Temperature *</label>
-                                <input style={{border: '1px solid #ccc'}} className='outline-0 px-2 rounded-md py-1' type="text" {...register("temp", { required: true })} placeholder='Temp here' id='temp'/>
+                                <input style={{ border: '1px solid #ccc' }} className='outline-0 px-2 rounded-md py-1' type="text" {...register("temp", { required: true })} placeholder='Temp here' id='temp' />
                             </div>
                             <div className='flex flex-col mb-2'>
                                 <label className='text-white' htmlFor="mode">Mode *</label>
-                                <select style={{border: '1px solid #ccc'}} className='outline-0 px-2 rounded-md py-1' {...register("mode", { required: true })} id='mode'>
+                                <select style={{ border: '1px solid #ccc' }} className='outline-0 px-2 rounded-md py-1' {...register("mode", { required: true })} id='mode'>
                                     <option value="auto">Auto</option>
                                     <option value="wind">Wind</option>
                                     <option value="swing">Swing</option>
@@ -86,7 +87,7 @@ const AcDialog = ({ acOpen:open, setAcOpen:setOpen, sendId, refetch }) => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions className='bg-[#8338EC] '>
-                    <Button style={{color: 'white'}} onClick={handleClose} autoFocus>
+                    <Button style={{ color: 'white' }} onClick={handleClose} autoFocus>
                         Close
                     </Button>
                 </DialogActions>
